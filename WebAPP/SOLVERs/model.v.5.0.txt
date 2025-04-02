@@ -21,8 +21,8 @@ set MODExTECHNOLOGYperFUELout{COMMODITY} within MODE_OF_OPERATION cross TECHNOLO
 set MODExTECHNOLOGYperFUELin{COMMODITY} within MODE_OF_OPERATION cross TECHNOLOGY;
 set MODExTECHNOLOGYperSTORAGEto{STORAGE} within MODE_OF_OPERATION cross TECHNOLOGY;
 set MODExTECHNOLOGYperSTORAGEfrom{STORAGE} within MODE_OF_OPERATION cross TECHNOLOGY;
-set MODExTECHNOLOGYperEMISSION{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY;
-set MODExTECHNOLOGYperEMISSIONChange{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperEMISSION{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY := {m in MODE_OF_OPERATION, t in TECHNOLOGY: exists{r in REGION, y in YEAR} (EmissionToActivityChangeRatio[r,t,e,m,y] <> 0 or EmissionActivityRatio[r,t,e,m,y] <> 0)};
+set MODExTECHNOLOGYperEMISSIONChange{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY := {m in MODE_OF_OPERATION, t in TECHNOLOGY : exists{r in REGION, y in YEAR} (EmissionToActivityChangeRatio[r,t,e,m,y] <> 0 or EmissionActivityRatio[r,t,e,m,y] <> 0)};
 #
 #####################
 #    Parameters     #
