@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import traceback
 import json, shutil, os, time, subprocess
 from collections import defaultdict
 from itertools import product
@@ -1574,295 +1575,300 @@ class DataFile(Osemosys):
             raise OSError
         
     def preprocessData(self, data_infile, data_outfile):
+        try:
+            lines = []
+            with open(data_infile, 'r') as f1:
+                for line in f1:
+                    if not line.startswith(('set MODEper','set MODEx', 'end;')):
+                        lines.append(line)
 
-        lines = []
-        with open(data_infile, 'r') as f1:
-            for line in f1:
-                if not line.startswith(('set MODEper','set MODEx', 'end;')):
-                    lines.append(line)
+            year_list = self.getYears()
+            fuel_list = self.getCommNames()
+            tech_list = self.getTechNames()
+            emi_list = self.getEmiNames()
+            stg_list = self.getStgNames()
 
-        year_list = self.getYears()
-        fuel_list = self.getCommNames()
-        tech_list = self.getTechNames()
-        emi_list = self.getEmiNames()
-        stg_list = self.getStgNames()
+            start_year = year_list[0]
 
-        start_year = year_list[0]
-
-        data_all = []
-        data = {}
-        with open(data_infile, 'r') as f:
-            parsing = False
-            for line in f:
-                line = line.rstrip().replace('\t', ' ')
-                if line.startswith(";"):
-                    parsing = False
-                if parsing:
-                    if line.startswith('['):
-                        element = line.split(',')
-                        region = element[0][1:]
-                        tech = element[1]
-                        fuel_emi = element[2]
-            
-                    elif line.startswith(start_year):
-                        years = line.rstrip(':= ;\n').split(' ')[0:]
-                        years = [i.strip(':=') for i in years]
-                    
-                    else:
-                        values = line.rstrip().split(' ')[1:]
-                        if param_current in ('DiscountRate'):
-                            region = line.split(' ')[0]
-                            dr = line.split(' ')[1]
-                            data[param_current].append(tuple([region, dr]))
-                        if param_current in ('OperationalLife', 'DiscountRateIdv'):
-                            if firstRow:
-                                techs = line.rstrip(':= ;\n').split(' ')[0:]
-                                firstRow=False
-                            else:
-                                region = line.split(' ')[0]
-                                for i, tech in enumerate(techs):
-                                    data[param_current].append(tuple([ region, tech, values[i]]))
-                        if param_current in ('OutputActivityRatio','InputActivityRatio','EmissionActivityRatio', 'EmissionToActivityChangeRatio'):
-                            mode = line.split(' ')[0]
-                            data[param_current].append(tuple([ fuel_emi, tech, mode ]))
-                            data_all.append(tuple([tech, mode]))
-                        if param_current in ('TechnologyToStorage','TechnologyFromStorage'):
-                            if firstRow:
-                                modes = line.rstrip(':= ;\n').split(' ')[0:]
-                                firstRow=False
-                            else:
-                                stg = line.split(' ')[0]
-                                value = line.split(' ')[1:]
-                                data_all.append(tuple([tech, mode]))
-                                for i, mode in enumerate(modes):
-                                    if(value[i] != '0'):
-                                        data[param_current].append(tuple([ stg, tech, mode]))
-                                    
-                                    
-
-
-                if line.startswith(
-                    (
-                    'param OutputActivityRatio',
-                    'param InputActivityRatio', 
-                    'param EmissionActivityRatio',
-                    'param EmissionToActivityChangeRatio',
-                    'param OperationalLife',
-                    'param DiscountRateIdv',
-                    'param DiscountRate','param TechnologyToStorage','param TechnologyFromStorage'
-                    )):
-					
-                    param_current = line.split(' ')[1]
-                    data[param_current] = []
-                    parsing = True
-                    if line.startswith(('param OperationalLife','param DiscountRateIdv','param TechnologyToStorage','param TechnologyFromStorage')):
-                        firstRow=True
-
-
-        data_out = data['OutputActivityRatio']
-        data_inp = data['InputActivityRatio']
-        data_emi = data['EmissionActivityRatio']
-        data_emichange = data['EmissionToActivityChangeRatio']
-        data_tts = data['TechnologyToStorage']
-        data_tfs = data['TechnologyFromStorage']
+            data_all = []
+            data = {}
+            with open(data_infile, 'r') as f:
+                parsing = False
+                for line in f:
+                    line = line.rstrip().replace('\t', ' ')
+                    if line.startswith(";"):
+                        parsing = False
+                    if parsing:
+                        if line.startswith('['):
+                            element = line.split(',')
+                            region = element[0][1:]
+                            tech = element[1]
+                            fuel_emi = element[2]
+                
+                        elif line.startswith(start_year):
+                            years = line.rstrip(':= ;\n').split(' ')[0:]
+                            years = [i.strip(':=') for i in years]
                         
-        data_out = list(set(data_out))
-        data_inp = list(set(data_inp))
-        data_all = list(set(data_all))
-        data_emi = list(set(data_emi))
-        data_emichange = list(set(data_emichange))
-        data_tts = list(set(data_tts))
-        data_tfs = list(set(data_tfs))
-
-        dict_out = defaultdict(list)
-        dict_inp = defaultdict(list)
-        dict_all = defaultdict(list)
-        dict_emi = defaultdict(list)
-        dict_emichange = defaultdict(list)
-        dict_tts = defaultdict(list)
-        dict_tfs = defaultdict(list)
-
-        for fuel, tech, mode in data_out:
-            dict_out[fuel].append((mode, tech))
-
-        for fuel, tech, mode in data_inp:
-            dict_inp[fuel].append((mode, tech))
-
-        for emi, tech, mode in data_emi:
-            dict_emi[emi].append((mode, tech))
-
-        for emi, tech, mode in data_emichange:
-            dict_emichange[emi].append((mode, tech))
-
-        for stg, tech, mode in data_tts:
-            dict_tts[stg].append((mode, tech))
-
-        for stg, tech, mode in data_tfs:
-            dict_tfs[stg].append((mode, tech))
-
-        for tech, mode in data_all:
-            if mode not in dict_all[tech]:
-                dict_all[tech].append(mode)
-
-        #################################################### conversions ls/ld/lh
-
-        # self.seIDs = self.getSeIds()
-        # self.seMap = self.getSeMap()
-        # self.dtIDs = self.getDtIds()
-        # self.dtMap = self.getDtMap()
-        # self.dtbIDs = self.getDtbIds()
-        # self.dtbMap = self.getDtbMap()
-
-        # self.seasons = ''
-        # for seId in self.seIDs:
-        #     self.seasons += '{} '.format(self.seMap[seId]) 
-
-        # self.daytypes = ''
-        # for dtId in self.dtIDs:
-        #     self.daytypes += '{} '.format(self.dtMap[dtId]) 
-
-        # self.dailytimebrackets = ''
-        # for dtbId in self.dtbIDs:
-        #     self.dailytimebrackets += '{} '.format(self.dtbMap[dtbId]) 
-
-        # timeslices = self.genData["osy-ts"]
-        # seasons = self.genData["osy-se"]
-        # daytypes = self.genData["osy-dt"]
-        # dailytypebrackets = self.genData["osy-dtb"]
-
-        # seString = ''
-        # dtString = ''
-        # dtbString = ''
-        # for ts in timeslices:           
-        #     seString += '{} '.format(ts['Ts'])
-        #     for se in seasons:
-        #         if se['Se'] == ts['SE'][0]:
-        #             seString += '{} '.format(1)
-        #         else:
-        #             seString += '{} '.format(0)
-
-        #     dtString += '{} '.format(ts['Ts'])
-        #     for dt in daytypes :
-        #         if dt['Dt'] == ts['DT'][0]:
-        #             dtString += '{} '.format(1)
-        #         else:
-        #             dtString += '{} '.format(0)
+                        else:
+                            values = line.rstrip().split(' ')[1:]
+                            if param_current in ('DiscountRate'):
+                                region = line.split(' ')[0]
+                                dr = line.split(' ')[1]
+                                data[param_current].append(tuple([region, dr]))
+                            if param_current in ('OperationalLife', 'DiscountRateIdv'):
+                                if firstRow:
+                                    techs = line.rstrip(':= ;\n').split(' ')[0:]
+                                    firstRow=False
+                                else:
+                                    region = line.split(' ')[0]
+                                    for i, tech in enumerate(techs):
+                                        data[param_current].append(tuple([ region, tech, values[i]]))
+                            if param_current in ('OutputActivityRatio','InputActivityRatio','EmissionActivityRatio', 'EmissionToActivityChangeRatio'):
+                                mode = line.split(' ')[0]
+                                data[param_current].append(tuple([ fuel_emi, tech, mode ]))
+                                data_all.append(tuple([tech, mode]))
+                            if param_current in ('TechnologyToStorage','TechnologyFromStorage'):
+                                if firstRow:
+                                    modes = line.rstrip(':= ;\n').split(' ')[0:]
+                                    firstRow=False
+                                else:
+                                    stg = line.split(' ')[0]
+                                    value = line.split(' ')[1:]
+                                    data_all.append(tuple([tech, mode]))
+                                    for i, mode in enumerate(modes):
+                                        if(value[i] != '0'):
+                                            data[param_current].append(tuple([ stg, tech, mode]))
+                                        
+                                        
 
 
-        #     dtbString += '{} '.format(ts['Ts'])
-        #     for dtb in dailytypebrackets :
-        #         if dtb['Dtb'] == ts['DTB'][0]:
-        #             dtbString += '{} '.format(1)
-        #         else:
-        #             dtbString += '{} '.format(0)
+                    if line.startswith(
+                        (
+                        'param OutputActivityRatio',
+                        'param InputActivityRatio', 
+                        'param EmissionActivityRatio',
+                        'param EmissionToActivityChangeRatio',
+                        'param OperationalLife',
+                        'param DiscountRateIdv',
+                        'param DiscountRate','param TechnologyToStorage','param TechnologyFromStorage'
+                        )):
+                        
+                        param_current = line.split(' ')[1]
+                        data[param_current] = []
+                        parsing = True
+                        if line.startswith(('param OperationalLife','param DiscountRateIdv','param TechnologyToStorage','param TechnologyFromStorage')):
+                            firstRow=True
 
 
-        #     seString += '{}'.format('\n')
-        #     dtString += '{}'.format('\n')
-        #     dtbString += '{}'.format('\n')
+            data_out = data['OutputActivityRatio']
+            data_inp = data['InputActivityRatio']
+            data_emi = data['EmissionActivityRatio']
+            data_emichange = data['EmissionToActivityChangeRatio']
+            data_tts = data['TechnologyToStorage']
+            data_tfs = data['TechnologyFromStorage']
+                            
+            data_out = list(set(data_out))
+            data_inp = list(set(data_inp))
+            data_all = list(set(data_all))
+            data_emi = list(set(data_emi))
+            data_emichange = list(set(data_emichange))
+            data_tts = list(set(data_tts))
+            data_tfs = list(set(data_tfs))
 
-        # seString += '{}{}'.format(";",'\n')
-        # dtString += '{}{}'.format(";",'\n')            
-        # dtbString += '{}{}'.format(";",'\n')
+            dict_out = defaultdict(list)
+            dict_inp = defaultdict(list)
+            dict_all = defaultdict(list)
+            dict_emi = defaultdict(list)
+            dict_emichange = defaultdict(list)
+            dict_tts = defaultdict(list)
+            dict_tfs = defaultdict(list)
 
-        # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionls','default', 0, ':','\n'))
-        # lines.append('{}{}{}'.format(self.seasons, ':=', '\n'))
-        # lines.append('{}{}'.format(seString,'\n'))
+            for fuel, tech, mode in data_out:
+                dict_out[fuel].append((mode, tech))
 
-        # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionld','default', 0, ':','\n'))
-        # lines.append('{}{}{}'.format(self.daytypes, ':=', '\n'))
-        # lines.append('{}{}'.format(dtString,'\n'))
+            for fuel, tech, mode in data_inp:
+                dict_inp[fuel].append((mode, tech))
 
-        # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionlh','default', 0, ':','\n'))
-        # lines.append('{}{}{}'.format(self.dailytimebrackets, ':=', '\n'))
-        # lines.append('{}{}'.format(dtbString,'\n'))
+            for emi, tech, mode in data_emi:
+                dict_emi[emi].append((mode, tech))
 
-        #     lines.append('{}{}'.format(seString,'\n'))
-        # lines.append('{}{}'.format(";",'\n'))
-        # lines.append('{}'.format('\n'))
-        
-        #################################################### CRF ANNUITY
-        OL_data = data['OperationalLife']
-        DRi_data = data['DiscountRateIdv']
-        DR_data = data['DiscountRate']
-        DR = float(DR_data[0][1])
+            for emi, tech, mode in data_emichange:
+                dict_emichange[emi].append((mode, tech))
 
-        OL = {}
-        DRi = {}
-        for r, t, ol in OL_data:
-            OL[t] = int(ol)
-        for r, t, dri in DRi_data:
-            DRi[t] = float(dri)
-        techs_string = ''
-        for tech in tech_list:
-            techs_string += '{} '.format(tech) 
+            for stg, tech, mode in data_tts:
+                dict_tts[stg].append((mode, tech))
 
-        #CRF calc
-        CapitalRecoveryFactor = {}
-        PvAnnuity = {}
-        for tech in tech_list:
-            CapitalRecoveryFactor[tech] = round((1 - pow( (1 + DRi[tech]), -1) ) / (1 - pow( (1+DRi[tech]), -OL[tech] ) ), 4)
-            # PvAnnuity[tech] = (1 - pow((1 + DRi[tech]), -OL[tech])) * (1 + DRi[tech]) / DRi[tech]
-            PvAnnuity[tech] = round((1 - pow((1 + DR), -OL[tech])) * (1 + DR) / DR, 4 )
+            for stg, tech, mode in data_tfs:
+                dict_tfs[stg].append((mode, tech))
 
-        lines.append('{} {} {} {} {} {}'.format('param', 'CapitalRecoveryFactor','default', 0, ':','\n'))
-        lines.append('{}{}{}'.format(techs_string, ':=', '\n'))
-        rtString = ''
-        for tech in tech_list:
-            tmp = CapitalRecoveryFactor[tech]
-            rtString += '{} '.format(tmp)
-        lines.append('{}{}{}'.format('RE1 ', rtString, '\n'))
-        lines.append('{}{}'.format(';', '\n'))
+            for tech, mode in data_all:
+                if mode not in dict_all[tech]:
+                    dict_all[tech].append(mode)
+
+            #################################################### conversions ls/ld/lh
+
+            # self.seIDs = self.getSeIds()
+            # self.seMap = self.getSeMap()
+            # self.dtIDs = self.getDtIds()
+            # self.dtMap = self.getDtMap()
+            # self.dtbIDs = self.getDtbIds()
+            # self.dtbMap = self.getDtbMap()
+
+            # self.seasons = ''
+            # for seId in self.seIDs:
+            #     self.seasons += '{} '.format(self.seMap[seId]) 
+
+            # self.daytypes = ''
+            # for dtId in self.dtIDs:
+            #     self.daytypes += '{} '.format(self.dtMap[dtId]) 
+
+            # self.dailytimebrackets = ''
+            # for dtbId in self.dtbIDs:
+            #     self.dailytimebrackets += '{} '.format(self.dtbMap[dtbId]) 
+
+            # timeslices = self.genData["osy-ts"]
+            # seasons = self.genData["osy-se"]
+            # daytypes = self.genData["osy-dt"]
+            # dailytypebrackets = self.genData["osy-dtb"]
+
+            # seString = ''
+            # dtString = ''
+            # dtbString = ''
+            # for ts in timeslices:           
+            #     seString += '{} '.format(ts['Ts'])
+            #     for se in seasons:
+            #         if se['Se'] == ts['SE'][0]:
+            #             seString += '{} '.format(1)
+            #         else:
+            #             seString += '{} '.format(0)
+
+            #     dtString += '{} '.format(ts['Ts'])
+            #     for dt in daytypes :
+            #         if dt['Dt'] == ts['DT'][0]:
+            #             dtString += '{} '.format(1)
+            #         else:
+            #             dtString += '{} '.format(0)
+
+
+            #     dtbString += '{} '.format(ts['Ts'])
+            #     for dtb in dailytypebrackets :
+            #         if dtb['Dtb'] == ts['DTB'][0]:
+            #             dtbString += '{} '.format(1)
+            #         else:
+            #             dtbString += '{} '.format(0)
+
+
+            #     seString += '{}'.format('\n')
+            #     dtString += '{}'.format('\n')
+            #     dtbString += '{}'.format('\n')
+
+            # seString += '{}{}'.format(";",'\n')
+            # dtString += '{}{}'.format(";",'\n')            
+            # dtbString += '{}{}'.format(";",'\n')
+
+            # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionls','default', 0, ':','\n'))
+            # lines.append('{}{}{}'.format(self.seasons, ':=', '\n'))
+            # lines.append('{}{}'.format(seString,'\n'))
+
+            # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionld','default', 0, ':','\n'))
+            # lines.append('{}{}{}'.format(self.daytypes, ':=', '\n'))
+            # lines.append('{}{}'.format(dtString,'\n'))
+
+            # lines.append('{} {} {} {} {} {}'.format('param', 'Conversionlh','default', 0, ':','\n'))
+            # lines.append('{}{}{}'.format(self.dailytimebrackets, ':=', '\n'))
+            # lines.append('{}{}'.format(dtbString,'\n'))
+
+            #     lines.append('{}{}'.format(seString,'\n'))
+            # lines.append('{}{}'.format(";",'\n'))
+            # lines.append('{}'.format('\n'))
             
-        lines.append('{} {} {} {} {} {}'.format('param', 'PvAnnuity','default', 0, ':','\n'))
-        lines.append('{}{}{}'.format(techs_string, ':=', '\n'))
-        rtString = ''
-        for tech in tech_list:
-            tmp = PvAnnuity[tech]
-            rtString += '{} '.format(tmp)
-        lines.append('{}{}{}'.format('RE1 ', rtString, '\n'))
-        lines.append('{}{}'.format(';', '\n'))
+            #################################################### CRF ANNUITY
+            OL_data = data['OperationalLife']
+            DRi_data = data['DiscountRateIdv']
+            DR_data = data['DiscountRate']
+            DR = float(DR_data[0][1])
 
-        #ispis linija iz originalnog data file
-        with open(data_outfile, 'w') as f2:
-            f2.writelines(lines)
+            OL = {}
+            DRi = {}
+            for r, t, ol in OL_data:
+                OL[t] = int(ol)
+            for r, t, dri in DRi_data:
+                DRi[t] = float(dri)
+            techs_string = ''
+            for tech in tech_list:
+                techs_string += '{} '.format(tech) 
+
+            #CRF calc
+            CapitalRecoveryFactor = {}
+            PvAnnuity = {}
+            for tech in tech_list:
+                CapitalRecoveryFactor[tech] = round((1 - pow( (1 + DRi[tech]), -1) ) / (1 - pow( (1+DRi[tech]), -OL[tech] ) ), 4)
+                # PvAnnuity[tech] = (1 - pow((1 + DRi[tech]), -OL[tech])) * (1 + DRi[tech]) / DRi[tech]
+                PvAnnuity[tech] = round((1 - pow((1 + DR), -OL[tech])) * (1 + DR) / DR, 4 )
+
+            lines.append('{} {} {} {} {} {}'.format('param', 'CapitalRecoveryFactor','default', 0, ':','\n'))
+            lines.append('{}{}{}'.format(techs_string, ':=', '\n'))
+            rtString = ''
+            for tech in tech_list:
+                tmp = CapitalRecoveryFactor[tech]
+                rtString += '{} '.format(tmp)
+            lines.append('{}{}{}'.format('RE1 ', rtString, '\n'))
+            lines.append('{}{}'.format(';', '\n'))
+                
+            lines.append('{} {} {} {} {} {}'.format('param', 'PvAnnuity','default', 0, ':','\n'))
+            lines.append('{}{}{}'.format(techs_string, ':=', '\n'))
+            rtString = ''
+            for tech in tech_list:
+                tmp = PvAnnuity[tech]
+                rtString += '{} '.format(tmp)
+            lines.append('{}{}{}'.format('RE1 ', rtString, '\n'))
+            lines.append('{}{}'.format(';', '\n'))
+
+            #ispis linija iz originalnog data file
+            with open(data_outfile, 'w') as f2:
+                f2.writelines(lines)
 
 
 
 
-        # df_OL = pd.DataFrame(data['OperationalLife'], columns=['r','t','OperationalLife'])
-        # df_OL['OperationalLife'] = df_OL['OperationalLife'].astype(int)
-        # df_DRi = pd.DataFrame(data['DiscountRateIdv'], columns=['r','t','DiscountRateIdv'])
-        # df_DRi['DiscountRateIdv'] = df_DRi['DiscountRateIdv'].astype(float)
-        # df_CRF = pd.merge(df_DRi, df_OL, on=['r', 't'])
-        # df_CRF['CRF'] = (1 - pow( (1+df_CRF['DiscountRateIdv']), -1) ) / (1 - pow( (1+df_CRF['DiscountRateIdv']), -df_CRF['OperationalLife'] ) )
+            # df_OL = pd.DataFrame(data['OperationalLife'], columns=['r','t','OperationalLife'])
+            # df_OL['OperationalLife'] = df_OL['OperationalLife'].astype(int)
+            # df_DRi = pd.DataFrame(data['DiscountRateIdv'], columns=['r','t','DiscountRateIdv'])
+            # df_DRi['DiscountRateIdv'] = df_DRi['DiscountRateIdv'].astype(float)
+            # df_CRF = pd.merge(df_DRi, df_OL, on=['r', 't'])
+            # df_CRF['CRF'] = (1 - pow( (1+df_CRF['DiscountRateIdv']), -1) ) / (1 - pow( (1+df_CRF['DiscountRateIdv']), -df_CRF['OperationalLife'] ) )
 
 
-        #function for appending values in data file
-        def file_output_function(dict, set_list, set_name, extra_char):
-            for each in set_list:
-                if each in dict.keys():
-                    line = set_name + str(each) + ']:=' + str(dict[each]) + extra_char
-                    if set_list == tech_list:
-                        line = line.replace(',', '').replace(':=[', ':= ').replace(']*', '').replace("'", "")
+            #function for appending values in data file
+            def file_output_function(dict, set_list, set_name, extra_char):
+                for each in set_list:
+                    if each in dict.keys():
+                        line = set_name + str(each) + ']:=' + str(dict[each]) + extra_char
+                        if set_list == tech_list:
+                            line = line.replace(',', '').replace(':=[', ':= ').replace(']*', '').replace("'", "")
+                        else:
+                            line = line.replace('),', ')').replace('[(', ' (').replace(')]', ')').replace("'", "")
                     else:
-                        line = line.replace('),', ')').replace('[(', ' (').replace(')]', ')').replace("'", "")
-                else:
-                    line = set_name + str(each) + ']:='
-                file_out.write(line + ';' + '\n')
+                        line = set_name + str(each) + ']:='
+                    file_out.write(line + ';' + '\n')
 
-        # Append lines at the end of the data file
-        with open(data_outfile, 'w') as file_out:  # 'a' to open in 'append' mode
-            file_out.writelines(lines)
-            file_output_function(dict_out, fuel_list, 'set MODExTECHNOLOGYperFUELout[', '')
-            file_output_function(dict_inp, fuel_list, 'set MODExTECHNOLOGYperFUELin[', '')
-            file_output_function(dict_emi, emi_list, 'set MODExTECHNOLOGYperEMISSION[', '')
-            file_output_function(dict_emichange, emi_list, 'set MODExTECHNOLOGYperEMISSIONChange[', '')
-            file_output_function(dict_tts, stg_list, 'set MODExTECHNOLOGYperSTORAGEto[', '')
-            file_output_function(dict_tfs, stg_list, 'set MODExTECHNOLOGYperSTORAGEfrom[', '')
-            #da li se ovaj mod po tech treba puniti i za emissijske tehnologije i sta to znaci u model file
-            file_output_function(dict_all, tech_list, 'set MODEperTECHNOLOGY[', '*')
-            file_out.write('end;')
+            # Append lines at the end of the data file
+            with open(data_outfile, 'w') as file_out:  # 'a' to open in 'append' mode
+                file_out.writelines(lines)
+                file_output_function(dict_out, fuel_list, 'set MODExTECHNOLOGYperFUELout[', '')
+                file_output_function(dict_inp, fuel_list, 'set MODExTECHNOLOGYperFUELin[', '')
+                file_output_function(dict_emi, emi_list, 'set MODExTECHNOLOGYperEMISSION[', '')
+                file_output_function(dict_emichange, emi_list, 'set MODExTECHNOLOGYperEMISSIONChange[', '')
+                file_output_function(dict_tts, stg_list, 'set MODExTECHNOLOGYperSTORAGEto[', '')
+                file_output_function(dict_tfs, stg_list, 'set MODExTECHNOLOGYperSTORAGEfrom[', '')
+                #da li se ovaj mod po tech treba puniti i za emissijske tehnologije i sta to znaci u model file
+                file_output_function(dict_all, tech_list, 'set MODEperTECHNOLOGY[', '*')
+                file_out.write('end;')
+
+        except Exception as err:
+            print(f"Unexpected error: {err}")
+            print("An error occurred:")
+            traceback.print_exc()  # Prints full traceback
 
     def batchRun(self, solver, cases):
         try:
