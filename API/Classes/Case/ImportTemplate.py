@@ -896,7 +896,6 @@ class ImportTemplate():
                                     # if key not in xlsObject:
                                     #     xlsObject[key] = self.refR(xlsArray)
                                     xlsObject[key] = self.refR(xlsArray)
-                                    print(xlsArray)
                                     jsonData[a['id']]['SC_0'][0]['value'] = xlsObject[key]['RE1']
 
                                 if key == 'RT':
