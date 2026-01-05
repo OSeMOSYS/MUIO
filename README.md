@@ -6,88 +6,44 @@
 
 This repository contains the user interface for the Open Source Energy Modelling System (OSeMOSYS). OSeMOSYS is a linear optimization energy system model designed to minimize total system costs while ensuring energy demands are met within specified constraints. It facilitates optimal allocation of energy resources, technologies, and investments over time, supporting long-term energy planning and policy analysis.
 
-### 1. Clone Repository  
-  
-Users can clone the MUIO GitHub repository using HTTPS, SSH, or via the GitHub CLI. See GitHub docs for information on the different cloning methods.  
-Using HTTPS  
-  
-```bash  
-$ git clone https://github.com/junohBede/MUIO.git
-```  
-  
-### 2. Install Miniconda   
-  
-MUIO web app uses `conda` to manage project dependencies. We recommend installing [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install). To verify that miniconda is installed, runt the command `conda info`. Information about your conda environment will be printed out. 
+1.	Download the latest version of the user interface from [here](https://forms.office.com/Pages/ResponsePage.aspx?id=wE8mz7iun0SQVILORFQISwwn5YyR7ONHs-3JdG3f5AFUODlJOEQwWTBXMlRRNFUwNEpUTUZYQ1RXOS4u). 
+2.	Move the .exe file from your download folder to a folder where you have administrator privileges. This may be for instance inside the folder: users>>name_of_the_user or any other folder you prefer. 
+3.	Right-click on MUIO.exe and click ‘Run as administrator’. This will start the installation of the MUIO. The installation may take several minutes. Once it is complete, the installation window will simply disappear. 
+4.	The App will open automatically once the installation is complete. If not, search on the Windows Taskbar for ‘’MUIO’’ and open the App. 
+5.	You will see the MUIO in a new window. 
 
-```bash
-(base) $ conda info           
-     active environment : base
-    active env location : /home/xxx/miniconda3
-            shell level : 1
-       user config file : /home/xxx/.condarc
- populated config files : /home/xxx/miniconda3/.condarc
-          conda version : 25.5.1
-    conda-build version : not installed
-         python version : 3.13.5.final.0
-                 solver : libmamba (default)
+## Installation Guide for MacOS and Linux 
+1. Clone the repository. 
+    ```
+   git clone https://github.com/junohBede/MUIO.git
+   ```
+2. Create conda environment with using the command below. If you do not have conda installed in your machine, refer to this [link.](www.anaconda.com/docs/getting-started/miniconda/install)
+3. Activate conda environment with the command below.
+   ```
+   conda activate muio
+   ```
+4. Replace folder “MUIO/WebAPP/SOLVERs/COIN-OR/Cbc” contents from [here.](https://github.com/coin-or/Cbc/releases/tag/releases%2F2.10.12)
+5. Run `python API/app.py` in terminal. (Make sure that your current working directory is not MUIO, before running the command.)
+6. Open web browser to open web app [http://127.0.0.1:5002/#/](http://127.0.0.1:5002/#/)
 
-...
-```
+## Installation Guide using Docker
+**Docker** is an open platform that allows developers to automate the deployment of application inside containers. You can find more information within this [link.](https://docs.docker.com/get-started/docker-overview/) 
+1. Clone the repository. 
+    ```
+   git clone https://github.com/junohBede/MUIO.git
+   ```
+2. Build Docker image using Dockerfile of the repository.
+   ```
+   docker build -t muio .        
+   ```
+3. Run Docker container, with opening ports for web app.
+   ```
+    docker run -dt -p 5002:5002 --name muio muio
+   ```
+4. Open web browser to open web app [http://127.0.0.1:5002/#/](http://127.0.0.1:5002/#/)
 
-### 3. Create the Environment 
+## Questions and Issues
 
-MUIO uses a conda environment.
+For troubleshooting model-related issues and discussions, please visit the [Energy Modelling Community Discussion Forum](https://forum.u4ria.org/). 
 
-```bash
-(base) $ conda env create -f env.yml 
-
-
-```
-
-Once installed, activate the new `muio` environment. You will now see `(muio)` at the start of your command prompt.
-
-```bash
-(base) $ conda activate muio
-(muio) $ 
-```
-
-### 4. Install a Solver 
-
-CLEWs Global supports `CBC` as its solver. Moreover, CLEWs Global uses `GLPK` to generate solver independent linear programming file. To run CLEWs Global, you **must** install `GLPK` and `CBC`. 
-
-#### 4.1. Install GLPK
-
-[GNU GLPK](https://www.gnu.org/software/glpk/) is an open-source linear programming package that **will be installed with the environment**. CLEWs Global uses it to create a linear programming files. To confirm that `GLPK` installed correctly, run the command `glpsol` in the command line. The following message should display. 
-
-```bash 
-(muio) $ glpsol
-
-GLPSOL: GLPK LP/MIP Solver, v4.65
-No input problem file specified; try glpsol --help
-```
-
->If for any reason you need to install `GLPK`, you can do so using the command `conda install glpk`.
-
-#### 4.2. Install CBC
-
-[`CBC`](https://github.com/coin-or/Cbc) is open-source solver that **will be installed with the environment**. To confirm that `CBC` installed correctly, run the command `cbc` in the command line. The following message should display. Type `quit` to exit `CBC`.
-
-```bash
-(muio) $ cbc
-
-Welcome to the CBC MILP Solver 
-Version: 2.10.3 
-Build Date: Mar 24 2020 
-
-CoinSolver takes input from arguments ( - switches to stdin)
-Enter ? for list of commands or help
-Coin:
- ```
-
-#### Run the app
-
-Run python file. Then, open web browser to open the [app](http://127.0.0.1:5002/#/).
-
-```bash
-(muio) $ python API/app.py
- ```
+If you encounter bugs or have new feature ideas, please submit them to the repository's issue tracker. We encourage contributions and discussions to further develop MUIO.
