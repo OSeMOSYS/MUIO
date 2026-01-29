@@ -120,11 +120,15 @@ export class Html {
                     </div>
 
                     <div class="col-md-1">
-                        <span class="deleteCase pull-right" data-ps="${value.Case}"'+'data-toggle="tooltip" data-placement="top" title="Delete Model">
+                        <span class="deleteCase pull-right" data-ps="${value.Case}"'+'data-toggle="tooltip" data-placement="top" title="Delete Case Run">
                             <span  class="glyphicon glyphicon-trash danger icon-btn"></span>
                         </span>
-                        <span class="validateInputs pull-right" data-ps="${value.Case}"'+'data-toggle="tooltip" data-placement="top" title="Validate inputs">
+
+                        <span class="validateInputs" data-ps="${value.Case}"'+'data-toggle="tooltip" data-placement="top" title="Validate inputs">
                             <span class="glyphicon glyphicon-step-forward osy-green icon-btn" aria-hidden="true"></span>&nbsp; &nbsp; 
+                        </span>
+                            <span class="deleteCaseResults" data-ps="${value.Case}"'+'data-toggle="tooltip" data-placement="top" title="Delete case run results only">
+                            <span  class="glyphicon glyphicon-ban-circle warning icon-btn"></span>
                         </span>
                     </div>
                 </div>

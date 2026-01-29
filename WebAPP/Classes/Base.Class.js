@@ -188,13 +188,13 @@ export class Base {
         });
     }
 
-    static deleteCaseRun(casename, caserunname) {
+    static deleteCaseRun(casename, caserunname, resultsOnly) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: this.apiUrl() + "deleteCaseRun",
                 async: true,
                 type: 'POST',
-                data: JSON.stringify({ "casename": casename, "caserunname": caserunname }),
+                data: JSON.stringify({ "casename": casename, "caserunname": caserunname, "resultsOnly": resultsOnly }),
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
@@ -208,6 +208,8 @@ export class Base {
             });
         });
     }
+
+  
 
     static prepareCSV(casename, jsonData) {
         return new Promise((resolve, reject) => {
@@ -235,7 +237,7 @@ export class Base {
             //url: "http://127.0.0.1:5000/upload",
             url: Base.apiUrl() + "uploadCase",
             addRemoveLinks: true,
-            maxFilesize: 2048,//2GB upload size
+            maxFilesize: 5120, // 5GB upload size
             uploadMultiple: true,
             acceptedFiles: "application/zip, .zip",
             dictDefaultMessage: `

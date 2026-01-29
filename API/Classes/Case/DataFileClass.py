@@ -900,35 +900,41 @@ class DataFile(Osemosys):
             raise OSError
 
     def deleteCaseResultsJSON(self, caserunname):
+        try:
+            csvPath = Path(self.resultsPath, caserunname, "csv")
+            if os.path.exists(csvPath):
+                shutil.rmtree(csvPath)
 
-        csvPath = Path(self.resultsPath, caserunname, "csv")
-        if os.path.exists(csvPath):
-            shutil.rmtree(csvPath)
-
-        for group, array in self.VARIABLES.items():
-            #if group != 'RYS':
-            path = Path(self.viewFolderPath, group+'.json')
-            if path.is_file():
-                jsonFile = File.readFile(path)
-                for obj in array:
-                    #potrebna provjera jer smo u 4.5 verziji dodali varijablu EBAC i dolazilo je do greske jer nije bilo u reyultataima
-                    if obj['id'] in jsonFile:
-                        if caserunname in jsonFile[obj['id']]:
-                            del jsonFile[obj['id']][caserunname]
-                File.writeFile(jsonFile, path)
-
-    def deleteCaseRun(self, caserunname):
+            for group, array in self.VARIABLES.items():
+                #if group != 'RYS':
+                path = Path(self.viewFolderPath, group+'.json')
+                if path.is_file():
+                    jsonFile = File.readFile(path)
+                    for obj in array:
+                        #potrebna provjera jer smo u 4.5 verziji dodali varijablu EBAC i dolazilo je do greske jer nije bilo u reyultataima
+                        if obj['id'] in jsonFile:
+                            if caserunname in jsonFile[obj['id']]:
+                                del jsonFile[obj['id']][caserunname]
+                    File.writeFile(jsonFile, path)
+        except(IOError, IndexError):
+            raise IndexError
+        except OSError:
+            raise OSError
+        
+    def deleteCaseRun(self, caserunname, resultsOnly):
         try:
             #caseRunPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname)
             #resDataPath = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
 
-            resData = File.readFile(self.resDataPath)
 
-            for obj in resData['osy-cases']:
-                if obj['Case'] == caserunname:
-                    resData['osy-cases'].remove(obj)
+            if not resultsOnly:
+                resData = File.readFile(self.resDataPath)
 
-            File.writeFile( resData, self.resDataPath)
+                for obj in resData['osy-cases']:
+                    if obj['Case'] == caserunname:
+                        resData['osy-cases'].remove(obj)
+
+                File.writeFile( resData, self.resDataPath)
 
             #delete from view folder
             for group, array in self.VARIABLES.items():
@@ -954,6 +960,66 @@ class DataFile(Osemosys):
         except OSError:
             raise OSError
 
+    def cleanUp(self):
+        try:
+
+            #delete from view folder
+            # moramo izbrisati res i view folder ostaviti samo resData.json i viewDefinitions.json
+
+            # self.resultsPath = Path(Config.DATA_STORAGE,case,'res')
+            # self.viewFolderPath = Path(Config.DATA_STORAGE,case,'view')
+            # folder_path = "C:/putanja/do/foldera"
+
+            for caserunname in os.listdir( self.resultsPath):
+                caserunname_path = os.path.join(self.resultsPath, caserunname)
+                for carerunData in os.listdir( caserunname_path):
+                    file_path = os.path.join(caserunname_path, carerunData)
+                    try:
+                        if os.path.isfile(file_path) or os.path.islink(file_path):
+                            os.remove(file_path)
+                        elif os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                    except Exception as e:
+                        print(f"Greška pri brisanju {file_path}: {e}")
+
+            for filename in os.listdir( self.viewFolderPath):
+                if filename !='resData.json':
+                    file_path = os.path.join(self.viewFolderPath, filename)
+                    try:
+                        if os.path.isfile(file_path) or os.path.islink(file_path):
+                            os.remove(file_path)
+                        elif os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                    except Exception as e:
+                        print(f"Greška pri brisanju {file_path}: {e}")
+
+            #sad moramo napraviti defualt definitions file
+            viewDefPath = Path(self.viewFolderPath, 'viewDefinitions.json')
+            configPath = Path(Config.DATA_STORAGE, 'Variables.json')
+            vars = File.readParamFile(configPath)
+            viewDef = {}
+            for group, lists in vars.items():
+                for list in lists:
+                    viewDef[list['id']] = []
+
+            viewData = {
+                    "osy-views": viewDef
+                }
+            File.writeFile( viewData, viewDefPath)
+
+
+            response = {
+                "message": "You have recycled results!",
+                "status_code": "success"
+            } 
+
+            return response
+            # urllib.request.urlretrieve(self.dataFile, dataFile)
+        except(IOError, IndexError):
+            raise IndexError
+        except OSError:
+            raise OSError
+        
     def saveView(self, data, param):
         try:
 
@@ -1591,6 +1657,7 @@ class DataFile(Osemosys):
             start_year = year_list[0]
 
             data_all = []
+            input_fuel_list = []
             data = {}
             with open(data_infile, 'r') as f:
                 parsing = False
@@ -1627,6 +1694,14 @@ class DataFile(Osemosys):
                                 mode = line.split(' ')[0]
                                 data[param_current].append(tuple([ fuel_emi, tech, mode ]))
                                 data_all.append(tuple([tech, mode]))
+                            # version 5.4 16.12.2025.
+                            if param_current in ('InputToNewCapacityRatio','InputToTotalCapacityRatio'):
+                                fuel = line.split(' ')[0]
+                                data[param_current].append(tuple([ fuel, tech ]))
+                                if fuel not in input_fuel_list:
+                                    input_fuel_list.append(fuel)
+
+                            ################################
                             if param_current in ('TechnologyToStorage','TechnologyFromStorage'):
                                 if firstRow:
                                     modes = line.rstrip(':= ;\n').split(' ')[0:]
@@ -1650,7 +1725,9 @@ class DataFile(Osemosys):
                         'param EmissionToActivityChangeRatio',
                         'param OperationalLife',
                         'param DiscountRateIdv',
-                        'param DiscountRate','param TechnologyToStorage','param TechnologyFromStorage'
+                        'param DiscountRate','param TechnologyToStorage','param TechnologyFromStorage',
+                        'param InputToNewCapacityRatio',
+                        'param InputToTotalCapacityRatio', 
                         )):
                         
                         param_current = line.split(' ')[1]
@@ -1666,6 +1743,8 @@ class DataFile(Osemosys):
             data_emichange = data['EmissionToActivityChangeRatio']
             data_tts = data['TechnologyToStorage']
             data_tfs = data['TechnologyFromStorage']
+            data_itnc = data['InputToNewCapacityRatio']
+            data_ittc = data['InputToTotalCapacityRatio']
                             
             data_out = list(set(data_out))
             data_inp = list(set(data_inp))
@@ -1674,6 +1753,8 @@ class DataFile(Osemosys):
             data_emichange = list(set(data_emichange))
             data_tts = list(set(data_tts))
             data_tfs = list(set(data_tfs))
+            data_itnc = list(set(data_itnc))
+            data_ittc = list(set(data_ittc))
 
             dict_out = defaultdict(list)
             dict_inp = defaultdict(list)
@@ -1682,6 +1763,8 @@ class DataFile(Osemosys):
             dict_emichange = defaultdict(list)
             dict_tts = defaultdict(list)
             dict_tfs = defaultdict(list)
+            dict_itnc =defaultdict(list)
+            dict_ittc =defaultdict(list)
 
             for fuel, tech, mode in data_out:
                 dict_out[fuel].append((mode, tech))
@@ -1700,6 +1783,12 @@ class DataFile(Osemosys):
 
             for stg, tech, mode in data_tfs:
                 dict_tfs[stg].append((mode, tech))
+
+            for fuel, tech in data_itnc:
+                dict_itnc[fuel].append(tech)
+
+            for fuel, tech in data_ittc:
+                dict_ittc[fuel].append(tech)                            
 
             for tech, mode in data_all:
                 if mode not in dict_all[tech]:
@@ -1802,9 +1891,18 @@ class DataFile(Osemosys):
             CapitalRecoveryFactor = {}
             PvAnnuity = {}
             for tech in tech_list:
-                CapitalRecoveryFactor[tech] = round((1 - pow( (1 + DRi[tech]), -1) ) / (1 - pow( (1+DRi[tech]), -OL[tech] ) ), 4)
+                if DRi[tech] == 0:
+                    CapitalRecoveryFactor[tech] = None
+                else:
+                    CapitalRecoveryFactor[tech] = round((1 - pow( (1 + DRi[tech]), -1) ) / (1 - pow( (1+DRi[tech]), -OL[tech] ) ), 4)
                 # PvAnnuity[tech] = (1 - pow((1 + DRi[tech]), -OL[tech])) * (1 + DRi[tech]) / DRi[tech]
-                PvAnnuity[tech] = round((1 - pow((1 + DR), -OL[tech])) * (1 + DR) / DR, 4 )
+                if DR == 0:
+                    PvAnnuity[tech] = None
+                else:
+                    PvAnnuity[tech] = round((1 - pow((1 + DR), -OL[tech])) * (1 + DR) / DR, 4 )
+
+                # CapitalRecoveryFactor[tech] = round((1 - pow( (1 + DRi[tech]), -1) ) / (1 - pow( (1+DRi[tech]), -OL[tech] ) ), 4)
+                # PvAnnuity[tech] = round((1 - pow((1 + DR), -OL[tech])) * (1 + DR) / DR, 4 )
 
             lines.append('{} {} {} {} {} {}'.format('param', 'CapitalRecoveryFactor','default', 0, ':','\n'))
             lines.append('{}{}{}'.format(techs_string, ':=', '\n'))
@@ -1839,13 +1937,17 @@ class DataFile(Osemosys):
             # df_CRF['CRF'] = (1 - pow( (1+df_CRF['DiscountRateIdv']), -1) ) / (1 - pow( (1+df_CRF['DiscountRateIdv']), -df_CRF['OperationalLife'] ) )
 
 
+
             #function for appending values in data file
-            def file_output_function(dict, set_list, set_name, extra_char):
+            def file_output_function(dict, set_list, set_name, extra_char, type=None):
                 for each in set_list:
+
                     if each in dict.keys():
                         line = set_name + str(each) + ']:=' + str(dict[each]) + extra_char
                         if set_list == tech_list:
                             line = line.replace(',', '').replace(':=[', ':= ').replace(']*', '').replace("'", "")
+                        if type == 'input':
+                            line = line.replace(',', '').replace(':=[', ':= ').replace("']", '').replace("'", "")
                         else:
                             line = line.replace('),', ')').replace('[(', ' (').replace(')]', ')').replace("'", "")
                     else:
@@ -1862,7 +1964,16 @@ class DataFile(Osemosys):
                 file_output_function(dict_tts, stg_list, 'set MODExTECHNOLOGYperSTORAGEto[', '')
                 file_output_function(dict_tfs, stg_list, 'set MODExTECHNOLOGYperSTORAGEfrom[', '')
                 #da li se ovaj mod po tech treba puniti i za emissijske tehnologije i sta to znaci u model file
+
+                file_output_function(dict_itnc, input_fuel_list, 'set INPUTxNEWxCAPACITYperFUEL[', '', type='input')
+                file_output_function(dict_ittc, input_fuel_list, 'set INPUTxTOTALxCAPACITYperFUEL[', '', type='input')
+
                 file_output_function(dict_all, tech_list, 'set MODEperTECHNOLOGY[', '*')
+
+
+                line = 'set INPUTxFUEL:=' + ', '.join(input_fuel_list)
+                file_out.write(line + ';' + '\n')
+
                 file_out.write('end;')
 
         except Exception as err:

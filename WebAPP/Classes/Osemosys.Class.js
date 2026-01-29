@@ -264,6 +264,30 @@ export class Osemosys {
         });
     }
 
+    static cleanUp(modelname) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url:Base.apiUrl() + "cleanUp",
+                async: true,  
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({ "modelname": modelname }),
+                contentType: 'application/json; charset=utf-8',
+                // credentials: 'include',
+                // xhrFields: { withCredentials: true},
+                // crossDomain: true,
+                success: function (result) {             
+                    resolve(result);
+                },
+                error: function(xhr, status, error) {
+                    console.log("xhr, status, error ", xhr, status, error )
+                    if(error == 'UNKNOWN'){ error =  xhr.responseJSON.message }
+                    reject(error);
+                }
+            });
+        });
+    }
+
     static readDataFile(casename, caserunname) {
         return new Promise((resolve, reject) => {
             $.ajax({

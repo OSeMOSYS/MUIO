@@ -196,17 +196,20 @@ export class DefaultObj{
 
     static defaultScenario(first=false){
         let id;
+        let active;
         if(first){
             id = 'SC_0';
+            active = true;
         }else{
             id = this.getId('SC');
+            active = false; //new scenarios are inactive by default
         }
         let defaultObj = [
             {
                 "ScenarioId": id,
                 "Scenario":id,
                 "Desc": "Base scenario",
-                "Active": true
+                "Active": active
             }
         ];
         return defaultObj;

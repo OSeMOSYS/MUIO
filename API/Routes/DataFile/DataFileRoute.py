@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, send_file, session
 from pathlib import Path
-import shutil, datetime, time
+import shutil, datetime, time, os
 from Classes.Case.DataFileClass import DataFile
 from Classes.Base import Config
 
@@ -59,13 +59,22 @@ def deleteCaseRun():
     try:        
         casename = request.json['casename']
         caserunname = request.json['caserunname']
+        resultsOnly = request.json['resultsOnly']
         
         casePath = Path(Config.DATA_STORAGE, casename, 'res', caserunname)
-        shutil.rmtree(casePath)
+        if not resultsOnly:
+            shutil.rmtree(casePath)
+        else:
+            for item in os.listdir(casePath):
+                item_path = os.path.join(casePath, item)
+                if os.path.isfile(item_path) or os.path.islink(item_path):
+                    os.remove(item_path)  # delete file
+                elif os.path.isdir(item_path):
+                    shutil.rmtree(item_path)  # delete subfolder
 
         if casename != None:
             caserun = DataFile(casename)
-            response = caserun.deleteCaseRun(caserunname)    
+            response = caserun.deleteCaseRun(caserunname, resultsOnly)    
         return jsonify(response), 200
 
         # if casename == session.get('osycase'):
@@ -245,6 +254,19 @@ def batchRun():
             response = txtFile.batchRun( 'CBC', cases) 
         end = time.time()  
         response['time'] = end-start 
+        return jsonify(response), 200
+    except(IOError):
+        return jsonify('Error!'), 404
+    
+@datafile_api.route("/cleanUp", methods=['POST'])
+def cleanUp():
+    try:
+        modelname = request.json['modelname']
+
+        if modelname != None:
+            model = DataFile(modelname)
+            response = model.cleanUp()    
+
         return jsonify(response), 200
     except(IOError):
         return jsonify('Error!'), 404
