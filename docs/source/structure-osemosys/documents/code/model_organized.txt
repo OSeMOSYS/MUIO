@@ -1,0 +1,336 @@
+###############
+#    Sets     #
+###############
+#
+set REGION;
+set TECHNOLOGY;
+set COMMODITY;
+set EMISSION;
+set STORAGE;
+set YEAR;
+set SEASON;
+set DAYTYPE;
+set DAILYTIMEBRACKET;
+set TIMESLICE;
+set MODE_OF_OPERATION;
+set STORAGEINTRADAY;
+set STORAGEINTRAYEAR;
+set UDC;
+set MODEperTECHNOLOGY{TECHNOLOGY} within MODE_OF_OPERATION;
+set MODExTECHNOLOGYperFUELout{COMMODITY} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperFUELin{COMMODITY} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperSTORAGEto{STORAGE} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperSTORAGEfrom{STORAGE} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperEMISSION{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY;
+set MODExTECHNOLOGYperEMISSIONChange{e in EMISSION} within MODE_OF_OPERATION cross TECHNOLOGY;
+#
+#####################
+#    Parameters     #
+#####################
+#
+param AccumulatedAnnualDemand{r in REGION, f in COMMODITY, y in YEAR};
+param AnnualEmissionLimit{r in REGION, e in EMISSION, y in YEAR};
+param AvailabilityFactor{r in REGION, t in TECHNOLOGY, y in YEAR};
+param CapacityFactor{r in REGION, t in TECHNOLOGY, l in TIMESLICE, y in YEAR};
+param CapacityOfOneTechnologyUnit{r in REGION, t in TECHNOLOGY, y in YEAR};
+param CapacityToActivityUnit{r in REGION, t in TECHNOLOGY};
+param CapitalCost{r in REGION, t in TECHNOLOGY, y in YEAR};
+param DiscountRate{r in REGION};
+param DiscountRateIdv{r in REGION, t in TECHNOLOGY};
+param EmissionActivityRatio{r in REGION, t in TECHNOLOGY, e in EMISSION, m in MODE_OF_OPERATION, y in YEAR};
+param EmissionsPenalty{r in REGION, e in EMISSION, y in YEAR};
+param FixedCost{r in REGION, t in TECHNOLOGY, y in YEAR};
+param InputActivityRatio{r in REGION, t in TECHNOLOGY, f in COMMODITY, m in MODE_OF_OPERATION, y in YEAR};
+param InputToNewCapacityRatio{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR};
+param InputToTotalCapacityRatio{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR};
+param ModelPeriodEmissionLimit{r in REGION, e in EMISSION};
+param ModelPeriodExogenousEmission{r in REGION, e in EMISSION};
+param OperationalLife{r in REGION, t in TECHNOLOGY};
+param OutputActivityRatio{r in REGION, t in TECHNOLOGY, f in COMMODITY, m in MODE_OF_OPERATION, y in YEAR};
+#param ReserveMargin{r in REGION, y in YEAR};
+#param ReserveMarginTagFuel{r in REGION, f in COMMODITY, y in YEAR};
+#param ReserveMarginTagTechnology{r in REGION, t in TECHNOLOGY, y in YEAR};
+param ResidualCapacity{r in REGION, t in TECHNOLOGY, y in YEAR};
+param SpecifiedAnnualDemand{r in REGION, f in COMMODITY, y in YEAR};
+param SpecifiedDemandProfile{r in REGION, f in COMMODITY, l in TIMESLICE, y in YEAR};
+param TechnologyActivityByModeLowerLimit{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR};
+param TechnologyActivityByModeUpperLimit{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR};
+param TechnologyActivityDecreaseByModeLimit{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR};
+param TechnologyActivityIncreaseByModeLimit{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR};
+param TotalAnnualMaxCapacity{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalAnnualMaxCapacityInvestment{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalAnnualMinCapacity{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalAnnualMinCapacityInvestment{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalTechnologyAnnualActivityLowerLimit{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalTechnologyAnnualActivityUpperLimit{r in REGION, t in TECHNOLOGY, y in YEAR};
+param TotalTechnologyModelPeriodActivityLowerLimit{r in REGION, t in TECHNOLOGY};
+param TotalTechnologyModelPeriodActivityUpperLimit{r in REGION, t in TECHNOLOGY};
+param TradeRoute{r in REGION, rr in REGION, f in COMMODITY, y in YEAR};
+param VariableCost{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR};
+param YearSplit{l in TIMESLICE, y in YEAR};
+param EmissionToActivityChangeRatio{r in REGION, t in TECHNOLOGY, e in EMISSION, m in MODE_OF_OPERATION, y in YEAR};
+param UDCMultiplierTotalCapacity{r in REGION, t in TECHNOLOGY, u in UDC, y in YEAR};
+param UDCMultiplierNewCapacity{r in REGION, t in TECHNOLOGY, u in UDC, y in YEAR};
+param UDCMultiplierActivity{r in REGION, t in TECHNOLOGY, u in UDC, y in YEAR};
+param UDCConstant{r in REGION, u in UDC, y in YEAR};
+param UDCTag{r in REGION, u in UDC};
+
+param CapitalRecoveryFactor{r in REGION, t in TECHNOLOGY}; 
+param PvAnnuity{r in REGION, t in TECHNOLOGY};
+########################Storage added VK
+param OperationalLifeStorage{r in REGION, s in STORAGE};
+param CapitalCostStorage{r in REGION, s in STORAGE, y in YEAR};
+param ResidualStorageCapacity{r in REGION, s in STORAGE, y in YEAR};
+param TechnologyToStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
+param TechnologyFromStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
+
+param StorageLevelStart{r in REGION, s in STORAGE};
+param MinStorageCharge{r in REGION, s in STORAGE, y in YEAR}; 
+
+param Conversionls{l in TIMESLICE, ls in SEASON};
+param Conversionld{l in TIMESLICE, ld in DAYTYPE};
+param Conversionlh{l in TIMESLICE, lh in DAILYTIMEBRACKET};
+param DaySplit{lh in DAILYTIMEBRACKET, y in YEAR};
+param DaysInDayType{ls in SEASON, ld in DAYTYPE, y in YEAR};
+# param DepreciationMethod{r in REGION}, default 2;
+
+set TIMESLICEofSEASON{ls in SEASON} within TIMESLICE := {l in TIMESLICE : Conversionls[l,ls] = 1};
+set TIMESLICEofDAYTYPE{ld in DAYTYPE} within TIMESLICE := {l in TIMESLICE : Conversionld[l,ld] = 1};
+set TIMESLICEofDAILYTIMEBRACKET{lh in DAILYTIMEBRACKET} within TIMESLICE := {l in TIMESLICE : Conversionlh[l,lh] = 1};
+set TIMESLICEofSDB{ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET} within TIMESLICE := TIMESLICEofSEASON[ls] inter TIMESLICEofDAYTYPE[ld] inter TIMESLICEofDAILYTIMEBRACKET[lh];
+
+
+#
+##########################
+#    Model Variables     #
+##########################
+#
+var AccumulatedNewCapacity{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var AnnualFixedOperatingCost{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var AnnualTechnologyEmission{r in REGION, t in TECHNOLOGY, e in EMISSION, y in YEAR};
+var AnnualTechnologyEmissionByMode{r in REGION, t in TECHNOLOGY, e in EMISSION, m in MODE_OF_OPERATION, y in YEAR};
+var AnnualVariableOperatingCost{r in REGION, t in TECHNOLOGY, y in YEAR};
+var CapitalInvestment{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var Demand{r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR} >= 0;
+var DiscountedSalvageValue{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var InputToNewCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR} >= 0;
+var InputToTotalCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR} >= 0;
+var NewCapacity{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var NumberOfNewTechnologyUnits{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0,integer;
+var ProductionByTechnology{r in REGION, l in TIMESLICE, t in TECHNOLOGY, f in COMMODITY, y in YEAR} >= 0;
+var RateOfActivity{r in REGION, l in TIMESLICE, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR} >= 0;
+var RateOfTotalActivity{r in REGION, t in TECHNOLOGY, l in TIMESLICE, y in YEAR} >= 0;
+var SalvageValue{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var TotalAnnualTechnologyActivityByMode{r in REGION, t in TECHNOLOGY, m in MODE_OF_OPERATION, y in YEAR} >= 0;
+var TotalCapacityAnnual{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var TotalTechnologyAnnualActivity{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
+var TotalTechnologyModelPeriodActivity{r in REGION, t in TECHNOLOGY};
+var Trade{r in REGION, rr in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR};
+var EmissionByActivityChange{r in REGION, t in TECHNOLOGY, e in EMISSION, m in MODE_OF_OPERATION, y in YEAR};
+var TechnologyEmissionsPenalty{r in REGION, t in TECHNOLOGY, y in YEAR};
+
+########                     Storage                                 #############
+#
+var NewStorageCapacity{r in REGION, s in STORAGE, y in YEAR} >=0;
+var SalvageValueStorage{r in REGION, s in STORAGE, y in YEAR} >=0;
+var StorageLevelYearStart{r in REGION, s in STORAGE, y in YEAR} >=0;
+var StorageLevelYearFinish{r in REGION, s in STORAGE, y in YEAR} >=0;
+var StorageLevelSeasonStart{r in REGION, s in STORAGE, ls in SEASON, y in YEAR} >=0;
+var StorageLevelDayTypeStart{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, y in YEAR} >=0;
+var StorageLevelDayTypeFinish{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, y in YEAR} >=0;
+var RateOfNetStorageActivity{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR};
+var NetChargeWithinYear{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR};
+var NetChargeWithinDay{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR};
+var StorageLowerLimit{r in REGION, s in STORAGE, y in YEAR}>=0;
+var StorageUpperLimit{r in REGION, s in STORAGE, y in YEAR} >=0;
+var AccumulatedNewStorageCapacity{r in REGION, s in STORAGE, y in YEAR} >=0;
+var CapitalInvestmentStorage{r in REGION, s in STORAGE, y in YEAR} >=0;
+var DiscountedCapitalInvestmentStorage{r in REGION, s in STORAGE, y in YEAR} >=0;
+var DiscountedSalvageValueStorage{r in REGION, s in STORAGE, y in YEAR} >=0;
+var TotalDiscountedStorageCost{r in REGION, s in STORAGE, y in YEAR} >=0;
+#
+######################
+# Objective Function #
+######################
+#
+minimize cost: sum{r in REGION, t in TECHNOLOGY, y in YEAR} ((((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y])*FixedCost[r,t,y] + sum{m in MODEperTECHNOLOGY[t], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*YearSplit[l,y]*VariableCost[r,t,m,y])/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy)+0.5))+CapitalCost[r,t,y] * NewCapacity[r,t,y] * CapitalRecoveryFactor[r,t] * PvAnnuity[r,t]/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy)))+
+sum{e in EMISSION} (sum{l in TIMESLICE, (m,tt) in MODExTECHNOLOGYperEMISSION[e]: t=tt} EmissionActivityRatio [r, t, e, m, y] * RateOfActivity [r, l, t, m, y] * YearSplit [l, y] + sum{(m,tt) in MODExTECHNOLOGYperEMISSIONChange[e]: t=tt} EmissionByActivityChange[r, t, e, m, y])
+* EmissionsPenalty [r, e, y] / ((1 + DiscountRate [r]) ^ (y - min{yy in YEAR} min(yy) + 0.5))
+-DiscountedSalvageValue[r,t,y]) + sum{r in REGION, s in STORAGE, y in YEAR} (CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy)))-DiscountedSalvageValueStorage[r,s,y]);
+#
+#####################
+#    Constraints    #
+#####################
+#
+#########       	Capacity Adequacy A	     	#############
+#
+s.t. CAa1_TotalNewCapacity{r in REGION, t in TECHNOLOGY, y in YEAR}:AccumulatedNewCapacity[r,t,y] = sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy];
+s.t. CAa2_TotalAnnualCapacity{r in REGION, t in TECHNOLOGY, y in YEAR}: ((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y]) = TotalCapacityAnnual[r,t,y];
+s.t. CAa3_TotalActivityOfEachTechnology{r in REGION, t in TECHNOLOGY, l in TIMESLICE, y in YEAR}: sum{m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y] = RateOfTotalActivity[r,t,l,y];
+s.t. CAa4_Constraint_Capacity{r in REGION, l in TIMESLICE, t in TECHNOLOGY, y in YEAR}: sum{m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y] <= ((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y])*CapacityFactor[r,t,l,y]*CapacityToActivityUnit[r,t];
+s.t. CAa5_TotalNewCapacity{r in REGION, t in TECHNOLOGY, y in YEAR: CapacityOfOneTechnologyUnit[r,t,y]<>0}: CapacityOfOneTechnologyUnit[r,t,y]*NumberOfNewTechnologyUnits[r,t,y] = NewCapacity[r,t,y];
+#
+#########       	Capacity Adequacy B		 	#############
+#
+s.t. CAb1_PlannedMaintenance{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{l in TIMESLICE} sum{m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] <= sum{l in TIMESLICE} (((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y])*CapacityFactor[r,t,l,y]*YearSplit[l,y])* AvailabilityFactor[r,t,y]*CapacityToActivityUnit[r,t];
+#
+#########	        Energy Balance A    	 	#############
+#
+s.t. EBb4_EnergyBalanceEachYear4_ICR{r in REGION, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y] + sum{t in TECHNOLOGY} InputToNewCapacity [r, t, f, y] + sum{t in TECHNOLOGY} InputToTotalCapacity [r, t, f, y];
+s.t. EBa9_EnergyBalanceEachTS3{r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: SpecifiedAnnualDemand[r,f,y]*SpecifiedDemandProfile[r,f,l,y] = Demand[r,l,f,y];
+s.t. EBa10_EnergyBalanceEachTS4{r in REGION, rr in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: Trade[r,rr,l,f,y] = -Trade[rr,r,l,f,y];
+s.t. EBa11_EnergyBalanceEachTS5{r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f]} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= SpecifiedAnnualDemand[r,f,y]*SpecifiedDemandProfile[r,f,l,y] + sum{(m,t) in MODExTECHNOLOGYperFUELin[f]} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y];
+#
+#########        	Energy Balance B		 	#############
+#
+s.t. EBb4_EnergyBalanceEachYear4{r in REGION, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y];
+#
+#########        	Accounting Technology Production/Use	#############
+#
+s.t. Acc3_AverageAnnualRateOfActivity{r in REGION, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR}: sum{l in TIMESLICE} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] = TotalAnnualTechnologyActivityByMode[r,t,m,y];
+#
+#########                Storage Equations                        #############
+#
+s.t. S3_NetChargeWithinYear{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: sum{l in TIMESLICE:Conversionls[l,ls]>0&&Conversionld[l,ld]>0&&Conversionlh[l,lh]>0}  (sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t]:TechnologyToStorage[r,t,s,m]>0} (RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh]) - (sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t]:TechnologyFromStorage[r,t,s,m]>0} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh])) * YearSplit[l,y] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh] = NetChargeWithinYear[r,s,ls,ld,lh,y];
+s.t. S4_NetChargeWithinDay{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: ((sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], l in TIMESLICE:TechnologyToStorage[r,t,s,m]>0} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh]) - (sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], l in TIMESLICE:TechnologyFromStorage[r,t,s,m]>0} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh])) * DaySplit[lh,y] = NetChargeWithinDay[r,s,ls,ld,lh,y];
+s.t. S9_and_S10_StorageLevelSeasonStart{r in REGION, s in STORAGE, ls in SEASON, y in YEAR}:
+    if ls = min{lsls in SEASON} min(lsls)
+    then StorageLevelYearStart[r,s,y]
+    else StorageLevelSeasonStart[r,s,ls-1,y] + sum{ld in DAYTYPE, lh in DAILYTIMEBRACKET, l in TIMESLICEofSDB[ls-1,ld,lh]} (sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s]} (RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * YearSplit[l,y]
+    = StorageLevelSeasonStart[r,s,ls,y];
+s.t. S11_and_S12_StorageLevelDayTypeStart{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, y in YEAR}:
+    if ld = min{ldld in DAYTYPE} min(ldld)
+    then StorageLevelSeasonStart[r,s,ls,y]
+    else StorageLevelDayTypeStart[r,s,ls,ld-1,y] + sum{lh in DAILYTIMEBRACKET} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld-1,lh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld-1,lh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lh,y]) * DaysInDayType[ls,ld-1,y]
+    = StorageLevelDayTypeStart[r,s,ls,ld,y];
+s.t. S14_RateOfNetStorageActivity{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: (sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], l in TIMESLICE:TechnologyToStorage[r,t,s,m]>0} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh]) - (sum{t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], l in TIMESLICE:TechnologyFromStorage[r,t,s,m]>0} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m] * Conversionls[l,ls] * Conversionld[l,ld] * Conversionlh[l,lh]) = RateOfNetStorageActivity[r,s,ls,ld,lh,y];
+s.t. S30_StorageLevelYearStart2{r in REGION, s in STORAGE, y in YEAR,l in TIMESLICE}:	StorageLevelYearStart[r,s,y]  = 0;
+s.t. S39_StorageIntraday{r in REGION, s in STORAGEINTRADAY, ls in SEASON, ld in DAYTYPE, y in YEAR}: sum{lh in DAILYTIMEBRACKET} (NetChargeWithinDay[r,s,ls,ld,lh,y])=0;
+s.t. S39_StorageIntrayear{r in REGION, s in STORAGEINTRAYEAR, y in YEAR}: sum{ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET} (NetChargeWithinYear[r,s,ls,ld,lh,y])=0;
+#
+##########                Storage Constraints                                #############
+#
+#v.k. SC1_LowerLimit_BeginningOfDailyTimeBracketOfFirstInstanceOfDayTypeInFirstWeekConstraint = SC1_LLBDFIFW
+#v.k. SC1_UpperLimit_BeginningOfDailyTimeBracketOfFirstInstanceOfDayTypeInFirstWeekConstraint = SC1_ULBDFIFW
+
+#v.k. SC2_LowerLimit_EndOfDailyTimeBracketOfLastInstanceOfDayTypeInFirstWeekConstraint = SC2_LLEDLIFW
+#v.k. SC2_UpperLimit_EndOfDailyTimeBracketOfLastInstanceOfDayTypeInFirstWeekConstraint = SC2_ULEDLIFW
+
+#v.k. SC3_LowerLimit_EndOfDailyTimeBracketOfLastInstanceOfDayTypeInLastWeekConstraint = SC3_LLEDLILW
+#v.k. SC3_UpperLimit_EndOfDailyTimeBracketOfLastInstanceOfDayTypeInLastWeekConstraint = SC3_ULEDLILW
+
+#v.k. SC4_LowerLimit_BeginningOfDailyTimeBracketOfFirstInstanceOfDayTypeInLastWeekConstraint = SC4_LLBDFILW
+#v.k. SC4_UpperLimit_BeginningOfDailyTimeBracketOfFirstInstanceOfDayTypeInLastWeekConstraint = SC4_ULBDFILW
+
+s.t. SC1_LLBDFIFW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}:
+    0 <= (StorageLevelDayTypeStart[r,s,ls,ld,y]+sum{lhlh in DAILYTIMEBRACKET:lh-lhlh>0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-MinStorageCharge[r,s,y]*(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]);
+s.t. SC1_ULBDFIFW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}:
+    (StorageLevelDayTypeStart[r,s,ls,ld,y]+sum{lhlh in DAILYTIMEBRACKET:lh-lhlh>0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]) <= 0;
+s.t. SC2_LLEDLIFW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: 0 <= if ld > min{ldld in DAYTYPE} min(ldld) then (StorageLevelDayTypeStart[r,s,ls,ld,y]-sum{lhlh in DAILYTIMEBRACKET:lh-lhlh<0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-MinStorageCharge[r,s,y]*(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]);
+s.t. SC2_ULEDLIFW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: if ld > min{ldld in DAYTYPE} min(ldld) then (StorageLevelDayTypeStart[r,s,ls,ld,y]-sum{lhlh in DAILYTIMEBRACKET:lh-lhlh<0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]) <= 0;
+s.t. SC3_LLEDLILW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}:  0 <= (StorageLevelDayTypeFinish[r,s,ls,ld,y] - sum{lhlh in DAILYTIMEBRACKET:lh-lhlh<0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-MinStorageCharge[r,s,y]*(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]);
+s.t. SC3_ULEDLILW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}:  (StorageLevelDayTypeFinish[r,s,ls,ld,y] - sum{lhlh in DAILYTIMEBRACKET:lh-lhlh<0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]) <= 0;
+s.t. SC4_LLBDFILW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}:         0 <= if ld > min{ldld in DAYTYPE} min(ldld) then (StorageLevelDayTypeFinish[r,s,ls,ld-1,y]+sum{lhlh in DAILYTIMEBRACKET:lh-lhlh>0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-MinStorageCharge[r,s,y]*(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]);
+s.t. SC4_ULBDFILW{r in REGION, s in STORAGE, ls in SEASON, ld in DAYTYPE, lh in DAILYTIMEBRACKET, y in YEAR}: if ld > min{ldld in DAYTYPE} min(ldld) then (StorageLevelDayTypeFinish[r,s,ls,ld-1,y]+sum{lhlh in DAILYTIMEBRACKET:lh-lhlh>0} (((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]) - (sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s], l in TIMESLICEofSDB[ls,ld,lhlh]} RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])) * DaySplit[lhlh,y]))-(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]) <= 0;
+#
+#########                Storage Investments                                #############
+#
+s.t. SI2_StorageLowerLimit{r in REGION, s in STORAGE, y in YEAR}: MinStorageCharge[r,s,y]*(sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y]) = StorageLowerLimit[r,s,y];
+s.t. SI3_TotalNewStorage{r in REGION, s in STORAGE, y in YEAR}: sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]=AccumulatedNewStorageCapacity[r,s,y];
+s.t. SI4_UndiscountedCapitalInvestmentStorage{r in REGION, s in STORAGE, y in YEAR}: CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y] = CapitalInvestmentStorage[r,s,y];
+s.t. SI6_SalvageValueStorageAtEndOfPeriod1{r in REGION, s in STORAGE, y in YEAR: (y+OperationalLifeStorage[r,s]-1) <= (max{yy in YEAR} max(yy))}: 0 = SalvageValueStorage[r,s,y];
+s.t. SI7_SalvageValueStorageAtEndOfPeriod2{r in REGION, s in STORAGE, y in YEAR: (y+OperationalLifeStorage[r,s]-1) > (max{yy in YEAR} max(yy))}: CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]*(1-(max{yy in YEAR} max(yy) - y+1)/OperationalLifeStorage[r,s]) = SalvageValueStorage[r,s,y];
+s.t. SI9_SalvageValueStorageDiscountedToStartYear{r in REGION, s in STORAGE, y in YEAR}: SalvageValueStorage[r,s,y]/((1+DiscountRate[r])^(max{yy in YEAR} max(yy)-min{yy in YEAR} min(yy)+1)) = DiscountedSalvageValueStorage[r,s,y];
+
+# 20240625 vk ta DepreciationMethod default 2
+#s.t. SI7_SalvageValueStorageAtEndOfPeriod2{r in REGION, s in STORAGE, y in YEAR: (DepreciationMethod[r]=1 && (y+OperationalLifeStorage[r,s]-1) > (max{yy in YEAR} max(yy)) && DiscountRate[r]=0) || (DepreciationMethod[r]=2 && (y+OperationalLifeStorage[r,s]-1) > (max{yy in YEAR} max(yy)))}: CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]*(1-(max{yy in YEAR} max(yy) - y+1)/OperationalLifeStorage[r,s]) = SalvageValueStorage[r,s,y];
+#s.t. SI8_SalvageValueStorageAtEndOfPeriod3{r in REGION, s in STORAGE, y in YEAR: DepreciationMethod[r]=1 && (y+OperationalLifeStorage[r,s]-1) > (max{yy in YEAR} max(yy)) && DiscountRate[r]>0}: CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]*(1-(((1+DiscountRate[r])^(max{yy in YEAR} max(yy) - y+1)-1)/((1+DiscountRate[r])^OperationalLifeStorage[r,s]-1))) = SalvageValueStorage[r,s,y];
+
+#s.t. SI1_StorageUpperLimit{r in REGION, s in STORAGE, y in YEAR}: sum{yy in YEAR: y-yy < OperationalLifeStorage[r,s] && y-yy>=0} NewStorageCapacity[r,s,yy]+ResidualStorageCapacity[r,s,y] = StorageUpperLimit[r,s,y];
+
+#s.t. SI5_DiscountingCapitalInvestmentStorage{r in REGION, s in STORAGE, y in YEAR}: CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy))) = DiscountedCapitalInvestmentStorage[r,s,y];
+
+#s.t. SI10_TotalDiscountedCostByStorage{r in REGION, s in STORAGE, y in YEAR}: (CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy)))-CapitalCostStorage[r,s,y] * NewStorageCapacity[r,s,y]/((1+DiscountRate[r])^(y-min{yy in YEAR} min(yy)))) = TotalDiscountedStorageCost[r,s,y];
+#
+#########       	Capital Costs 		     	#############
+#
+s.t. CC1_UndiscountedCapitalInvestment{r in REGION, t in TECHNOLOGY, y in YEAR}: CapitalCost[r,t,y] * NewCapacity[r,t,y] = CapitalInvestment[r,t,y];
+#
+#########           Salvage Value            	#############
+#
+s.t. SV1_SalvageValueAtEndOfPeriod1{r in REGION, t in TECHNOLOGY, y in YEAR: (y + OperationalLife[r,t]-1) > (max{yy in YEAR} max(yy)) && DiscountRate[r]=0}: SalvageValue[r,t,y] = CapitalCost[r,t,y]*NewCapacity[r,t,y]*CapitalRecoveryFactor[r,t] * PvAnnuity[r,t]*(1-(((1+DiscountRate[r])^(max{yy in YEAR} max(yy) - y+1)-1)/((1+DiscountRate[r])^OperationalLife[r,t]-1)));
+s.t. SV2_SalvageValueAtEndOfPeriod2{r in REGION, t in TECHNOLOGY, y in YEAR: (y + OperationalLife[r,t]-1) > (max{yy in YEAR} max(yy)) && DiscountRate[r]>0}: SalvageValue[r,t,y] = CapitalCost[r,t,y]*NewCapacity[r,t,y]*CapitalRecoveryFactor[r,t] * PvAnnuity[r,t]*(1-(max{yy in YEAR} max(yy) - y+1)/OperationalLife[r,t]);
+s.t. SV3_SalvageValueAtEndOfPeriod3{r in REGION, t in TECHNOLOGY, y in YEAR: (y + OperationalLife[r,t]-1) <= (max{yy in YEAR} max(yy))}: SalvageValue[r,t,y] = 0;
+s.t. SV4_SalvageValueDiscountedToStartYear{r in REGION, t in TECHNOLOGY, y in YEAR}: DiscountedSalvageValue[r,t,y] = SalvageValue[r,t,y]/((1+DiscountRate[r])^(1+max{yy in YEAR} max(yy)-min{yy in YEAR} min(yy)));
+#
+#########        	Operating Costs 		 	#############
+#
+s.t. OC1_OperatingCostsVariable{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{m in MODEperTECHNOLOGY[t], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*YearSplit[l,y]*VariableCost[r,t,m,y] = AnnualVariableOperatingCost[r,t,y];
+s.t. OC2_OperatingCostsFixedAnnual{r in REGION, t in TECHNOLOGY, y in YEAR}: ((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y])*FixedCost[r,t,y] = AnnualFixedOperatingCost[r,t,y];
+#
+#########      		Total Capacity Constraints 	##############
+#
+s.t. TCC1_TotalAnnualMaxCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR}: ((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y]) <= TotalAnnualMaxCapacity[r,t,y];
+s.t. TCC2_TotalAnnualMinCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR: TotalAnnualMinCapacity[r,t,y]>0}: ((sum{yy in YEAR: y-yy < OperationalLife[r,t] && y-yy>=0} NewCapacity[r,t,yy])+ ResidualCapacity[r,t,y]) >= TotalAnnualMinCapacity[r,t,y];
+#
+#########    		New Capacity Constraints  	##############
+#
+s.t. NCC1_TotalAnnualMaxNewCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR}: NewCapacity[r,t,y] <= TotalAnnualMaxCapacityInvestment[r,t,y];
+s.t. NCC2_TotalAnnualMinNewCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR: TotalAnnualMinCapacityInvestment[r,t,y]>0}: NewCapacity[r,t,y] >= TotalAnnualMinCapacityInvestment[r,t,y];
+#
+#########   		Annual Activity Constraints	##############
+#
+s.t. AAC1_TotalAnnualTechnologyActivity{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] = TotalTechnologyAnnualActivity[r,t,y];
+s.t. AAC2_TotalAnnualTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] <= TotalTechnologyAnnualActivityUpperLimit[r,t,y] ;
+s.t. AAC3_TotalAnnualTechnologyActivityLowerLimit{r in REGION, t in TECHNOLOGY, y in YEAR: TotalTechnologyAnnualActivityLowerLimit[r,t,y]>0}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] >= TotalTechnologyAnnualActivityLowerLimit[r,t,y] ;
+#
+#########    		Total Activity Constraints 	##############
+#
+s.t. TAC1_TotalModelHorizonTechnologyActivity{r in REGION, t in TECHNOLOGY}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t], y in YEAR} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] = TotalTechnologyModelPeriodActivity[r,t];
+s.t. TAC2_TotalModelHorizonTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t], y in YEAR} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] <= TotalTechnologyModelPeriodActivityUpperLimit[r,t] ;
+s.t. TAC3_TotalModelHorizonTechnologyActivityLowerLimit{r in REGION, t in TECHNOLOGY: TotalTechnologyModelPeriodActivityLowerLimit[r,t]>0}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t], y in YEAR} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] >= TotalTechnologyModelPeriodActivityLowerLimit[r,t] ;
+#
+#########   		Emissions Accounting		##############
+#
+# TN Modified 2024 Jan
+s.t. E1_AnnualEmissionProductionByMode{r in REGION, e in EMISSION, (m, t) in MODExTECHNOLOGYperEMISSION[e], y in YEAR}: EmissionActivityRatio[r,t,e,m,y]*sum{l in TIMESLICE} RateOfActivity[r,l,t,m,y]*YearSplit[l,y]=AnnualTechnologyEmissionByMode[r,t,e,m,y];
+s.t. E2_AnnualEmissionProduction{r in REGION, t in TECHNOLOGY, e in EMISSION, y in YEAR}: 
+     sum{l in TIMESLICE, (m, tt) in MODExTECHNOLOGYperEMISSION[e]: t=tt} EmissionActivityRatio[r,t,e,m,y]*RateOfActivity[r,l,t,m,y]*YearSplit[l,y]
+     + sum{(m,tt) in MODExTECHNOLOGYperEMISSIONChange[e]: t=tt}EmissionByActivityChange[r, t, e, m, y]
+     = AnnualTechnologyEmission[r,t,e,y];
+s.t. E5_EmissionsPenaltyByTechnology{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{e in EMISSION} (sum{l in TIMESLICE, (m,tt) in MODExTECHNOLOGYperEMISSION[e]: t=tt} EmissionActivityRatio [r, t, e, m, y] * RateOfActivity [r, l, t, m, y] * YearSplit [l, y] + sum{(m,tt) in MODExTECHNOLOGYperEMISSIONChange[e]: t=tt} EmissionByActivityChange[r, t, e, m, y])* EmissionsPenalty [r, e, y] = TechnologyEmissionsPenalty [r, t, y];
+s.t. E8_AnnualEmissionsLimit{r in REGION, e in EMISSION, y in YEAR}: sum{l in TIMESLICE, (m,t) in MODExTECHNOLOGYperEMISSION[e]} EmissionActivityRatio [r, t, e, m, y] * RateOfActivity [r, l, t, m, y] * YearSplit [l, y] + sum{(m,t) in MODExTECHNOLOGYperEMISSIONChange[e]} EmissionByActivityChange[r, t, e, m, y] <= AnnualEmissionLimit [r, e, y];
+s.t. E9_ModelPeriodEmissionsLimit{r in REGION, e in EMISSION}: sum{(m,t) in MODExTECHNOLOGYperEMISSION[e], y in YEAR, l in TIMESLICE} EmissionActivityRatio [r, t, e, m, y] * RateOfActivity [r, l, t, m, y] * YearSplit [l, y] + sum{(m,t) in MODExTECHNOLOGYperEMISSIONChange[e], y in YEAR} EmissionByActivityChange[r, t, e, m, y] <= ModelPeriodEmissionLimit [r, e];
+s.t. E10_InterYearActivityEmissionChange{r in REGION, e in EMISSION, (m, t) in MODExTECHNOLOGYperEMISSIONChange[e], y in YEAR, yy in YEAR: y-yy==1 && y > min{yyy in YEAR} min(yyy)}: (TotalAnnualTechnologyActivityByMode[r, t, m, y]-TotalAnnualTechnologyActivityByMode[r, t, m, yy]) * EmissionToActivityChangeRatio[r, t, e, m, y] = EmissionByActivityChange[r, t, e, m, y];
+s.t. E11_InterYearActivityEmissionChange{r in REGION, e in EMISSION, (m, t) in MODExTECHNOLOGYperEMISSIONChange[e], y in YEAR, yy in YEAR: y == min{yyy in YEAR} min(yyy)}:  0 = EmissionByActivityChange[r, t, e, m, y];
+#
+#########   		InputToCapacityRatios		##############
+#
+s.t. INC1_InputToNewCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR: InputToNewCapacityRatio [r, t, f, y] <> 0}: InputToNewCapacityRatio [r, t, f, y] * NewCapacity [r, t, y] = InputToNewCapacity [r, t, f, y];
+s.t. ITC1_InputToTotalCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR: InputToTotalCapacityRatio [r, t, f, y] <> 0}: InputToTotalCapacityRatio [r, t, f, y] * TotalCapacityAnnual [r, t, y] = InputToTotalCapacity [r, t, f, y];
+#
+#########   		Mode-specific Constraints		##############
+#
+s.t. LU1_TechnologyActivityByModeUL{r in REGION, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR: TechnologyActivityByModeUpperLimit[r,t,m,y] <> 0}: TotalAnnualTechnologyActivityByMode[r,t,m,y] <= TechnologyActivityByModeUpperLimit[r,t,m,y];
+s.t. LU2_TechnologyActivityByModeLL{r in REGION, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR}: TotalAnnualTechnologyActivityByMode[r,t,m,y] >= TechnologyActivityByModeLowerLimit[r,t,m,y];
+s.t. LU3_TechnologyActivityIncreaseByMode{r in REGION, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR, yy in YEAR: y-yy == 1 && TechnologyActivityIncreaseByModeLimit[r,t,m,yy] <> 0}: TotalAnnualTechnologyActivityByMode[r,t,m,y] <= (1 + TechnologyActivityIncreaseByModeLimit[r,t,m,yy]) * TotalAnnualTechnologyActivityByMode[r,t,m,yy];
+s.t. LU4_TechnologyActivityDecreaseByMode{r in REGION, t in TECHNOLOGY, m in MODEperTECHNOLOGY[t], y in YEAR, yy in YEAR: y-yy == 1 && TechnologyActivityDecreaseByModeLimit[r,t,m,yy] <> 0}: TotalAnnualTechnologyActivityByMode[r,t,m,y] >= (1 - TechnologyActivityDecreaseByModeLimit[r,t,m,yy]) * TotalAnnualTechnologyActivityByMode[r,t,m,yy];
+#
+#########   		User-defined Constraints		##############
+#
+s.t. UDC1_UserDefinedConstraintInequality{r in REGION, u in UDC, y in YEAR: UDCTag[r,u] = 0}: 
+sum{t in TECHNOLOGY}UDCMultiplierTotalCapacity[r,t,u,y]*TotalCapacityAnnual[r,t,y] + 
+sum{t in TECHNOLOGY}UDCMultiplierNewCapacity[r,t,u,y]*NewCapacity[r,t,y] +
+sum{t in TECHNOLOGY}UDCMultiplierActivity[r,t,u,y]*TotalTechnologyAnnualActivity[r,t,y] <= UDCConstant[r,u,y];
+s.t. UDC2_UserDefinedConstraintEquality{r in REGION, u in UDC, y in YEAR: UDCTag[r,u] = 1}: 
+sum{t in TECHNOLOGY}UDCMultiplierTotalCapacity[r,t,u,y]*TotalCapacityAnnual[r,t,y] + 
+sum{t in TECHNOLOGY}UDCMultiplierNewCapacity[r,t,u,y]*NewCapacity[r,t,y] +
+sum{t in TECHNOLOGY}UDCMultiplierActivity[r,t,u,y]*TotalTechnologyAnnualActivity[r,t,y] = UDCConstant[r,u,y];
+#
+#####################
+#
+solve;
+#
+#####################
+#
+end;
