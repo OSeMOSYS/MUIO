@@ -972,6 +972,8 @@ class DataFile(Osemosys):
 
             for caserunname in os.listdir( self.resultsPath):
                 caserunname_path = os.path.join(self.resultsPath, caserunname)
+                if not os.path.isdir(caserunname_path):
+                    continue
                 for carerunData in os.listdir( caserunname_path):
                     file_path = os.path.join(caserunname_path, carerunData)
                     try:
