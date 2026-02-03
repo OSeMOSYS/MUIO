@@ -232,13 +232,29 @@ export class Base {
         });
     }
 
+
+
+
     static uploadFunction = function () {
-        var MyDropzone = new Dropzone("div#myDropzone", {
+        Dropzone.autoDiscover = false;
+
+        var MyDropzone = new Dropzone("#myDropzone", {
             //url: "http://127.0.0.1:5000/upload",
             url: Base.apiUrl() + "uploadCase",
             addRemoveLinks: true,
             maxFilesize: 5120, // 5GB upload size
-            uploadMultiple: true,
+            
+            paramName: "file",    
+            chunking: true,
+            forceChunking: true,
+            parallelChunkUploads: false,
+            uploadMultiple: false,
+            chunkSize: 500 * 1024 * 1024,  // 500MB chunkovi
+            retryChunks: true,
+            retryChunksLimit: 5,
+            timeout: null,                // bez globalnog timeouta za velike fajlove
+
+
             acceptedFiles: "application/zip, .zip",
             dictDefaultMessage: `
                     <span class="text-center">
@@ -257,46 +273,63 @@ export class Base {
             //   }
             //   else { done(); }
             // },
-
-            successmultiple: function (file, response) {
-                $.each(file, function (key, value) {
-                    if (response.response[key]['status_code'] == 'success') {
-
-                        //let casename = value.name.slice(0, -4)
-                        let casename = response.response[key]['casename'];
-                        Html.apendModel(casename);
-                        Message.bigBoxSuccess("Upload response", response.response[key]['message'], null);
-                        value.previewElement.innerHTML = "";
-                        $('#modalrestore').modal('toggle');
-                        if (Base.AWS_SYNC == 1) {
-                            SyncS3.deleteResultsPreSync(casename)
-                                .then(response => {
-                                    SyncS3.uploadSync(casename);
-                                });
-                        }
-
-                    } else if (response.response[key]['status_code'] == 'warning') {
-                        $('.dz-file-preview').removeClass("dz-success").addClass("dz-error")
-                        //$(".dz-error-mark svg").css("background", "red"); 
-                        //Message.bigBoxWarning("Upload response", response.response[key]['message'], null);
-                        let casename = response.response[key]['casename'];
-                        Html.apendModel(casename);
-                        Message.bigBoxSuccess("Upload response", response.response[key]['message'], null);
-                        Message.warningOsy(response.response[key]['message_warning'])
-                        value.previewElement.innerHTML = "";
-                        $('#modalrestore').modal('toggle');
-                        if (Base.AWS_SYNC == 1) {
-                            SyncS3.deleteResultsPreSync(casename)
-                                .then(response => {
-                                    SyncS3.uploadSync(casename);
-                                });
-                        }
-                    } else if (response.response[key]['status_code'] == 'error') {
-                        $('.dz-file-preview').removeClass("dz-success").addClass("dz-error")
-                        //$(".dz-error-mark svg").css("background", "red"); 
-                        Message.bigBoxDanger("Upload response", response.response[key]['message'], null);
+            success: function (file, response) {
+                console.log('response ', response   )
+           
+                if (response.response[0]['status_code'] == 'success') {
+                    let casename = response.response[0]['casename'];
+                         console.log('casename ', casename   )
+                    Html.apendModel(casename);
+                    Message.bigBoxSuccess("Upload response", response.response[0]['message'], null);
+                    //value.previewElement.innerHTML = "";
+                    $('#modalrestore').modal('toggle');
+                    if (Base.AWS_SYNC == 1) {
+                        SyncS3.deleteResultsPreSync(casename)
+                            .then(response => {
+                                SyncS3.uploadSync(casename);
+                            });
                     }
-                });
+                } else if (response.response[0]['status_code'] == 'warning') {
+
+                }
+                // $.each(file, function (key, value) {
+                //     if (response.response[key]['status_code'] == 'success') {
+
+                //         //let casename = value.name.slice(0, -4)
+                //         let casename = response.response[key]['casename'];
+                //         Html.apendModel(casename);
+                //         Message.bigBoxSuccess("Upload response", response.response[key]['message'], null);
+                //         value.previewElement.innerHTML = "";
+                //         $('#modalrestore').modal('toggle');
+                //         if (Base.AWS_SYNC == 1) {
+                //             SyncS3.deleteResultsPreSync(casename)
+                //                 .then(response => {
+                //                     SyncS3.uploadSync(casename);
+                //                 });
+                //         }
+
+                //     } else if (response.response[key]['status_code'] == 'warning') {
+                //         $('.dz-file-preview').removeClass("dz-success").addClass("dz-error")
+                //         //$(".dz-error-mark svg").css("background", "red"); 
+                //         //Message.bigBoxWarning("Upload response", response.response[key]['message'], null);
+                //         let casename = response.response[key]['casename'];
+                //         Html.apendModel(casename);
+                //         Message.bigBoxSuccess("Upload response", response.response[key]['message'], null);
+                //         Message.warningOsy(response.response[key]['message_warning'])
+                //         value.previewElement.innerHTML = "";
+                //         $('#modalrestore').modal('toggle');
+                //         if (Base.AWS_SYNC == 1) {
+                //             SyncS3.deleteResultsPreSync(casename)
+                //                 .then(response => {
+                //                     SyncS3.uploadSync(casename);
+                //                 });
+                //         }
+                //     } else if (response.response[key]['status_code'] == 'error') {
+                //         $('.dz-file-preview').removeClass("dz-success").addClass("dz-error")
+                //         //$(".dz-error-mark svg").css("background", "red"); 
+                //         Message.bigBoxDanger("Upload response", response.response[key]['message'], null);
+                //     }
+                // });
             },
             error: function (file, error) {
                 Message.bigBoxDanger("Upload response", file.name + " failed to upload! " + error + " Please remove from dropzone.", null);

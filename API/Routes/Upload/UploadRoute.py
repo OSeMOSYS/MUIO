@@ -243,10 +243,9 @@ def backupCase():
     except OSError:
         raise OSError
 
-@upload_api.route('/uploadCase', methods=['POST'])
-def uploadCase():
-    try:
-        
+@upload_api.route('/uploadCaseUnchunked_old', methods=['POST'])
+def uploadCaseUnchunked_old():
+    try:        
         msg = []
         submitted_storage =  request.files.to_dict()
         for files in submitted_storage.items():
@@ -408,6 +407,206 @@ def uploadCase():
     except OSError:
         raise OSError
 
+def handle_full_zip(file, filepath=None):
+    msg = []
+
+    # Ako je file objekat (upload iz browsera)
+    if filepath is None:
+        submitted_file = file.filename
+        filepath = os.path.join(Config.DATA_STORAGE, submitted_file)
+        file.save(filepath)
+    else:
+        submitted_file = os.path.basename(filepath)
+
+    case = os.path.splitext(submitted_file)[0]
+
+    if submitted_file and allowed_filename(submitted_file):
+        filename = secure_filename(submitted_file)
+
+        with ZipFile(filepath) as zf:
+            errorcode = 1
+
+
+            # --- Find first genData.json entry (single pass) ---
+            target_info = next(
+                (zi for zi in zf.infolist() if Path(zi.filename).name == "genData.json"),
+                None
+            )
+
+            if not target_info:
+                # No genData.json at all
+                msg.append({
+                    "message": f"ZIP archive {case} is not valid archive!",
+                    "status_code": "error"
+                })
+                return jsonify({"response": msg}), 200
+
+            #for zippedfile in zf.namelist():
+
+            zippedfilepath = Path(target_info.filename)
+            zippedfilename = zippedfilepath.name
+            casename = zippedfilepath.parent.name
+            if 'genData.json' == zippedfilename:
+                errorcode = 0
+                if not os.path.exists(Path(Config.DATA_STORAGE,casename)):
+                    data = json.loads(zf.read(target_info).decode('ISO-8859-1'))
+                    name = data.get('osy-version', None)
+                    # --------------------------- 
+                    #     TVOJA ORIGINALNA LOGIKA
+                    # ---------------------------
+                    if name == '1.0' or name == '2.0':
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        configPath = Path(Config.DATA_STORAGE, 'Variables.json')
+                        vars = File.readParamFile(configPath)
+                        viewDef = {}
+                        for group, lists in vars.items():
+                            for list in lists:
+                                viewDef[list['id']] = []
+                        resPath = Path(Config.DATA_STORAGE,casename,'res')
+                        viewPath = Path(Config.DATA_STORAGE,casename,'view')
+                        resDataPath = Path(Config.DATA_STORAGE,case,'view','resData.json')
+                        viewDataPath = Path(Config.DATA_STORAGE,case,'view','viewDefinitions.json')
+                        if os.path.exists(resPath):
+                            shutil.rmtree(resPath)
+                        if os.path.exists(viewPath):
+                            shutil.rmtree(viewPath)
+                        os.makedirs(resPath, mode=0o777, exist_ok=False)
+                        os.makedirs(viewPath, mode=0o777, exist_ok=False)
+                        resData = {"osy-cases":[]}
+                        File.writeFile(resData, resDataPath)
+                        viewData = {"osy-views": viewDef}
+                        File.writeFile(viewData, viewDataPath)
+                        updateTimeslices(casename)
+                        updateStorageSet(casename)
+                        msg.append({
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "success",
+                            "casename": casename
+                        })
+                    elif name == '3.0':
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+                        genData = File.readParamFile(genDataPath)
+                        genData["osy-techGroups"] = []
+                        for dic in genData["osy-tech"]:
+                            dic["TG"] = []
+                        File.writeFile(genData, genDataPath)
+                        updateTimeslices(casename)
+                        updateStorageSet(casename)
+                        updateViewDefintions(casename)
+                        msg.append({
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "success",
+                            "casename": casename
+                        })
+                    elif name in ['4.0', '4.5', '4.9']:
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        updateTimeslices(casename)
+                        updateStorageSet(casename)
+                        updateViewDefintions(casename)
+                        msg.append({
+                            "message_warning": "You have restored a model created in a earlier version...",
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "warning",
+                            "casename": casename
+                        })
+                    elif name == '5.0':
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        updateViewDefintions(casename)
+                        msg.append({
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "success",
+                            "casename": casename
+                        })
+                    else:
+                        msg.append({
+                            "message": "Model " + casename +" is not valid OSEMOSYS!",
+                            "status_code": "error"
+                        })
+
+                else:
+                    msg.append({
+                        "message": "Model " + casename + " already exists!",
+                        "status_code": "warning"
+                    })
+
+            if errorcode == 1:
+                msg.append({
+                    "message": "ZIP archive " + case +" is not valid archive!",
+                    "status_code": "error"
+                })
+
+        os.remove(filepath)
+
+    return jsonify({"response": msg}), 200
+
+@upload_api.route('/uploadCase', methods=['POST'])
+def uploadCase():
+    try:
+        # -------------------------------
+        # 1) Primanje Dropzone chunk meta
+        # -------------------------------
+        dz_uuid = request.form.get("dzuuid")
+        dz_chunk_index = request.form.get("dzchunkindex")
+        dz_total_chunks = request.form.get("dztotalchunkcount")
+        file = request.files.get("file")
+
+        # Ako nije chunked upload (chrome browser dev mode)
+        if dz_uuid is None:
+            # ==========================
+            #     TVOJ ORIGINALNI KOD
+            # ==========================
+            return handle_full_zip(file)
+
+        # Pretvaranje u int
+        dz_chunk_index = int(dz_chunk_index)
+        dz_total_chunks = int(dz_total_chunks)
+
+        # -------------------------------
+        # 2) Snimi chunk
+        # -------------------------------
+        chunk_dir = os.path.join(Config.DATA_STORAGE, "_chunks", dz_uuid)
+        os.makedirs(chunk_dir, exist_ok=True)
+
+        chunk_path = os.path.join(chunk_dir, f"chunk_{dz_chunk_index}")
+        file.save(chunk_path)
+
+        # -------------------------------
+        # 3) Provjeri jesu li stigli svi
+        # -------------------------------
+        chunks_received = len(os.listdir(chunk_dir))
+
+        if chunks_received < dz_total_chunks:
+            return jsonify({"status": f"received {chunks_received}/{dz_total_chunks}"}), 200
+
+        # -------------------------------
+        # 4) Spajanje ZIP fajla
+        # -------------------------------
+        final_zip = os.path.join(Config.DATA_STORAGE, f"{dz_uuid}.zip")
+
+        with open(final_zip, "wb") as merged:
+            for i in range(dz_total_chunks):
+                part_path = os.path.join(chunk_dir, f"chunk_{i}")
+                with open(part_path, "rb") as part:
+                    merged.write(part.read())
+
+        # Očisti chunk folder
+        shutil.rmtree(chunk_dir)
+
+        # Now remove parent folder if it is empty
+        parent = os.path.dirname(chunk_dir)
+        if os.path.exists(parent) and not os.listdir(parent):
+            os.rmdir(parent)
+
+        # -------------------------------
+        # 5) Pokreni TVOJ originalni ZIP handler
+        # -------------------------------
+        #return handle_full_zip(open(final_zip, "rb"), final_zip)
+        return handle_full_zip(None, final_zip) 
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @upload_api.route('/uploadXls', methods=['POST'])
 def uploadXls():
     try: 

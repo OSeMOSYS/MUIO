@@ -48,7 +48,7 @@ export default class Home {
         Sidebar.Reload(model.casename);
         Html.renderModels(model.cases, model.casename);
         Home.initEvents(model);
-        loadScript("References/smartadmin/js/plugin/dropzone/dropzone.min.js", Base.uploadFunction);
+        loadScript("References/smartadmin/js/plugin/dropzone/dropzone5.min.js", Base.uploadFunction);
     }
 
     static refreshPage(casename){
