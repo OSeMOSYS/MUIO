@@ -57,8 +57,8 @@ class Osemosys():
             #self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-master-win64-msvc16-md', 'bin')
 
         else:
-            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk-4.65', 'w64')
-            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.10-osx10.15-x86_64-gcc9', 'bin')
+            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk', 'w64')
+            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc', 'bin')
 
         self.resultsPath = Path(Config.DATA_STORAGE,case,'res')
         self.viewFolderPath = Path(Config.DATA_STORAGE,case,'view')

@@ -1,0 +1,1 @@
+-L/home/runner/work/Cbc/Cbc/dist/lib -lCbcSolver -lCbc -L/usr/lib/ -lnauty -lCgl -lOsiClp -lClpSolver -lClp -lOsi -lCoinUtils -lbz2 -lz -llapack -lgfortran -lquadmath -lblas -lm 

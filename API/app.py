@@ -117,16 +117,13 @@ if __name__ == '__main__':
     import mimetypes
     mimetypes.add_type('application/javascript', '.js')
     port = int(os.environ.get("PORT", 5002))
-    print("PORTTTTTTTTTTT")
-    if Config.HEROKU_DEPLOY == 0: 
-        #localhost
-        #app.run(host='127.0.0.1', port=port, debug=True)
-        #waitress server
-        #prod server
-        from waitress import serve
-        serve(app, host='127.0.0.1', port=port)
-    else:
-        #HEROKU
-        app.run(host='0.0.0.0', port=port, debug=True)
-        #app.run(host='127.0.0.1', port=port, debug=True)
+
+    print(f"--- Starting App on Port {port} ---")
+
+    # For Podman/Docker, we MUST listen on 0.0.0.0, not 127.0.0.1
+    # We can detect if we are in a container, or just default to 0.0.0.0
+    from waitress import serve
+
+    print("Serving on 0.0.0.0 (Container Friendly)")
+    serve(app, host='0.0.0.0', port=port)
 
