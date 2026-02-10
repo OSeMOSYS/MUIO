@@ -42,7 +42,7 @@ class Osemosys():
         self.rytemPath = Path(Config.DATA_STORAGE,case,'RYTEM.json')
 
         
-        self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.3.txt') 
+        self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.4.txt') 
         self.osemosysFileOriginal = Path(Config.SOLVERs_FOLDER,'osemosys.txt')
         
         if platform.system() == 'Windows':

@@ -1,5 +1,27 @@
 
-<h3>OSEMOSYS ver.5.3.0, <small>20250416 release</small></h3>
+<h3>MUIO ver.5.4.0, <small>20260131</small></h3>
+<ol style="font-style: italic; font-weight: normal;">
+    <li><kbd style="font-weight: bold; background-color:#c74219">Code</kbd>&nbsp;Default salvage value calculation has been changed from straight-line depreciation to sinking fund depreciation.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;For new models, when creating a new case run, only the Base Scenario is preselected by default.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Implemented the ability to delete results data while preserving the case run definition.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Implemented automatic model cleanup after an unsuccessful run. ⚠️ Warning: Cleanup permanently deletes all results data.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Upload size limit increased to 5 GB.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Implemented preprocessing for the following parameters: 
+        <ul>
+            <li>Input To New Capacity Ratio</li>
+            <li>Input To Total Capacity Ratio</li>
+        </ul> Preprocessing applies only to relevant commodities and technologies.</li>
+    <li><kbd style="font-weight: bold; background-color:#c74219">Code</kbd>&nbsp;Model file updated to include revised constraints:
+        <ul>
+            <li>EBb4_EnergyBalanceEachYear4_ICR</li>
+            <li>INC1_InputToNewCapacity</li>
+            <li>ITC1_InputToTotalCapacity</li>
+        </ul>
+        Performance: These changes significantly reduce model size (lp.lp) and, consequently, the size of the result.txt file.
+    </li>
+</ol> 
+
+<h3>MUIO ver.5.3.0, <small>20250416 release</small></h3>
 <ol style="font-style: italic; font-weight: normal;">
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;ViewData form export to xls - bug fixed</li>
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Deletion of case runs - bug fixed</li>
@@ -29,12 +51,12 @@
 
 </ol> 
 
-<h3>OSEMOSYS ver.5.2.0, <small>20250215 release</small></h3>
+<h3>MUIO ver.5.2.0, <small>20250215 release</small></h3>
 <ol style="font-style: italic; font-weight: normal;">
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Integer validation for param group RT - bug fixed</li>
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;kHA area unit added</li>
 </ol> 
-<h3>OSEMOSYS ver.5.1.0, <small>20250204 release</small></h3>
+<h3>MUIO ver.5.1.0, <small>20250204 release</small></h3>
 <ol style="font-style: italic; font-weight: normal;">
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Results data with technologies that belong to multiple tech groups - bug fixed</li>
     <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;param Operational Life [R,T],  Operational Life Storage [R,S] validation of integer values has been added.</li>

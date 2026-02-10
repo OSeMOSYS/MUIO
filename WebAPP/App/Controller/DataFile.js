@@ -119,7 +119,7 @@ export default class DataFile {
 
             //nove scenarije dodjeamo sad u modelu ovaj dio je nepotreban
             // if(model.cs in  model.scBycs){
-            //     //pored originalnih scenarija u caserunu, potrebno dodati eventualno nove 
+            //     //pored originalnih scenarija u caserunu, potrebno dodati eventualno nove
             //     //scenarije koji su dodani poslije uspjesnog RUN-a, kao neaktivne
             //     let sccsMap = {};
             //     $.each(model.scBycs[model.cs], function (id, scObj) {
@@ -140,7 +140,7 @@ export default class DataFile {
             // }else{
             //     Html.renderScOrder(model.scenarios);
             // }
-            
+
         });
 
         $("#btnSaveOrder").off('click');
@@ -248,8 +248,8 @@ export default class DataFile {
             $(".DataFile").hide();
             $(".Results").hide();
 
-            $(".batchOutput").hide(); 
-            $("#osy-batchRun").hide();        
+            $(".batchOutput").hide();
+            $("#osy-batchRun").hide();
             $('.checkbox').prop('checked', false);
         });
 
@@ -320,8 +320,8 @@ export default class DataFile {
                         $(".runOutput").hide();
                         $(".lpOutput").hide();
                         $(".Results").hide();
-                        $(".batchOutput").hide(); 
-                        $("#osy-batchRun").hide();        
+                        $(".batchOutput").hide();
+                        $("#osy-batchRun").hide();
                         $('.checkbox').prop('checked', false);
                         Message.smallBoxInfo('Generate message', response.message, 3000);
                     }
@@ -347,8 +347,8 @@ export default class DataFile {
                         $("#osy-updateCaseRun").show();
                         $("#osy-newCaseRun").show();
 
-                        $(".batchOutput").hide(); 
-                        $("#osy-batchRun").hide();        
+                        $(".batchOutput").hide();
+                        $("#osy-batchRun").hide();
                         $('.checkbox').prop('checked', false);
                         Html.renderCases(model.cases);
                         Html.title(model.casename, model.title, caserunname);
@@ -476,10 +476,10 @@ export default class DataFile {
                     // let errormsg = '';
                     // if (response.glpk_message != "" || response.glpk_stdmsg != "") {
                     //     errormsg += 'Error occured during creation of LP file, GLPK run! See LP file (GLPK) log for more details. '
-                    // } 
+                    // }
                     // if (response.cbc_message != "" || response.cbc_stdmsg != "") {
                     //     errormsg += 'Error occured during optimization process, CBC run! See CBC solver log for more details.'
-                    // } 
+                    // }
 
                     // Message.dangerOsy(errormsg);
                     Message.dangerOsy( response.timer );
@@ -517,9 +517,9 @@ export default class DataFile {
             $("#osy-runCaseDiv").hide();
 
             $(".runOutput").hide();
-            $(".lpOutput").hide();   
-            $(".batchOutput").hide(); 
-            $("#osy-batchRun").hide();        
+            $(".lpOutput").hide();
+            $(".batchOutput").hide();
+            $("#osy-batchRun").hide();
             $('.checkbox').prop('checked', false);
 
             Osemosys.readDataFile(model.casename, model.cs)
@@ -537,15 +537,15 @@ export default class DataFile {
                 if (ResultCSV.length != 0) {
                     $(".Results").show();
                     Html.renderCSV(ResultCSV, model.cs)
-                } 
+                }
                 if (DataFile) {
                     $(".DataFile").show();
                     $("#osy-runCaseDiv").show();
                     $("#osy-caseRunName").text(model.cs);
                     $("#osy-generateDataFile").show();
-   
+
                     Html.renderDataFile(DataFile, model);
-                } 
+                }
                 else if(!DataFile && ResultCSV.length == 0){
                     $(".DataFile").hide();
                     $(".Results").hide();
@@ -608,7 +608,7 @@ export default class DataFile {
             }, function (ButtonPressed) {
                 if (ButtonPressed === "Yes") {
                     Message.loaderStart('Deleteing case data...');
-                    Base.deleteCaseRun(model.casename, caserunname)
+                    Base.deleteCaseRun(model.casename, caserunname, false)
                         .then(response => {
                             Message.clearMessages();
                             Message.loaderEnd();
@@ -631,19 +631,19 @@ export default class DataFile {
                                     $("#osy-createCaseRun").show();
                                     $("#osy-updateCaseRun").hide();
                                     $("#osy-newCaseRun").hide();
-                        
+
                                     $("#osy-generateDataFile").hide();
                                     $("#osy-runCaseDiv").hide();
                                     $("#osy-solver").hide();
                                     $("#osy-run").hide();
-                        
+
                                     $(".runOutput").hide();
                                     $(".lpOutput").hide();
                                     $(".DataFile").hide();
-                                    $(".Results").hide(); 
+                                    $(".Results").hide();
 
-                                    $(".batchOutput").hide(); 
-                                    $("#osy-batchRun").hide();        
+                                    $(".batchOutput").hide();
+                                    $("#osy-batchRun").hide();
                                     $('.checkbox').prop('checked', false);
                                 }
                                 //remove case from view json files
@@ -687,6 +687,84 @@ export default class DataFile {
             e.stopImmediatePropagation();
         });
 
+        $("#osy-Cases").on('click', '.deleteCaseResults', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var caserunname = $(this).attr('data-ps');
+            $.SmartMessageBox({
+                title: "Confirmation Box!",
+                content: "You are about to delete <b class='danger'>" + caserunname + "</b> case run results! Are you sure?",
+                buttons: '[No][Yes]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "Yes") {
+                    Message.loaderStart('Deleteing case results...');
+                    Base.deleteCaseRun(model.casename, caserunname, true)
+                        .then(response => {
+                            Message.clearMessages();
+                            Message.loaderEnd();
+                            if (response.status_code == "success") {
+                                Message.bigBoxSuccess('Delete message', response.message, 3000);
+                                //REFRESH
+                                //Html.removeCase(caserunname);
+                                //remove case from model
+                                //model.cases = model.cases.filter(function(el) { return el.Case != caserunname; });
+                                //delete model.scBycs[caserunname];
+
+                                //relod sidebar
+                                Sidebar.Reload(model.casename);
+
+                                if (model.cs == caserunname || model.cs == ''){
+                                    Html.title(model.casename, model.title, '');
+                                    model.cs = null;
+                                    // $("#osy-casename").val(null);
+                                    // $("#osy-desc").val(null);
+                                    // $("#osy-createCaseRun").show();
+                                    // $("#osy-updateCaseRun").hide();
+                                    // $("#osy-newCaseRun").hide();
+
+                                    // $("#osy-generateDataFile").hide();
+                                    // $("#osy-runCaseDiv").hide();
+                                    // $("#osy-solver").hide();
+                                    // $("#osy-run").hide();
+
+                                    $(".runOutput").hide();
+                                    $(".lpOutput").hide();
+                                    $(".DataFile").hide();
+                                    $(".Results").hide();
+
+                                    $(".batchOutput").hide();
+                                    $("#osy-batchRun").hide();
+                                    $('.checkbox').prop('checked', false);
+                                }
+                                //remove case from view json files
+                                //sync with s3
+                                if (Base.AWS_SYNC == 1) {
+                                    SyncS3.deleteSync(caserunname);
+                                }
+                            }
+
+                            if (response.status_code == "info") {
+                                Message.info(response.message);
+                            }
+                            if (response.status_code == "warning") {
+                                Message.warning(response.message);
+                            }
+
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            Message.danger(error);
+                        });
+                }
+                if (ButtonPressed === "No") {
+                    Message.bigBoxInfo("Confirmation message", "You pressed No...", 3000)
+                }
+            });
+            //e.preventDefault();
+            e.stopImmediatePropagation();
+        });
+
+
         //$(".Cases").off('click');
         $('#osy-Cases').on('click', '.checkbox', function(e){
             // var val = $(this).val();
@@ -697,12 +775,12 @@ export default class DataFile {
             });
             //console.log('batchRunCases ', batchRunCases)
             if(batchRunCases.length>1){
-                $("#osy-runCaseDiv").show();
-                $("#osy-caseRunName").text("BATCH RUN");
+                //$("#osy-runCaseDiv").show();
+                //$("#osy-caseRunName").text("BATCH RUN");
                 $('#osy-batchRun').show();
             }
             else{
-                $("#osy-runCaseDiv").hide();
+                //$("#osy-runCaseDiv").hide();
                 $('#osy-batchRun').hide();
             }
           });
@@ -719,7 +797,7 @@ export default class DataFile {
             });
 
             Osemosys.batchRun(model.casename, batchRunCases)
-            //Osemosys.generateDataFile(model.casename, batchRunCases[0])  
+            //Osemosys.generateDataFile(model.casename, batchRunCases[0])
             .then(response => {
                 Message.loaderEnd();
                 //Message.smallBoxInfo('Generate message', response.message, 3000);
@@ -733,7 +811,7 @@ export default class DataFile {
 
                 Sidebar.Reload(model.casename);
                 Message.clearMessages();
-                
+
                 if(response.status == 'Success'){
                     Message.successOsy('<pre>' + response.msg + '</pre>');
                     //Message.successOsy('<pre>Run finished in ' + response.time + ' \n' + response.msg + '</pre>');
@@ -741,7 +819,7 @@ export default class DataFile {
                 else{
                     Message.dangerOsy('<pre>' + response.msg + '</pre>');
                 }
-                
+
 
                 $(".batchOutput").show();
                 $("#osy-batchOutput").empty();
@@ -749,9 +827,47 @@ export default class DataFile {
 
             })
             .catch(error => {
-                Message.bigBoxDanger(error) 
+                Message.bigBoxDanger(error)
             })
-            
+
+        });
+
+        $("#osy-cleanUp").off('click');
+        $("#osy-cleanUp").on('click', function (event) {
+            //console.log('BATCH RUN')
+            Pace.restart();
+            Message.loaderStart('Recycle all results! Plese wait...');
+
+            Osemosys.cleanUp(model.casename)
+            .then(response => {
+                Message.loaderEnd();
+                //Message.smallBoxInfo('Generate message', response.message, 3000);
+                // console.log('response ', response.log);
+                // Message.bigBoxDefault("BATCH RUN!", response.log)
+                $(".runOutput").hide();
+                $(".lpOutput").hide();
+                $(".Results").hide();
+                $("#osy-runOutput").empty();
+                $("#osy-lpOutput").empty();
+
+                console.log('response clean up ', response) 
+
+                Sidebar.Reload(model.casename);
+                Message.clearMessages();
+
+                if(response.status_code == 'success'){
+                    Message.bigBoxSuccess('Delete message', response.message, 3000);
+                    //Message.successOsy('<pre>' + response.message + '</pre>');
+                    //Message.successOsy('<pre>Run finished in ' + response.time + ' \n' + response.msg + '</pre>');
+                }
+                else{
+                    Message.dangerOsy('<pre>' + response.message + '</pre>');
+                }
+            })
+            .catch(error => {
+                Message.bigBoxDanger(error)
+            })
+
         });
 
         Message.loaderEnd();
