@@ -17,3 +17,17 @@ This repository contains the user interface for the Open Source Energy Modelling
 For troubleshooting model-related issues and discussions, please visit the [Energy Modelling Community Discussion Forum](https://forum.u4ria.org/). 
 
 If you encounter bugs or have new feature ideas, please submit them to the repository's issue tracker. We encourage contributions and discussions to further develop MUIO.
+
+## Development (Run from Source)
+
+For macOS, Linux, or Windows source-based development setup instructions, see:
+
+`docs/source/getting-started/dev-setup.rst`
+
+This guide covers:
+
+- Installing GLPK and CBC solvers
+- Creating a Python virtual environment
+- Installing dependencies
+- Running the Flask development server
+- Troubleshooting solver detection and permissions
