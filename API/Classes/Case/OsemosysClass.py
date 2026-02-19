@@ -1,5 +1,4 @@
 from pathlib import Path
-import platform
 from Classes.Base import Config
 from Classes.Base.FileClass import File
 
@@ -45,20 +44,17 @@ class Osemosys():
         self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.4.txt') 
         self.osemosysFileOriginal = Path(Config.SOLVERs_FOLDER,'osemosys.txt')
         
-        if platform.system() == 'Windows':
-            #self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk-4.65', 'w64')
-            # self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.7.5-win64-intel11.1', 'bin')
-            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK')
-            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR')
-        
-            #self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.10-win64-msvc16-md', 'bin')
+        self.glpkFolder = Config.GLPK_PATH
+        self.cbcFolder = Config.CBC_PATH
 
-            #Cbc-master-win64-msvc16-mt
-            #self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-master-win64-msvc16-md', 'bin')
-
-        else:
-            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk-4.65', 'w64')
-            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.10-osx10.15-x86_64-gcc9', 'bin')
+        if not self.glpkFolder:
+            raise RuntimeError(
+                "GLPK solver not found. Install glpk or set MUIO_GLPK_PATH."
+            )
+        if not self.cbcFolder:
+            raise RuntimeError(
+                "CBC solver not found. Install cbc or set MUIO_CBC_PATH."
+            )
 
         self.resultsPath = Path(Config.DATA_STORAGE,case,'res')
         self.viewFolderPath = Path(Config.DATA_STORAGE,case,'view')

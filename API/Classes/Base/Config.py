@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import shutil
 #from dotenv import load_dotenv
 import platform
 
@@ -27,6 +28,26 @@ CLASS_FOLDER = Path("WebAPP", 'Classes')
 EXTRACT_FOLDER = Path("")
 SOLVERs_FOLDER = Path('WebAPP', 'SOLVERs')
 
+# --- Solver path resolution ---
+# Priority: 1) env var override  2) OS-specific default
+_glpk_env = os.environ.get("MUIO_GLPK_PATH")
+_cbc_env = os.environ.get("MUIO_CBC_PATH")
+
+if _glpk_env:
+    GLPK_PATH = Path(_glpk_env)
+elif SYSTEM == "Windows":
+    GLPK_PATH = Path(SOLVERs_FOLDER, 'GLPK')
+else:
+    _glpk_bin = shutil.which("glpsol")
+    GLPK_PATH = Path(_glpk_bin).parent if _glpk_bin else None
+
+if _cbc_env:
+    CBC_PATH = Path(_cbc_env)
+elif SYSTEM == "Windows":
+    CBC_PATH = Path(SOLVERs_FOLDER, 'COIN-OR')
+else:
+    _cbc_bin = shutil.which("cbc")
+    CBC_PATH = Path(_cbc_bin).parent if _cbc_bin else None
 
 #absolute paths
 # OSEMOSYS_ROOT = os.path.abspath(os.getcwd())
