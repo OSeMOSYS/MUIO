@@ -12,6 +12,19 @@ This repository contains the user interface for the Open Source Energy Modelling
 4.	The App will open automatically once the installation is complete. If not, search on the Windows Taskbar for ‘’MUIO’’ and open the App. 
 5.	You will see the MUIO in a new window. 
 
+## Developer Setup (Frontend)
+
+The frontend uses a modern Vite bundler. To run the web application development server locally:
+1. Ensure you have Node.js and NPM installed.
+2. Navigate to the `WebAPP` directory:
+   ```bash
+   cd WebAPP
+   npm install
+   ```
+3. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
 ## Questions and Issues
 
 For troubleshooting model-related issues and discussions, please visit the [Energy Modelling Community Discussion Forum](https://forum.u4ria.org/). 
