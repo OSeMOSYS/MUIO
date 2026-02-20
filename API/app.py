@@ -67,6 +67,32 @@ def add_headers(response):
     #response.headers['Content-Type'] = 'application/javascript'
     return response
 
+@app.errorhandler(404)
+def not_found_error(error):
+    # If the request expects JSON or is an API route, return JSON 404
+    if request.path.startswith('/api/') or request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({
+            "status": "error",
+            "message": "Resource not found"
+        }), 404
+    
+    # Otherwise fallback to the frontend (React/SPA) router
+    return render_template('index.html'), 404
+
+@app.errorhandler(500)
+@app.errorhandler(Exception)
+def internal_error(error):
+    # Depending on the exception, error.code might not exist
+    status_code = getattr(error, 'code', 500)
+    if status_code == 404:
+        return not_found_error(error)
+
+    return jsonify({
+        "status": "error",
+        "message": "Internal server error",
+        "details": str(error)
+    }), status_code
+
 # @app.errorhandler(CustomException)
 # def handle_invalid_usage(error):
 #     response = jsonify(error.to_dict())
@@ -86,6 +112,15 @@ def home():
     #     syncS3.downloadSync('Parameters.json', Config.DATA_STORAGE, Config.S3_BUCKET)
     return render_template('index.html')
 
+@app.route("/health", methods=['GET'])
+def health_check():
+    """Simple backend health check endpoint."""
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/mock-error", methods=['GET'])
+def mock_error():
+    """Endpoint to trigger a 500 Internal Server Error for testing."""
+    raise Exception("This is a mock error for testing 500 handler")
 
 @app.route("/getSession", methods=['GET'])
 def getSession():
