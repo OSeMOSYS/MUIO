@@ -613,8 +613,11 @@ class Case:
         try:
             for group, array in self.PARAMETERS.items():
                 if array:
+                    if group not in Config.DEFAULT_F:
+                        print(f"[WARN] createCase: skipping unknown parameter group '{group}' (not in DEFAULT_F)")
+                        continue
                     func_name = Config.DEFAULT_F[group]
-                    func = getattr(self,func_name) 
+                    func = getattr(self, func_name) 
                     func() 
             
         except(IOError):
