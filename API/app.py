@@ -1,6 +1,9 @@
 #import sys
 import os
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()  # loads variables from .env into os.environ
 
 from flask import Flask, jsonify, request, session, render_template
 from flask_cors import CORS
@@ -42,7 +45,7 @@ print(__name__)
 app = Flask(__name__, static_url_path='', static_folder=static_dir,  template_folder=template_dir)
 
 app.permanent_session_lifetime = timedelta(days=5)
-app.config['SECRET_KEY'] = '12345'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'INSECURE-DEV-KEY-CHANGE-ME')
 app.config["MAX_CONTENT_LENGTH"] = None
 
 app.register_blueprint(upload_api)
