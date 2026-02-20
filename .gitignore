@@ -1,5 +1,7 @@
 Procfile
 .env
+node_modules/
+WebAPP/dist/
 dist/
 build/
 venv/
