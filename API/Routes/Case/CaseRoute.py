@@ -5,6 +5,7 @@ import shutil
 import pandas as pd
 from Classes.Base import Config
 from Classes.Base.FileClass import File
+from Classes.Base.Response import api_response
 from Classes.Case.CaseClass import Case
 from Classes.Case.UpdateCaseClass import UpdateCase
 from Classes.Case.ImportTemplate import ImportTemplate
@@ -22,21 +23,22 @@ def initSyncS3():
             syncS3.downloadSync(case, Config.DATA_STORAGE, Config.S3_BUCKET)
         #downoload param file from S3 bucket
         syncS3.downloadSync('Parameters.json', Config.DATA_STORAGE, Config.S3_BUCKET)
-        response = {
-            "message": "Cases syncronized with S3 bucket!",
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(
+            success=True, 
+            message="Cases syncronized with S3 bucket!", 
+            data={"status_code": "success"}, 
+            status_code=200
+        )
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/getCases", methods=['GET'])
 def getCases():
     try:
         cases = [ f.name for f in os.scandir(Config.DATA_STORAGE) if f.is_dir() ]
-        return jsonify(cases), 200
+        return api_response(success=True, data=cases, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/getResultCSV", methods=['POST'])
 def getResultCSV():
@@ -48,9 +50,9 @@ def getResultCSV():
             csvs = [ f.name for f in os.scandir(csvFolder) ]
         else:
             csvs = []
-        return jsonify(csvs), 200
+        return api_response(success=True, data=csvs, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/getDesc", methods=['POST'])
 def getDesc():
@@ -62,9 +64,9 @@ def getDesc():
             "message": "Get model description success",
             "desc": genData['osy-desc']
         }
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/copyCase", methods=['POST'])
 def copy():
@@ -81,6 +83,7 @@ def copy():
                 "message": 'Model <b>'+ case + '_copy</b> already exists, please rename existing model first!',
                 "status_code": "warning"
             }
+            return api_response(success=False, message=response["message"], data=response, status_code=200)
         else:
             shutil.copytree(str(src), str(dest) )
             #rename casename in genData
@@ -91,11 +94,11 @@ def copy():
                 "message": 'Model <b>'+ case + '</b> copied!',
                 "status_code": "success"
             }
-        return(response)
+            return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        raise IOError
+        return api_response(success=False, message="Error copying model", status_code=500)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error copying model", status_code=500)
 
 @case_api.route("/deleteCase", methods=['POST'])
 def deleteCase():
@@ -116,11 +119,11 @@ def deleteCase():
                 "message": 'Model <b>'+ case + '</b> deleted!',
                 "status_code": "success"
             }
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="Error deleting case", status_code=500)
 
 @case_api.route("/getResultData", methods=['POST'])
 def getResultData():
@@ -131,12 +134,11 @@ def getResultData():
             dataPath = Path(Config.DATA_STORAGE,casename,'view',dataJson)
             data = File.readFile(dataPath)
             response = data   
-
         else:  
             response = None     
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/getParamFile", methods=['POST'])
 def getParamFile():
@@ -144,10 +146,9 @@ def getParamFile():
         dataJson = request.json['dataJson']
         configPath = Path(Config.DATA_STORAGE, dataJson)
         ConfigFile = File.readParamFile(configPath)
-        response = ConfigFile       
-        return jsonify(response), 200
+        return api_response(success=True, data=ConfigFile, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/resultsExists", methods=['POST'])
 def resultsExists():
@@ -168,9 +169,9 @@ def resultsExists():
         else:
             response = False
         #response = True
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/saveParamFile", methods=['POST'])
 def saveParamFile():
@@ -187,9 +188,9 @@ def saveParamFile():
             "status_code": "success"
         }
        
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/saveScOrder", methods=['POST'])
 def saveScOrder():
@@ -205,9 +206,9 @@ def saveScOrder():
             "status_code": "success"
         }
        
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/updateData", methods=['POST'])
 def updateData():
@@ -226,9 +227,9 @@ def updateData():
                 "message": "Your data has been saved!",
                 "status_code": "success"
             }      
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/saveCase", methods=['POST'])
 def saveCase():
@@ -376,15 +377,15 @@ def saveCase():
                     "message": "Your model configuration has been saved!",
                     "status_code": "created"
                 }
-            else:
                 response = {
                     "message": "Model with same name already exists!",
                     "status_code": "exist"
                 }       
+            return api_response(success=False, message=response["message"], data=response, status_code=200)
 
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('Error saving model IOError!'), 404
+        return api_response(success=False, message="Error saving model IOError!", status_code=404)
 
 @case_api.route("/prepareCSV", methods=['POST'])
 def prepareCSV():
@@ -410,10 +411,10 @@ def prepareCSV():
             "message": 'CSV data downloaded!',
             "status_code": "success"
         }
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
 
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/downloadCSV", methods=['GET'])
 def downloadCSV():
@@ -425,7 +426,7 @@ def downloadCSV():
         return send_file(dataFile.resolve(), as_attachment=True,mimetype='application/csv', max_age=0)
         #return send_from_directory(dir, 'export.csv', as_attachment=True)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @case_api.route("/importTemplate", methods=['POST'])
 def run():
@@ -434,11 +435,11 @@ def run():
         template = ImportTemplate(data["osy-template"])
         response = template.importProcess(data)
  
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except(IndexError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="Index Error during import", status_code=500)
 
 
 ####################################################################################OBSOLETE AND SyncS3###################################################

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from Classes.Case.OsemosysClass import Osemosys
+from Classes.Base.Response import api_response
 
 viewdata_api = Blueprint('ViewDataRoute', __name__)
 
@@ -16,9 +17,9 @@ def viewData():
             response = data    
         else:  
             response = None     
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @viewdata_api.route("/viewTEData", methods=['POST'])
 def viewTEData():
@@ -32,9 +33,9 @@ def viewTEData():
             response = data    
         else:  
             response = None     
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @viewdata_api.route("/updateViewData", methods=['POST'])
 def updateViewData():
@@ -65,9 +66,9 @@ def updateViewData():
                 "status_code": "error"
             }
        
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @viewdata_api.route("/updateTEViewData", methods=['POST'])
 def updateTEViewData():
@@ -94,6 +95,6 @@ def updateTEViewData():
                 "status_code": "error"
             }
        
-        return jsonify(response), 200
+        return api_response(success=True, message=response["message"], data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)

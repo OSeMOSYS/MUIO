@@ -58,7 +58,7 @@ CORS(app)
 def add_headers(response):
     if Config.HEROKU_DEPLOY == 0: 
         #localhost
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1')
+        response.headers.add('Access-Control-Allow-Origin', '*')
     else:
         #HEROKU
         response.headers.add('Access-Control-Allow-Origin', 'https://osemosys.herokuapp.com/')
@@ -124,7 +124,8 @@ if __name__ == '__main__':
         #waitress server
         #prod server
         from waitress import serve
-        serve(app, host='127.0.0.1', port=port)
+        print(f"Starting server on http://0.0.0.0:{port}")
+        serve(app, host='0.0.0.0', port=port)
     else:
         #HEROKU
         app.run(host='0.0.0.0', port=port, debug=True)
