@@ -22,6 +22,10 @@ def generateDataFile():
         return jsonify(response), 200
     except(IOError):
         return jsonify('No existing cases!'), 404
+    except OSError as e:
+        return jsonify({'message': f'File system error: {str(e)}', 'status_code': 'error'}), 500
+    except Exception as e:
+        return jsonify({'message': f'Error generating data file: {str(e)}', 'status_code': 'error'}), 500
 
 @datafile_api.route("/createCaseRun", methods=['POST'])
 def createCaseRun():

@@ -724,6 +724,8 @@ class DataFile(Osemosys):
 
             dataFilePath = Path(Config.DATA_STORAGE, self.case, 'res',caserunname,'data.txt')
 
+            # Ensure case run directory exists (may be missing after restore)
+            os.makedirs(dataFilePath.parent, exist_ok=True)
 
             # self.f = open(self.dataFile, mode="w", encoding='utf-8')
             #self.f = open(dataFilePath, mode="w", encoding='utf-8')
