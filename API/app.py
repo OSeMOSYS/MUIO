@@ -16,12 +16,12 @@ from Routes.Case.SyncS3Route import syncs3_api
 from Routes.Case.ViewDataRoute import viewdata_api
 from Routes.DataFile.DataFileRoute import datafile_api
 
-#RADI
-template_dir = os.path.abspath('WebAPP')
-static_dir = os.path.abspath('WebAPP')
+# ── Use absolute paths from Config (derived from __file__, CWD-independent) ──
+template_dir = str(Config.WebAPP_PATH)
+static_dir = str(Config.WebAPP_PATH)
 
-# template_dir = Config.WebAPP_PATH.resolve()
-# static_dir = Config.WebAPP_PATH.resolve()
+# template_dir = os.path.abspath('WebAPP')
+# static_dir = os.path.abspath('WebAPP')
 
 # template_dir = os.path.join(sys._MEIPASS, 'WebAPP') 
 # static_dir = os.path.join(sys._MEIPASS, 'WebAPP') 
@@ -39,7 +39,7 @@ print(sys.executable)
 
 print(__name__)
 
-app = Flask(__name__, static_url_path='', static_folder=static_dir,  template_folder=template_dir)
+app = Flask(__name__, static_url_path='', static_folder=static_dir, template_folder=template_dir)
 
 app.permanent_session_lifetime = timedelta(days=5)
 app.config['SECRET_KEY'] = '12345'
