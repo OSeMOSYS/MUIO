@@ -92,10 +92,10 @@ def copy():
                 "status_code": "success"
             }
         return(response)
-    except(IOError):
-        raise IOError
-    except OSError:
-        raise OSError
+    except(IOError) as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
+    except OSError as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
 
 @case_api.route("/deleteCase", methods=['POST'])
 def deleteCase():
@@ -119,8 +119,8 @@ def deleteCase():
         return jsonify(response), 200
     except(IOError):
         return jsonify('No existing cases!'), 404
-    except OSError:
-        raise OSError
+    except OSError as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
 
 @case_api.route("/getResultData", methods=['POST'])
 def getResultData():

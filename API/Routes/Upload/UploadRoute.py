@@ -240,8 +240,8 @@ def backupCase():
 
     except(IOError):
         return jsonify('No existing cases!'), 404
-    except OSError:
-        raise OSError
+    except OSError as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
 
 @upload_api.route('/uploadCaseUnchunked_old', methods=['POST'])
 def uploadCaseUnchunked_old():
@@ -402,10 +402,10 @@ def uploadCaseUnchunked_old():
         }
 
         return jsonify(response), 200
-    except(IOError):
-        raise IOError
-    except OSError:
-        raise OSError
+    except(IOError) as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
+    except OSError as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
 
 def handle_full_zip(file, filepath=None):
     msg = []
@@ -649,7 +649,7 @@ def uploadXls():
         }
 
         return jsonify(response), 200
-    except(IOError):
-        raise IOError
-    except OSError:
-        raise OSError
+    except(IOError) as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
+    except OSError as e:
+        return jsonify({"error": str(e), "type": type(e).__name__}), 500
