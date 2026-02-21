@@ -9,6 +9,7 @@ from datetime import timedelta
 
 #import json
 from Classes.Base import Config
+from Classes.Base.Response import api_response
 # from API.Classes.Base.SyncS3 import SyncS3
 from Routes.Upload.UploadRoute import upload_api
 from Routes.Case.CaseRoute import case_api
@@ -58,7 +59,7 @@ CORS(app)
 def add_headers(response):
     if Config.HEROKU_DEPLOY == 0: 
         #localhost
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1')
+        response.headers.add('Access-Control-Allow-Origin', '*')
     else:
         #HEROKU
         response.headers.add('Access-Control-Allow-Origin', 'https://osemosys.herokuapp.com/')
@@ -66,6 +67,34 @@ def add_headers(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     #response.headers['Content-Type'] = 'application/javascript'
     return response
+
+@app.errorhandler(404)
+def not_found_error(error):
+    # If the request expects JSON or is an API route, return JSON 404
+    if request.path.startswith('/api/') or request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return api_response(
+            success=False,
+            message="Resource not found",
+            status_code=404
+        )
+    
+    # Otherwise fallback to the frontend (React/SPA) router
+    return render_template('index.html'), 404
+
+@app.errorhandler(500)
+@app.errorhandler(Exception)
+def internal_error(error):
+    # Depending on the exception, error.code might not exist
+    status_code = getattr(error, 'code', 500)
+    if status_code == 404:
+        return not_found_error(error)
+
+    return api_response(
+        success=False,
+        message="Internal server error",
+        data={"details": str(error)},
+        status_code=status_code
+    )
 
 # @app.errorhandler(CustomException)
 # def handle_invalid_usage(error):
@@ -86,6 +115,15 @@ def home():
     #     syncS3.downloadSync('Parameters.json', Config.DATA_STORAGE, Config.S3_BUCKET)
     return render_template('index.html')
 
+@app.route("/health", methods=['GET'])
+def health_check():
+    """Simple backend health check endpoint."""
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/mock-error", methods=['GET'])
+def mock_error():
+    """Endpoint to trigger a 500 Internal Server Error for testing."""
+    raise Exception("This is a mock error for testing 500 handler")
 
 @app.route("/getSession", methods=['GET'])
 def getSession():
@@ -124,7 +162,8 @@ if __name__ == '__main__':
         #waitress server
         #prod server
         from waitress import serve
-        serve(app, host='127.0.0.1', port=port)
+        print(f"Starting server on http://0.0.0.0:{port}")
+        serve(app, host='0.0.0.0', port=port)
     else:
         #HEROKU
         app.run(host='0.0.0.0', port=port, debug=True)
