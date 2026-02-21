@@ -9,6 +9,7 @@ from datetime import timedelta
 
 #import json
 from Classes.Base import Config
+from Classes.Base.Response import api_response
 # from API.Classes.Base.SyncS3 import SyncS3
 from Routes.Upload.UploadRoute import upload_api
 from Routes.Case.CaseRoute import case_api
@@ -71,10 +72,11 @@ def add_headers(response):
 def not_found_error(error):
     # If the request expects JSON or is an API route, return JSON 404
     if request.path.startswith('/api/') or request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
-        return jsonify({
-            "status": "error",
-            "message": "Resource not found"
-        }), 404
+        return api_response(
+            success=False,
+            message="Resource not found",
+            status_code=404
+        )
     
     # Otherwise fallback to the frontend (React/SPA) router
     return render_template('index.html'), 404
@@ -87,11 +89,12 @@ def internal_error(error):
     if status_code == 404:
         return not_found_error(error)
 
-    return jsonify({
-        "status": "error",
-        "message": "Internal server error",
-        "details": str(error)
-    }), status_code
+    return api_response(
+        success=False,
+        message="Internal server error",
+        data={"details": str(error)},
+        status_code=status_code
+    )
 
 # @app.errorhandler(CustomException)
 # def handle_invalid_usage(error):
