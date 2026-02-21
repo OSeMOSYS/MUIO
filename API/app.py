@@ -43,7 +43,7 @@ app = Flask(__name__, static_url_path='', static_folder=static_dir,  template_fo
 
 app.permanent_session_lifetime = timedelta(days=5)
 app.config['SECRET_KEY'] = '12345'
-app.config["MAX_CONTENT_LENGTH"] = None
+app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024  # 500 MB
 
 app.register_blueprint(upload_api)
 app.register_blueprint(case_api)
