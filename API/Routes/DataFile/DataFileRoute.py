@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, send_file, session
+from flask import Blueprint, request, send_file, session
 from pathlib import Path
 import shutil, datetime, time, os
 from Classes.Case.DataFileClass import DataFile
@@ -16,11 +16,7 @@ def generateDataFile():
         if casename != None:
             txtFile = DataFile(casename)
             txtFile.generateDatafile(caserunname)
-            response = {
-                "message": "You have created data file!",
-                "status_code": "success"
-            }      
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message="You have created data file!", status_code=201)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 

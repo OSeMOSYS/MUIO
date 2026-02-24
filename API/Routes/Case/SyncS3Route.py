@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 import os
 from pathlib import Path
 import shutil
@@ -18,11 +18,7 @@ def deleteResultsPreSync():
         shutil.rmtree(resPath)
         os.remove(dataPath)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
@@ -37,11 +33,7 @@ def uploadSync():
         localDir = Path(Config.DATA_STORAGE, case)
         s3.uploadSync(localDir, case, Config.S3_BUCKET, '*')
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> syncronized!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='Case <b>'+ case + '</b> syncronized!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
@@ -55,11 +47,7 @@ def deleteSync():
         s3 = SyncS3()
         s3.deleteSync(case)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
@@ -75,11 +63,7 @@ def updateSync():
         localDir = Path(Config.DATA_STORAGE, case, str(filename))
         s3.updateSync(localDir, case, Config.S3_BUCKET)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
@@ -95,11 +79,7 @@ def updateSyncParamFile():
 
         s3.updateSync(localDir, case, Config.S3_BUCKET)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:

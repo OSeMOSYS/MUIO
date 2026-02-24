@@ -14,6 +14,9 @@ def api_response(success=True, message=None, data=None, error=None, status_code=
     Returns:
         tuple: (flask.Response, int) - A JSON response compatible with Flask's return type.
     """
+    if status_code == 200 and not success:
+        status_code = 400
+
     response = {
         "success": success,
         "message": message,

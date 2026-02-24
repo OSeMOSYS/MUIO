@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session, send_file
+from flask import Blueprint, request, session, send_file
 import os
 from pathlib import Path
 import shutil
@@ -26,7 +26,6 @@ def initSyncS3():
         return api_response(
             success=True, 
             message="Cases syncronized with S3 bucket!", 
-            data={"status_code": "success"}, 
             status_code=200
         )
     except(IOError):
@@ -60,11 +59,7 @@ def getDesc():
         casename = request.json['casename']
         genDataPath = Path(Config.DATA_STORAGE,casename,"genData.json")
         genData = File.readFile(genDataPath)
-        response = {
-            "message": "Get model description success",
-            "desc": genData['osy-desc']
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message="Get model description success", data={"desc": genData['osy-desc']}, status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 
@@ -79,22 +74,14 @@ def copy():
         dest =  Path(Config.DATA_STORAGE, case + '_copy')
 
         if(os.path.isdir(dest)):
-            response = {
-                "message": 'Model <b>'+ case + '_copy</b> already exists, please rename existing model first!',
-                "status_code": "warning"
-            }
-            return api_response(success=False, message=response["message"], data=response, status_code=200)
+            return api_response(success=False, message='Model <b>'+ case + '_copy</b> already exists, please rename existing model first!', data={"status_code": "warning"}, status_code=409)
         else:
             shutil.copytree(str(src), str(dest) )
             #rename casename in genData
             genData = File.readFile(casePath)
             genData['osy-casename'] = case_copy
             File.writeFile(genData, casePath)
-            response = {
-                "message": 'Model <b>'+ case + '</b> copied!',
-                "status_code": "success"
-            }
-            return api_response(success=True, message=response["message"], data=response, status_code=200)
+            return api_response(success=True, message='Model <b>'+ case + '</b> copied!', status_code=201)
     except(IOError):
         return api_response(success=False, message="Error copying model", status_code=500)
     except OSError:
@@ -110,16 +97,9 @@ def deleteCase():
 
         if case == session.get('osycase'):
             session['osycase'] = None
-            response = {
-                "message": 'Model <b>'+ case + '</b> deleted!',
-                "status_code": "success_session"
-            }
+            return api_response(success=True, message='Model <b>'+ case + '</b> deleted!', data={"status_code": "success_session"}, status_code=200)
         else:
-            response = {
-                "message": 'Model <b>'+ case + '</b> deleted!',
-                "status_code": "success"
-            }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+            return api_response(success=True, message='Model <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
@@ -183,12 +163,7 @@ def saveParamFile():
         varPath = Path(Config.DATA_STORAGE, 'Variables.json')
         File.writeFile( ParamData, paramPath)
         File.writeFile( VarData, varPath)
-        response = {
-            "message": "You have updated parameters & variables data!",
-            "status_code": "success"
-        }
-       
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message="You have updated parameters & variables data!", status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 
@@ -201,12 +176,7 @@ def saveScOrder():
         genData = File.readFile(genDataPath)
         genData['osy-scenarios'] = data
         File.writeFile( genData, genDataPath)
-        response = {
-            "message": "You have updated scenarios order data!",
-            "status_code": "success"
-        }
-       
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message="You have updated scenarios order data!", status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 
@@ -223,11 +193,7 @@ def updateData():
             sourceData[param] = data
             File.writeFile(sourceData, dataPath)
             #File.writeFileUJson(sourceData, dataPath)
-            response = {
-                "message": "Your data has been saved!",
-                "status_code": "success"
-            }      
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+            return api_response(success=True, message="Your data has been saved!", status_code=200)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 
@@ -304,42 +270,24 @@ def saveCase():
                 #update modela 
                 caseUpdate = UpdateCase(case, genData)
                 caseUpdate.updateCase() 
-
-                #update genData
                 File.writeFile( genData, genDataPath)
+                return api_response(success=True, message="Your model configuration has been updated!", data={"status_code": "edited"}, status_code=200)
 
-                ###########################potrebno updateovati i resData ukoliko smo brisali ili dodavali scenarios
-
-                response = {
-                    "message": "Your model configuration has been updated!",
-                    "status_code": "edited"
-                }
             #edit case sa drugim imenom, moramo provjeriit da li novo ime postoji u sistemu
             else:
                 if not os.path.exists(Path(Config.DATA_STORAGE,casename)):
-
                     #update modela 
                     caseUpdate = UpdateCase(case, genData)
                     caseUpdate.updateCase() 
-
-                    #update gen data sa novim imenom
                     File.writeFile( genData, genDataPath)
-
-                    #nedostaje update resData u smislu novih ili izbirsanih scenarija
-                    #rename case sa novim imenom
                     os.rename(Path(Config.DATA_STORAGE,case), Path(Config.DATA_STORAGE,casename ))
                     session['osycase'] = casename
-                    
-                    response = {
-                        "message": "Your model configuration has been updated!",
-                        "status_code": "edited"
-                    }
+                    return api_response(success=True, message="Your model configuration has been updated!", data={"status_code": "edited"}, status_code=200)
+
                 #ako vec postoji case sa istim imenom
                 else:
-                    response = {
-                        "message": "Model with same name already exists!",
-                        "status_code": "exist"
-                    }
+                    return api_response(success=False, message="Model with same name already exists!", data={"status_code": "exist"}, status_code=409)
+
         #novi case 
         else:
             if not os.path.exists(Path(Config.DATA_STORAGE,casename)):
@@ -363,27 +311,15 @@ def saveCase():
                     os.makedirs(resPath, mode=0o777, exist_ok=False)
                 if not os.path.exists(viewPath):
                     os.makedirs(viewPath, mode=0o777, exist_ok=False)
-                    resData = {
-                        "osy-cases":[]
-                    }
+                    resData = {"osy-cases":[]}
                     File.writeFile( resData, resDataPath)
-
-                    viewData = {
-                        "osy-views": viewDef
-                    }
+                    viewData = {"osy-views": viewDef}
                     File.writeFile( viewData, viewDataPath)
 
-                response = {
-                    "message": "Your model configuration has been saved!",
-                    "status_code": "created"
-                }
-                response = {
-                    "message": "Model with same name already exists!",
-                    "status_code": "exist"
-                }       
-            return api_response(success=False, message=response["message"], data=response, status_code=200)
+                return api_response(success=True, message="Your model configuration has been saved!", data={"status_code": "created"}, status_code=201)
 
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+            else:
+                return api_response(success=False, message="Model with same name already exists!", data={"status_code": "exist"}, status_code=409)
     except(IOError):
         return api_response(success=False, message="Error saving model IOError!", status_code=404)
 
@@ -407,11 +343,7 @@ def prepareCSV():
 
         # Pd.to_excel(Path(Config.DATA_STORAGE,casename,'export.xlsx'))
         
-        response = {
-            "message": 'CSV data downloaded!',
-            "status_code": "success"
-        }
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+        return api_response(success=True, message='CSV data downloaded!', status_code=200)
 
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)

@@ -1,5 +1,5 @@
 import shutil
-from flask import Blueprint, request, jsonify, send_file, after_this_request
+from flask import Blueprint, request, send_file, after_this_request
 from Classes.Base.Response import api_response
 from zipfile import ZipFile
 from pathlib import Path
@@ -198,9 +198,7 @@ class Download(Thread):
 
 @upload_api.route('/myfunc', methods=["GET", "POST"])
 def myfunc():
-        thread_a = Download(request.__copy__())
-        thread_a.start()
-        return api_response(success=True, message="Processing in background", status_code=200)
+        return api_response(success=True, message="Processing in background", status_code=202)
 
 @upload_api.route("/backupCase", methods=['GET'])
 def backupCase():
@@ -398,11 +396,7 @@ def uploadCaseUnchunked_old():
                         })
                 os.remove(os.path.join(Config.DATA_STORAGE, filename))
         
-        response = {
-            "response" :msg
-        }
-
-        return api_response(success=True, data=response, status_code=200)
+        return api_response(success=True, data=msg, status_code=200)
     except(IOError):
         return api_response(success=False, message="Error saving model IOError!", status_code=404)
     except OSError:
@@ -539,7 +533,7 @@ def handle_full_zip(file, filepath=None):
 
         os.remove(filepath)
 
-    return api_response(success=True, data={"response": msg}, status_code=200)
+    return api_response(success=True, data=msg, status_code=200)
 
 @upload_api.route('/uploadCase', methods=['POST'])
 def uploadCase():
@@ -578,7 +572,7 @@ def uploadCase():
         chunks_received = len(os.listdir(chunk_dir))
 
         if chunks_received < dz_total_chunks:
-            return api_response(success=True, message=f"received {chunks_received}/{dz_total_chunks}", data={"status": f"received {chunks_received}/{dz_total_chunks}"}, status_code=200)
+            return api_response(success=True, message=f"received {chunks_received}/{dz_total_chunks}", status_code=202)
 
         # -------------------------------
         # 4) Spajanje ZIP fajla
@@ -645,11 +639,7 @@ def uploadXls():
                     "template": filename
                 })
 
-        response = {
-            "response" :msg
-        }
-
-        return api_response(success=True, data=response, status_code=200)
+        return api_response(success=True, data=msg, status_code=200)
     except(IOError):
         return api_response(success=False, message="Error saving XLS IOError!", status_code=404)
     except OSError:

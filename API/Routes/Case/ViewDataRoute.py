@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from Classes.Case.OsemosysClass import Osemosys
 from Classes.Base.Response import api_response
 
@@ -56,17 +56,9 @@ def updateViewData():
         if casename != None:
             osy = Osemosys(casename)
             osy.updateViewData(casename, year, ScId, groupId, paramId, TechId, CommId, EmisId, Timeslice, value)
-            response = {
-                "message": "You have updated view data!",
-                "status_code": "success"
-            }
+            return api_response(success=True, message="You have updated view data!", status_code=200)
         else:
-            response = {
-                "message": "No case data selected!",
-                "status_code": "error"
-            }
-       
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+            return api_response(success=False, message="No case data selected!", status_code=400)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
 
@@ -85,16 +77,8 @@ def updateTEViewData():
         if casename != None:
             osy = Osemosys(casename)
             data = osy.updateTEViewData(casename, scId, groupId, paramId, techId, emisId, value)
-            response = {
-                "message": "You have updated view data!",
-                "status_code": "success"
-            }
+            return api_response(success=True, message="You have updated view data!", status_code=200)
         else:
-            response = {
-                "message": "No case data selected!",
-                "status_code": "error"
-            }
-       
-        return api_response(success=True, message=response["message"], data=response, status_code=200)
+            return api_response(success=False, message="No case data selected!", status_code=400)
     except(IOError):
         return api_response(success=False, message="No existing cases!", status_code=404)
