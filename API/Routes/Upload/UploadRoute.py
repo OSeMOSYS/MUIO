@@ -1,5 +1,6 @@
 import shutil
-from flask import Blueprint, request, jsonify, send_file, after_this_request
+from flask import Blueprint, request, send_file, after_this_request
+from Classes.Base.Response import api_response
 from zipfile import ZipFile
 from pathlib import Path
 from werkzeug.utils import secure_filename
@@ -197,9 +198,7 @@ class Download(Thread):
 
 @upload_api.route('/myfunc', methods=["GET", "POST"])
 def myfunc():
-        thread_a = Download(request.__copy__())
-        thread_a.start()
-        return "Processing in background", 200
+        return api_response(success=True, message="Processing in background", status_code=202)
 
 @upload_api.route("/backupCase", methods=['GET'])
 def backupCase():
@@ -239,9 +238,9 @@ def backupCase():
         return send_file(zippedFile.resolve(), as_attachment=True)
 
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during backup", status_code=500)
 
 @upload_api.route('/uploadCaseUnchunked_old', methods=['POST'])
 def uploadCaseUnchunked_old():
@@ -397,15 +396,11 @@ def uploadCaseUnchunked_old():
                         })
                 os.remove(os.path.join(Config.DATA_STORAGE, filename))
         
-        response = {
-            "response" :msg
-        }
-
-        return jsonify(response), 200
+        return api_response(success=True, data=msg, status_code=200)
     except(IOError):
-        raise IOError
+        return api_response(success=False, message="Error saving model IOError!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during upload", status_code=500)
 
 def handle_full_zip(file, filepath=None):
     msg = []
@@ -439,7 +434,7 @@ def handle_full_zip(file, filepath=None):
                     "message": f"ZIP archive {case} is not valid archive!",
                     "status_code": "error"
                 })
-                return jsonify({"response": msg}), 200
+                return api_response(success=False, message=f"ZIP archive {case} is not valid archive!", data={"response": msg}, status_code=200)
 
             #for zippedfile in zf.namelist():
 
@@ -538,7 +533,7 @@ def handle_full_zip(file, filepath=None):
 
         os.remove(filepath)
 
-    return jsonify({"response": msg}), 200
+    return api_response(success=True, data=msg, status_code=200)
 
 @upload_api.route('/uploadCase', methods=['POST'])
 def uploadCase():
@@ -577,7 +572,7 @@ def uploadCase():
         chunks_received = len(os.listdir(chunk_dir))
 
         if chunks_received < dz_total_chunks:
-            return jsonify({"status": f"received {chunks_received}/{dz_total_chunks}"}), 200
+            return api_response(success=True, message=f"received {chunks_received}/{dz_total_chunks}", status_code=202)
 
         # -------------------------------
         # 4) Spajanje ZIP fajla
@@ -605,7 +600,7 @@ def uploadCase():
         return handle_full_zip(None, final_zip) 
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return api_response(success=False, message=str(e), status_code=500)
     
 @upload_api.route('/uploadXls', methods=['POST'])
 def uploadXls():
@@ -644,12 +639,8 @@ def uploadXls():
                     "template": filename
                 })
 
-        response = {
-            "response" :msg
-        }
-
-        return jsonify(response), 200
+        return api_response(success=True, data=msg, status_code=200)
     except(IOError):
-        raise IOError
+        return api_response(success=False, message="Error saving XLS IOError!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during XLS upload", status_code=500)
