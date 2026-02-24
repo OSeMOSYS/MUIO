@@ -180,38 +180,15 @@ def updateTimeslices_OnlyTs(casename):
     RYCTsPath = Path(Config.DATA_STORAGE, casename, 'RYCTs.json')
     RYCTsPath.write_text(RYCTsPath.read_text().replace('Timeslice', 'TsId'))
 ##############################################################Multithreading example#########################3
-class Download(Thread):
-    def __init__(self, request, zippedFile):
-        Thread.__init__(self)
-        self.request = request
-        self.zippedFile = zippedFile
-
-    def run(self):
-        print("wait few seconds for download to finish")
-        time.sleep(20)
-        #print(self.request)
-        #remove zipped file
-        os.remove(self.zippedFile)
-        print("Deletion of zip archive done!")
-
-
-@upload_api.route('/myfunc', methods=["GET", "POST"])
-def myfunc():
-        thread_a = Download(request.__copy__())
-        thread_a.start()
-        return "Processing in background", 200
-
 @upload_api.route("/backupCase", methods=['GET'])
 def backupCase():
-    try:    
-        #case = request.form['case']
-        #case = request.json['casename']
+    try:
         case = request.args.get('case')
 
         casePath = Path('WebAPP', 'DataStorage',case)
         zippedFile = Path('WebAPP', 'DataStorage', case+'.zip')
 
-        '''File system data storage'''
+        """File system data storage"""
         with ZipFile(zippedFile, 'w') as zipObj:
             # Iterate over all the files in directory
             for folderName, subfolders, filenames in os.walk(str(casePath)):
@@ -221,20 +198,17 @@ def backupCase():
                         #create complete filepath of file in directory
                         filePath = os.path.join(folderName, filename)
                         # Add file to zip
-                        zipObj.write(filePath)      
+                        zipObj.write(filePath)
 
-            #osemosys 2.1 backup only input files
-            # for filename in os.listdir(str(casePath)):
-            #     folderName = os.path.join(str(casePath))
-            #     if os.path.isfile(os.path.join(folderName, filename)):
-            #         if filename != 'data.txt':
-            #             #create complete filepath of file in directory
-            #             filePath = os.path.join(folderName, filename)
-            #             # Add file to zip
-            #             zipObj.write(filePath)   
-
-        thread_a = Download(request.__copy__(), zippedFile)
-        thread_a.start()
+        # Register cleanup to run after response is sent to client
+        @after_this_request
+        def cleanup(response):
+            try:
+                if os.path.exists(zippedFile):
+                    os.remove(zippedFile)
+            except OSError:
+                pass
+            return response
 
         return send_file(zippedFile.resolve(), as_attachment=True)
 
