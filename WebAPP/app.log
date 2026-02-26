@@ -1,1 +1,11 @@
-2026-02-26 20:59:02,066 [waitress] INFO: Serving on http://127.0.0.1:5002
+2026-02-26 21:32:03,153 [waitress] INFO: Serving on http://127.0.0.1:5002
+2026-02-26 21:32:16,240 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-02-26 21:32:16,240 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo -- caserun -- REF --!
+2026-02-26 21:32:16,516 [Classes.Case.DataFileClass] INFO: Preprocessing case REF
+2026-02-26 21:32:16,524 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.2810959815979004 seconds --- REF
+2026-02-26 21:32:17,131 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.8872816562652588 seconds --- REF
+2026-02-26 21:32:20,480 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 4.236957788467407 seconds --- REF
+2026-02-26 21:32:21,191 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.947353839874268 seconds --- REF
+2026-02-26 21:32:22,653 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 6.409740447998047 seconds --- REF
+2026-02-26 21:32:22,653 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 6.409740447998047 seconds --- REF
+2026-02-26 21:32:22,653 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo -- caserun -- REF --!
