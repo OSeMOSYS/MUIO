@@ -2,7 +2,7 @@
 import os
 import sys
 
-from flask import Flask, jsonify, request, session, render_template
+from flask import Flask, Response, jsonify, request, session, render_template
 from flask_cors import CORS
 from datetime import timedelta
 # from pathlib import Path
@@ -16,28 +16,75 @@ from Routes.Case.SyncS3Route import syncs3_api
 from Routes.Case.ViewDataRoute import viewdata_api
 from Routes.DataFile.DataFileRoute import datafile_api
 
+import logging
+import warnings
+from logging.handlers import TimedRotatingFileHandler, QueueHandler
+from queue import Queue, Empty
+
+from threading import Event
+
 #RADI
 template_dir = os.path.abspath('WebAPP')
 static_dir = os.path.abspath('WebAPP')
 
-# template_dir = Config.WebAPP_PATH.resolve()
-# static_dir = Config.WebAPP_PATH.resolve()
 
-# template_dir = os.path.join(sys._MEIPASS, 'WebAPP') 
-# static_dir = os.path.join(sys._MEIPASS, 'WebAPP') 
+# ========================= DELETE LOG FILE ON START =========================
+logfile =  os.path.join(static_dir, "app.log")
 
-#gets absolute path
-# template_dir = Path('WebAPP').resolve()
-# static_dir = Path('../WebAPP').resolve()
+if os.path.exists(logfile):
+    try:
+        os.remove(logfile)
+    except PermissionError:
+        pass
 
-# template_dir = 'WebAPP'
-# static_dir = '../WebAPP'
 
-print(template_dir)
-print(static_dir)
-print(sys.executable)
+# ============= File + Console Logger ============
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-print(__name__)
+fmt = logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s")
+
+# file (daily rotation, keep 7 days)
+fh = TimedRotatingFileHandler(
+    logfile, when="midnight", interval=1, backupCount=7, encoding="utf-8"
+)
+fh.setFormatter(fmt)
+logger.addHandler(fh)
+
+# console
+ch = logging.StreamHandler()
+ch.setFormatter(fmt)
+logger.addHandler(ch)
+
+
+
+# ============= Capture warnings (Pandas etc.) ============
+logging.captureWarnings(True)
+warnings.simplefilter("default")  # show all FutureWarning, DeprecationWarning...
+
+# ============= Flask / Werkzeug ============
+# logging.getLogger("werkzeug").setLevel(logging.INFO)
+# logging.getLogger("werkzeug").propagate = True
+
+# logging.getLogger("flask.app").setLevel(logging.INFO)
+# logging.getLogger("flask.app").propagate = True
+
+# ============= Capture unhandled exceptions ============
+def log_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+    logger.error("UNCAUGHT EXCEPTION", exc_info=(exc_type, exc_value, exc_traceback))
+
+sys.excepthook = log_exception
+
+# OPTIONAL: capture stdout and stderr
+# sys.stdout = open("app.log", "a", encoding="utf-8")
+# sys.stderr = open("app.log", "a", encoding="utf-8")
+
+# ============= end logger             ============
+
+
 
 app = Flask(__name__, static_url_path='', static_folder=static_dir,  template_folder=template_dir)
 
@@ -86,7 +133,6 @@ def home():
     #     syncS3.downloadSync('Parameters.json', Config.DATA_STORAGE, Config.S3_BUCKET)
     return render_template('index.html')
 
-
 @app.route("/getSession", methods=['GET'])
 def getSession():
     try:
@@ -117,14 +163,9 @@ if __name__ == '__main__':
     import mimetypes
     mimetypes.add_type('application/javascript', '.js')
     port = int(os.environ.get("PORT", 5002))
-    print("PORTTTTTTTTTTT")
     if Config.HEROKU_DEPLOY == 0: 
-        #localhost
-        #app.run(host='127.0.0.1', port=port, debug=True)
-        #waitress server
-        #prod server
         from waitress import serve
-        serve(app, host='127.0.0.1', port=port)
+        serve(app, host='127.0.0.1', port=port,  threads=8)
     else:
         #HEROKU
         app.run(host='0.0.0.0', port=port, debug=True)

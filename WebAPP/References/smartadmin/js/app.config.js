@@ -29,6 +29,10 @@
  * GLOBAL ROOT (DO NOT CHANGE)
  */
 	$.root_ = $('body');	
+
+/* turn off SmartAdmin layout */
+window.SA_IGNORE_CSS = true;
+
 /*
  * APP CONFIGURATION (HTML/AJAX/PHP Versions ONLY)
  * Description: Enable / disable certain theme features here

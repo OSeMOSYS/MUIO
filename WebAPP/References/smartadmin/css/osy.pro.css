@@ -1,0 +1,279 @@
+/* ============================================================
+   MUIO MODERN THEME (FLUENT 2026)
+   kompatibilno sa svim originalnim osy klasama
+   NE mijenjati HTML, CSS radi kao override
+   mora biti učitan POSLJEDNJI u <head>
+============================================================ */
+
+/* ---------- Colors & Tokens ---------- */
+:root {
+  --primary:#245c58;
+  --primary-light:#3d7772;
+  --primary-dark:#1a3f3c;
+
+  --accent:#e8b84a;
+  --accent-dark:#d19e28;
+
+  --bg:#f5f6f8;
+  --surface:#ffffff;
+
+  --text:#1d2423;
+  --text-light:#5b6765;
+
+  --border:#e2e5ea;
+
+  --radius-sm:6px;
+  --radius-md:12px;
+  --radius-lg:16px;
+
+  --shadow-sm:0 2px 5px rgba(0,0,0,.05);
+  --shadow-md:0 6px 18px rgba(0,0,0,.08);
+  --shadow-lg:0 14px 32px rgba(0,0,0,.12);
+
+  --ring:0 0 0 3px rgba(36,92,88,.25);
+}
+
+/* ---------- Base UI ---------- */
+html, body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: "Inter","Segoe UI",system-ui,-apple-system,sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- SIDEBAR ---------- */
+#left-panel {
+  background: var(--primary-dark) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.smart-style-4 nav ul li > a {
+  background: transparent !important;
+  color: #e9f2f1 !important;
+  padding: 10px 22px !important;
+  border-left: 3px solid transparent !important;
+  transition: 0.25s ease;
+  font-size: 14px !important;
+}
+
+.smart-style-4 nav ul li > a:hover {
+  background: rgba(255,255,255,.06) !important;
+}
+
+.smart-style-4 nav ul li.active > a,
+.smart-style-4 nav ul li.open > a {
+  background: rgba(255,255,255,.14) !important;
+  border-left-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* ---------- HEADER / TOPBAR ---------- */
+#header {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  height: 58px;
+}
+
+#header .btn-header a {
+  color: var(--text) !important;
+}
+
+#header .btn-header a:hover {
+  background: rgba(36,92,88,.10) !important;
+}
+
+/* ---------- PANELS (.panel, .jarviswidget) ---------- */
+.panel, .panel-default, .jarviswidget {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+}
+
+.panel-heading, .jarviswidget > header {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  padding: 14px 18px !important;
+  font-weight: 600 !important;
+  transition: .25s ease;
+}
+
+.panel-heading:hover,
+.jarviswidget > header:hover {
+  background: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.panel-body,
+.jarviswidget .widget-body {
+  padding: 16px 20px !important;
+}
+
+/* ---------- BUTTONS (koristimo tvoje klase) ---------- */
+.btn,
+.btn-osy,
+.btn-osy-green {
+  border-radius: var(--radius-sm) !important;
+  padding: 8px 16px !important;
+  font-weight: 600 !important;
+  transition: .25s ease;
+}
+
+.btn-osy,
+.btn-primary {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: var(--primary-dark) !important;
+}
+.btn-osy:hover,
+.btn-primary:hover {
+  background: var(--primary-dark) !important;
+}
+
+.btn-osy-green {
+  background: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+}
+.btn-osy-green:hover {
+  background: var(--primary) !important;
+}
+
+.btn-osy-red {
+  background: #d9534f !important;
+  border-color: #b44441 !important;
+}
+
+/* ---------- FORMS (compatible with smart-form) ---------- */
+.smart-form .input input,
+.smart-form .textarea textarea,
+input[type="text"], input[type="number"], select {
+  background: #fff !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 10px !important;
+  transition: .2s ease;
+}
+
+.smart-form .input input:focus,
+.smart-form .textarea textarea:focus,
+input:focus, select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: var(--ring) !important;
+}
+
+/* ---------- TABLES ---------- */
+.table {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+}
+
+.table > thead > tr > th {
+  background: #f0f2f4 !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 12px !important;
+}
+
+.table > tbody > tr > td {
+  border-top: 1px solid var(--border) !important;
+  padding: 12px !important;
+}
+
+.table-hover > tbody > tr:hover > td {
+  background: #f6faf9 !important;
+}
+
+/* ---------- ALERTS ---------- */
+.alert {
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 16px !important;
+  border: 1px solid transparent !important;
+  font-weight: 500 !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- SCENARIO COLORS (SC_1...SC_10) ---------- */
+.SC_1 { background:#ffe9e9 !important; }
+.SC_2 { background:#eaffe9 !important; }
+.SC_3 { background:#e9f0ff !important; }
+.SC_4 { background:#fffce6 !important; }
+.SC_5 { background:#f4e9ff !important; }
+.SC_6 { background:#e6fbff !important; }
+.SC_7 { background:#f9ffe6 !important; }
+.SC_8 { background:#ffeff8 !important; }
+.SC_9 { background:#e7ffff !important; }
+.SC_10{ background:#f4f4f7 !important; }
+
+/* ---------- JQX GRID ---------- */
+.jqx-grid-header,
+.jqx-widget-header {
+  background:#f3f6f6 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.jqx-grid-cell {
+  color:var(--text) !important;
+  border-color:var(--border) !important;
+}
+
+.jqx-grid-cell:hover {
+  background:#f1f9f8 !important;
+}
+
+.jqx-grid-cell-selected {
+  background:rgba(36,92,88,.12) !important;
+}
+
+/* ---------- WIJMO ---------- */
+.wj-state-selected {
+  background: rgba(36,92,88,.14) !important;
+  color: var(--text) !important;
+}
+
+.wj-control .wj-input-group .wj-form-control {
+  border-radius: var(--radius-sm) !important;
+  border-color: var(--border) !important;
+}
+
+/* ---------- DROPDOWN ---------- */
+.dropdown-menu {
+  border-radius: var(--radius-md) !important;
+  border:1px solid var(--border) !important;
+  box-shadow: var(--shadow-md);
+  padding: 10px 0 !important;
+}
+
+.dropdown-menu > li > a {
+  padding: 10px 16px !important;
+  color: var(--text) !important;
+}
+
+.dropdown-menu > li > a:hover {
+  background: #eef5f4 !important;
+}
+
+/* ---------- LOADER ---------- */
+#loadermain {
+  background: rgba(255,255,255,.8) !important;
+}
+
+.loader {
+  border: 10px solid #e0e5e5 !important;
+  border-top:10px solid var(--primary) !important;
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+}
+
+/* ---------- MERMAID ---------- */
+svg[id^="mermaid-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}

@@ -1,3 +1,15 @@
+<h3>MUIO ver.5.5.0, <small>20260228</small></h3>
+<ol style="font-style: italic; font-weight: normal;">
+
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;User toggled scenario checkbox selection — all scenarios set to: [checked/un-checked].</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Model cleanup mechanism improved to remove corrupted/invalid data and restore consistent analysis state.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Persisted view definition during cleanup to maintain user‑defined visualization settings.</li>
+    <li><kbd style="font-weight: bold; background-color:#6FB3E0">Func</kbd>&nbsp;Added on‑demand model file viewer in a modal window (syntax highlighting + lazy loading).</li>
+    <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Restructured Python solver runner for clearer stages (preprocess → LP → solve → postprocess) and stronger error handling.</li>
+    <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Unified cross‑platform solver handling: detects bundled GLPK/CBC (Win/macOS/Linux) and falls back to system solvers when needed.</li>
+    <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Improved backend logging: automatic creation of clean <code>app.log</code> for diagnostics.</li>
+    <li><kbd style="font-weight: bold; background-color:#ffcc00">Bug</kbd>&nbsp;Fixed the dynamic unit‑assignment script that resolves units based on Technology–Commodity rules, ensuring variables now receive correct units automatically.</li>
+</ol>
 
 <h3>MUIO ver.5.4.0, <small>20260131</small></h3>
 <ol style="font-style: italic; font-weight: normal;">

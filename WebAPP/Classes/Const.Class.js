@@ -65,8 +65,13 @@ export const PARAM_EMIS_GROUPS = ['RE', 'RYE', 'RYTE', 'RYTEM']
 export const PARAM_STORAGE_GROUPS = ['RS', 'RYS', 'RTSM', 'RYTEM']
 
 export const VAR_TECH_GROUPS = ['RT', 'RYT', 'RYTM', 'RYTC', 'RYTE', 'RYTEM', 'RYTMTs', 'RYTCMTs']
+//export const VAR_TECH_GROUPS = ['RT', 'RYT', 'RYTM', 'RYTMTs']
+//export const VAR_TECH_COM_GROUPS = ['RYTC','RYTCMTs']
+
 export const VAR_COMM_GROUPS = ['RYTC','RYCTs','RYTCMTs']
+//export const VAR_COMM_GROUPS = ['RYCTs']
 export const VAR_EMIS_GROUPS = ['RYTE', 'RYTEM']
+
 export const VAR_STORAGE_GROUPS = ['RYS']
 
 export const GROUPNAMES = {
