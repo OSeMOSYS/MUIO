@@ -9,6 +9,14 @@
     <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Unified cross‑platform solver handling: detects bundled GLPK/CBC (Win/macOS/Linux) and falls back to system solvers when needed.</li>
     <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Improved backend logging: automatic creation of clean <code>app.log</code> for diagnostics.</li>
     <li><kbd style="font-weight: bold; background-color:#ffcc00">Bug</kbd>&nbsp;Fixed the dynamic unit‑assignment script that resolves units based on Technology–Commodity rules, ensuring variables now receive correct units automatically.</li>
+        <li><kbd style="font-weight: bold; background-color:#33cc33">Tech</kbd>&nbsp;Electron startup guard: the app now waits for the backend server to be reachable before showing the UI (async fetch with 30× retries @ 500&nbsp;ms). 
+            <ul>
+                <li>Prevents “blank window / server not up yet” race;</li>
+                <li>Logs version line at startup;</li>
+                <li>Retry behavior configurable via environment (e.g., <code>MUIO_SERVER_URL</code>, <code>MUIO_SERVER_RETRIES</code>, <code>MUIO_SERVER_DELAY_MS</code>).</li>
+            </ul>
+            
+</li>
 </ol>
 
 <h3>MUIO ver.5.4.0, <small>20260131</small></h3>

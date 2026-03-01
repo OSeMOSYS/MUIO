@@ -21,7 +21,7 @@ export class Model {
         let varNames = DataModelResult.AllVarName(VARIABLES);
 
         console.log('unitsDef ', unitsDef)
-        console.log('PARAMETERS[group] ', PARAMETERS['RYS'])
+        console.log('VARIABLES ', VARIABLES)
 
         let gridParamData = []
         $.each(PARAMORDER, function (id, group) {   
@@ -95,6 +95,8 @@ export class Model {
                 gridVarData.push(tmp);
             });
         });
+
+        console.log('gridVarData ', gridVarData)
 
         var cellsrendererbuttonVar = function (row, column, value) { 
             return '<span style="padding:5px; width:100%;" data-toggle="modal" href="#osy-unitRule" class="btn btn-white btn-default updateVarRule" data-id='+ row+' ><i class="fa fa-pencil-square-o fa-lg success"></i>Update rule</span>';

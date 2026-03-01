@@ -101,6 +101,7 @@ export const GROUPNAMES = {
 }
 
 export const RESULTGROUPNAMES = {
+    "R"    :"Region",
     "RT"    :"Region, technology",
     "RYT"    :"Region, year, technology",
     "RYE"    :"Region, year, emission",
