@@ -17,10 +17,10 @@ class Osemosys():
 
         self.resultsPath = self.casePath / 'res'
         self.viewFolderPath = self.casePath / 'view'
-        #self.resDataPath = self.viewFolderPath / 'resData.json'
+        self.resDataPath = self.viewFolderPath / 'resData.json'
 
         self.genData =  File.readFile(self.casePath / 'genData.json')
-        self.resData = File.readFile(self.viewFolderPath / 'resData.json')
+        self.resData = File.readFile(self.resDataPath)
         
         #Case.__init__(self, case)
 

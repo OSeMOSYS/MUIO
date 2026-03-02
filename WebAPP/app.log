@@ -1,1 +1,31 @@
-2026-03-01 16:23:52,387 [waitress] INFO: Serving on http://127.0.0.1:5002
+2026-03-02 21:43:07,196 [waitress] INFO: Serving on http://127.0.0.1:5002
+2026-03-02 21:43:30,569 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-03-02 21:43:30,569 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:43:30,701 [Classes.Case.DataFileClass] INFO: Preprocessing case test
+2026-03-02 21:43:30,706 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.13467979431152344 seconds --- test
+2026-03-02 21:43:31,392 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.8204021453857422 seconds --- test
+2026-03-02 21:43:33,838 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.266771078109741 seconds --- test
+2026-03-02 21:43:34,560 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 3.9884092807769775 seconds --- test
+2026-03-02 21:43:35,553 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 4.982082366943359 seconds --- test
+2026-03-02 21:43:35,554 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 4.983053207397461 seconds --- test
+2026-03-02 21:43:35,554 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:44:17,000 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-03-02 21:44:17,002 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:44:17,197 [Classes.Case.DataFileClass] INFO: Preprocessing case test
+2026-03-02 21:44:17,201 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.19699501991271973 seconds --- test
+2026-03-02 21:44:17,739 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.7350296974182129 seconds --- test
+2026-03-02 21:44:20,205 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.2008681297302246 seconds --- test
+2026-03-02 21:44:20,826 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 3.8218345642089844 seconds --- test
+2026-03-02 21:44:21,708 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 4.703935146331787 seconds --- test
+2026-03-02 21:44:21,708 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 4.703935146331787 seconds --- test
+2026-03-02 21:44:21,708 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:44:41,932 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-03-02 21:44:41,932 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:44:42,105 [Classes.Case.DataFileClass] INFO: Preprocessing case test
+2026-03-02 21:44:42,109 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.1748499870300293 seconds --- test
+2026-03-02 21:44:42,620 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.6857664585113525 seconds --- test
+2026-03-02 21:44:45,051 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.11704421043396 seconds --- test
+2026-03-02 21:44:45,666 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 3.731963872909546 seconds --- test
+2026-03-02 21:44:46,556 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 4.621837139129639 seconds --- test
+2026-03-02 21:44:46,556 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 4.621837139129639 seconds --- test
+2026-03-02 21:44:46,557 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- test --!

@@ -802,12 +802,13 @@ class DataFile(Osemosys):
             if not os.path.exists(caseRunPath):
                 os.makedirs(caseRunPath)
                 os.makedirs(csvPath)
-                if not os.path.exists(self.resData):
-                    File.writeFile( data, self.resData)
+                if not os.path.exists(self.resDataPath):
+                    File.writeFile( data, self.resDataPath)
                 else:
-                    resData = File.readFile(self.resData)
-                    resData['osy-cases'].append(data)
-                    File.writeFile( resData, self.resData)
+                    # resData smo vec ucitali u data varijablu u CaseControlleru pa nema potrebe ponovo citati iz filea
+                    #resData = File.readFile(self.resData)
+                    self.resData['osy-cases'].append(data)
+                    File.writeFile( self.resData, self.resDataPath)
                 response = {
                     "message": "You have created a case run!",
                     "status_code": "success"
@@ -827,8 +828,8 @@ class DataFile(Osemosys):
 
     def deleteScenarioCaseRuns(self, scenarioId):
         try:
-            resData = File.readFile(self.resData)
-            cases = resData['osy-cases']
+            #resData = File.readFile(self.resDataPath)
+            cases = self.resData['osy-cases']
 
             for cs in cases:
                 for sc in cs['Scenarios']:
@@ -836,7 +837,7 @@ class DataFile(Osemosys):
                         cs['Scenarios'].remove(sc)
 
 
-            File.writeFile(resData, self.resData)
+            File.writeFile(self.resData, self.resDataPath   )
             response = {
                 "message": "You have deleted scenario from caseruns!",
                 "status_code": "success"
@@ -863,14 +864,14 @@ class DataFile(Osemosys):
                 if not os.path.exists(csvPath):
                     os.makedirs(csvPath)
 
-                resData = File.readFile(self.resData)
+                #resData = File.readFile(self.resData)
 
-                resdata = resData['osy-cases']
+                resdata = self.resData['osy-cases']
                 for i, case in enumerate(resdata):
                     if case['Case'] == oldcaserunname:
-                        resData['osy-cases'][i] = data
+                        self.resData['osy-cases'][i] = data
 
-                File.writeFile( resData, self.resData)
+                File.writeFile( self.resData, self.resDataPath)
                 response = {
                     "message": "You have updated a case run!",
                     "status_code": "success"
@@ -879,14 +880,14 @@ class DataFile(Osemosys):
                 if not os.path.exists(csvPath):
                     os.makedirs(csvPath)
 
-                resData = File.readFile(self.resData)
+                #resData = File.readFile(self.resData)
 
-                resdata = resData['osy-cases']
+                resdata = self.resData['osy-cases']
                 for i, case in enumerate(resdata):
                     if case['Case'] == oldcaserunname:
-                        resData['osy-cases'][i] = data
+                        self.resData['osy-cases'][i] = data
 
-                File.writeFile( resData, self.resData)
+                File.writeFile( self.resData, self.resDataPath)
                 response = {
                     "message": "You have updated a case run!",
                     "status_code": "success"
@@ -959,11 +960,11 @@ class DataFile(Osemosys):
             ##################VIEW folder
             #  update resData.json folder
             if not resultsOnly:
-                resData = File.readFile(self.resData)
-                for obj in resData['osy-cases']:
+                #resData = File.readFile(self.resData)
+                for obj in self.resData['osy-cases']:
                     if obj['Case'] == caserunname:
-                        resData['osy-cases'].remove(obj)
-                File.writeFile( resData, self.resData)
+                        self.resData['osy-cases'].remove(obj)
+                File.writeFile( self.resData, self.resDataPath )
 
             # - update .json files by removing caserun
             for group, array in self.VARIABLES.items():
