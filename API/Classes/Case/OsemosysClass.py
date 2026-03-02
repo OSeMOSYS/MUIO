@@ -1,78 +1,75 @@
+import os
 from pathlib import Path
 import platform
+import shutil
 from Classes.Base import Config
 from Classes.Base.FileClass import File
 
 class Osemosys():
     def __init__(self, case):
         self.case = case
-        self.PARAMETERS = File.readParamFile(Path(Config.DATA_STORAGE, 'Parameters.json'))
-        self.VARIABLES = File.readParamFile(Path(Config.DATA_STORAGE, 'Variables.json'))
-        self.genData =  File.readFile(Path(Config.DATA_STORAGE,case,'genData.json'))
-        self.resData = File.readFile( Path(Config.DATA_STORAGE, case,'view', 'resData.json'))
+        self.storagePath = Path(Config.DATA_STORAGE)
+        self.casePath = self.storagePath / case
+
+        self.PARAMETERS = File.readParamFile(self.storagePath / 'Parameters.json')
+        self.VARIABLES = File.readParamFile(self.storagePath / 'Variables.json')
+
+
+        self.resultsPath = self.casePath / 'res'
+        self.viewFolderPath = self.casePath / 'view'
+        #self.resDataPath = self.viewFolderPath / 'resData.json'
+
+        self.genData =  File.readFile(self.casePath / 'genData.json')
+        self.resData = File.readFile(self.viewFolderPath / 'resData.json')
         
         #Case.__init__(self, case)
-        self.casePath = Path(Config.DATA_STORAGE,case)
+
         self.zipPath = Path(Config.DATA_STORAGE,case+'.zip')
 
-        #self.genData = Path(Config.DATA_STORAGE,case,'genData.json')
+        self.rPath = self.casePath / 'R.json'
+        self.ryPath = self.casePath / 'RY.json'
+        self.rtPath = self.casePath / 'RT.json'
+        self.rePath = self.casePath / 'RE.json'
+        self.rsPath = self.casePath / 'RS.json'
+        self.rycnPath = self.casePath / 'RYCn.json'
+        self.rytPath = self.casePath / 'RYT.json'
+        self.rysPath = self.casePath / 'RYS.json'
+        self.rytcnPath = self.casePath / 'RYTCn.json'
+        self.rytmPath = self.casePath / 'RYTM.json'
+        self.rytcPath = self.casePath / 'RYTC.json'
+        self.rytcmPath = self.casePath / 'RYTCM.json'
+        self.rytsmPath = self.casePath / 'RYTSM.json'
+        self.rtsmPath = self.casePath / 'RTSM.json'
+        self.rytsPath = self.casePath / 'RYTs.json'
+        self.rydtbPath = self.casePath / 'RYDtb.json'
+        self.rysedtPath = self.casePath / 'RYSeDt.json'
+        self.rycPath = self.casePath / 'RYC.json'
+        self.ryePath = self.casePath / 'RYE.json'
+        self.ryttsPath = self.casePath / 'RYTTs.json'
+        self.ryctsPath = self.casePath / 'RYCTs.json'
+        self.rytePath = self.casePath / 'RYTE.json'
+        self.rytemPath = self.casePath / 'RYTEM.json'
 
-        self.rPath = Path(Config.DATA_STORAGE,case,'R.json')
-        self.ryPath = Path(Config.DATA_STORAGE,case,'RY.json')
-        self.rtPath = Path(Config.DATA_STORAGE,case,'RT.json')
-        self.rePath = Path(Config.DATA_STORAGE,case,'RE.json')
-        self.rsPath = Path(Config.DATA_STORAGE,case,'RS.json')
-        self.rycnPath = Path(Config.DATA_STORAGE,case,'RYCn.json')
-        self.rytPath = Path(Config.DATA_STORAGE,case,'RYT.json')
-        self.rysPath = Path(Config.DATA_STORAGE,case,'RYS.json')
-        self.rytcnPath = Path(Config.DATA_STORAGE,case,'RYTCn.json')
-        self.rytmPath = Path(Config.DATA_STORAGE,case,'RYTM.json')
-        self.rytcPath = Path(Config.DATA_STORAGE,case,'RYTC.json')
-        self.rytcmPath = Path(Config.DATA_STORAGE,case,'RYTCM.json')
-        self.rytsmPath = Path(Config.DATA_STORAGE,case,'RYTSM.json')
-        self.rtsmPath = Path(Config.DATA_STORAGE,case,'RTSM.json')
-        self.rytsPath = Path(Config.DATA_STORAGE,case,'RYTs.json')
-        self.rydtbPath = Path(Config.DATA_STORAGE,case,'RYDtb.json')
-        self.rysedtPath = Path(Config.DATA_STORAGE,case,'RYSeDt.json')
-        self.rycPath = Path(Config.DATA_STORAGE,case,'RYC.json')
-        self.ryePath = Path(Config.DATA_STORAGE,case,'RYE.json')
-        self.ryttsPath = Path(Config.DATA_STORAGE,case,'RYTTs.json')
-        self.ryctsPath = Path(Config.DATA_STORAGE,case,'RYCTs.json')
-        self.rytePath = Path(Config.DATA_STORAGE,case,'RYTE.json')
-        self.rytemPath = Path(Config.DATA_STORAGE,case,'RYTEM.json')
-
-        
         self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.4.txt') 
         self.osemosysFileOriginal = Path(Config.SOLVERs_FOLDER,'osemosys.txt')
-        
+
         if platform.system() == 'Windows':
-            #self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk-4.65', 'w64')
-            # self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.7.5-win64-intel11.1', 'bin')
             self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK')
-            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR')
-        
-            #self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.10-win64-msvc16-md', 'bin')
-
-            #Cbc-master-win64-msvc16-mt
-            #self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-master-win64-msvc16-md', 'bin')
-
+            self.cbcFolder  = Path(Config.SOLVERs_FOLDER, 'COIN-OR')
+            glpsol_name = "glpsol.exe"
+            cbc_name    = "cbc.exe"
         else:
-            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK','glpk-4.65', 'w64')
-            self.cbcFolder = Path(Config.SOLVERs_FOLDER,'COIN-OR', 'Cbc-2.10-osx10.15-x86_64-gcc9', 'bin')
-
-        self.resultsPath = Path(Config.DATA_STORAGE,case,'res')
-        self.viewFolderPath = Path(Config.DATA_STORAGE,case,'view')
+            # macOS i Linux
+            self.glpkFolder = Path(Config.SOLVERs_FOLDER, 'GLPK')
+            self.cbcFolder  = Path(Config.SOLVERs_FOLDER, 'COIN-OR')
+            glpsol_name = "glpsol"
+            cbc_name    = "cbc"
         
-        self.resDataPath = Path(Config.DATA_STORAGE,case,'view', 'resData.json')
+        self.glpsol_path, self.glpsol_is_bundled = self._resolve_solver_executable(self.glpkFolder, glpsol_name, platform.system())
+        self.cbc_path,    self.cbc_is_bundled    = self._resolve_solver_executable(self.cbcFolder,  cbc_name, platform.system())
 
-        # self.resPath = Path(Config.DATA_STORAGE,case,'res', 'csv')
-        
-        #self.dataFile = Path(Config.DATA_STORAGE,case, 'res','data.txt')
-        # self.resFile = Path(Config.DATA_STORAGE,case, 'res','results.txt')
-        # self.lpFile = Path(Config.DATA_STORAGE,case, 'res','lp.lp')
-        # self.resCBCPath = Path('..', '..', '..', '..', 'WebAPP', 'DataStorage', case, 'res')
-        # self.resPath = Path('..', '..', '..', '..', 'WebAPP', 'DataStorage', case, 'res', 'csv')
 
+        #
         d = {}
         for k, l in self.PARAMETERS.items():
             tmp = {}
@@ -86,6 +83,37 @@ class Osemosys():
             for de in l:
                 a.append(de['name'])
         self.VARS = a
+
+    def _resolve_solver_executable(self, folder: Path, exe_name: str, system: str):
+        # 1) Bundled
+        candidate = folder / exe_name
+        if candidate.exists():
+            if system != "Windows":
+                os.chmod(candidate, os.stat(candidate).st_mode | 0o111)
+            return str(candidate.resolve()), True  # <--- solver je bundlan
+
+        # 2) PATH
+        which = shutil.which(exe_name)
+        if which:
+            return which, False  # <--- koristi sistemski solver
+
+        # 3) macOS standard locations
+        if system == "Darwin":
+            for p in ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"]:
+                test = Path(p) / exe_name
+                if test.exists():
+                    return str(test), False
+
+        # 4) Linux standard locations
+        if system == "Linux":
+            for p in ["/usr/bin", "/usr/local/bin", "/bin", "/snap/bin"]:
+                test = Path(p) / exe_name
+                if test.exists():
+                    return str(test), False
+
+        raise FileNotFoundError(f"Solver not found: {exe_name}")
+
+
 
     def getParamDefaultValues(self):
         d = {}
@@ -127,14 +155,12 @@ class Osemosys():
         tsIds = [ ts['Ts'] for ts in self.genData["osy-ts"]]
         return tsIds    
 
-
     def getMods(self):
         mo = int(self.genData['osy-mo'])+1
         mods = []
         for m in range(1, mo):
             mods.append(m)
         return mods 
-
 
     def getTechIds(self):
         techIds = [ tech['TechId'] for tech in self.genData["osy-tech"]]

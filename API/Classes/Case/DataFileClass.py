@@ -1,9 +1,14 @@
 from pathlib import Path
 import pandas as pd
 import traceback
+import logging
 import json, shutil, os, time, subprocess
 from collections import defaultdict
 from itertools import product
+
+from werkzeug import Response
+
+logger = logging.getLogger(__name__)
 
 from Classes.Base import Config
 from Classes.Case.OsemosysClass import Osemosys
@@ -792,17 +797,17 @@ class DataFile(Osemosys):
         try:
             caseRunPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname)
             csvPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname, 'csv')
-            resDataPath = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
+            #resData = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
 
             if not os.path.exists(caseRunPath):
                 os.makedirs(caseRunPath)
                 os.makedirs(csvPath)
-                if not os.path.exists(resDataPath):
-                    File.writeFile( data, resDataPath)
+                if not os.path.exists(self.resData):
+                    File.writeFile( data, self.resData)
                 else:
-                    resData = File.readFile(resDataPath)
+                    resData = File.readFile(self.resData)
                     resData['osy-cases'].append(data)
-                    File.writeFile( resData, resDataPath)
+                    File.writeFile( resData, self.resData)
                 response = {
                     "message": "You have created a case run!",
                     "status_code": "success"
@@ -822,7 +827,7 @@ class DataFile(Osemosys):
 
     def deleteScenarioCaseRuns(self, scenarioId):
         try:
-            resData = File.readFile(self.resDataPath)
+            resData = File.readFile(self.resData)
             cases = resData['osy-cases']
 
             for cs in cases:
@@ -831,7 +836,7 @@ class DataFile(Osemosys):
                         cs['Scenarios'].remove(sc)
 
 
-            File.writeFile(resData, self.resDataPath)
+            File.writeFile(resData, self.resData)
             response = {
                 "message": "You have deleted scenario from caseruns!",
                 "status_code": "success"
@@ -850,7 +855,7 @@ class DataFile(Osemosys):
             caseRunPath = Path(Config.DATA_STORAGE,self.case,'res', oldcaserunname)
             newcaseRunPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname)
             csvPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname, 'csv')
-            resDataPath = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
+            #self.resData = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
 
             if not os.path.exists(newcaseRunPath):
                 os.rename(caseRunPath, newcaseRunPath)
@@ -858,14 +863,14 @@ class DataFile(Osemosys):
                 if not os.path.exists(csvPath):
                     os.makedirs(csvPath)
 
-                resData = File.readFile(resDataPath)
+                resData = File.readFile(self.resData)
 
                 resdata = resData['osy-cases']
                 for i, case in enumerate(resdata):
                     if case['Case'] == oldcaserunname:
                         resData['osy-cases'][i] = data
 
-                File.writeFile( resData, resDataPath)
+                File.writeFile( resData, self.resData)
                 response = {
                     "message": "You have updated a case run!",
                     "status_code": "success"
@@ -874,14 +879,14 @@ class DataFile(Osemosys):
                 if not os.path.exists(csvPath):
                     os.makedirs(csvPath)
 
-                resData = File.readFile(resDataPath)
+                resData = File.readFile(self.resData)
 
                 resdata = resData['osy-cases']
                 for i, case in enumerate(resdata):
                     if case['Case'] == oldcaserunname:
                         resData['osy-cases'][i] = data
 
-                File.writeFile( resData, resDataPath)
+                File.writeFile( resData, self.resData)
                 response = {
                     "message": "You have updated a case run!",
                     "status_code": "success"
@@ -924,19 +929,43 @@ class DataFile(Osemosys):
     def deleteCaseRun(self, caserunname, resultsOnly):
         try:
             #caseRunPath = Path(Config.DATA_STORAGE,self.case,'res', caserunname)
-            #resDataPath = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
+            #self.resData = Path(Config.DATA_STORAGE,self.case,'view', 'resData.json')
 
-
+            ################## RES folder
+            casePath = Path(self.resultsPath, caserunname)
             if not resultsOnly:
-                resData = File.readFile(self.resDataPath)
+                shutil.rmtree(casePath)
+            else:
+                for item in os.listdir(casePath):
+                    item_path = os.path.join(casePath, item)
+                    if os.path.isfile(item_path) or os.path.islink(item_path):
+                        os.remove(item_path)  # delete file
+                    elif os.path.isdir(item_path):
+                        if not resultsOnly:
+                            shutil.rmtree(item_path)  # delete subfolder
+                        else:
+                            # remove all contents inside the folder but keep the folder itself
+                            for root, dirs, files in os.walk(item_path):
+                                # delete files
+                                for f in files:
+                                    os.remove(os.path.join(root, f))
+                                # delete sub-directories
+                                for d in dirs:
+                                    shutil.rmtree(os.path.join(root, d))
 
+            ##############################
+
+
+            ##################VIEW folder
+            #  update resData.json folder
+            if not resultsOnly:
+                resData = File.readFile(self.resData)
                 for obj in resData['osy-cases']:
                     if obj['Case'] == caserunname:
                         resData['osy-cases'].remove(obj)
+                File.writeFile( resData, self.resData)
 
-                File.writeFile( resData, self.resDataPath)
-
-            #delete from view folder
+            # - update .json files by removing caserun
             for group, array in self.VARIABLES.items():
                 #if group != 'RYS':
                 path = Path(self.viewFolderPath, group+'.json')
@@ -970,43 +999,54 @@ class DataFile(Osemosys):
             # self.viewFolderPath = Path(Config.DATA_STORAGE,case,'view')
             # folder_path = "C:/putanja/do/foldera"
 
-            for caserunname in os.listdir( self.resultsPath):
-                caserunname_path = os.path.join(self.resultsPath, caserunname)
-                for carerunData in os.listdir( caserunname_path):
-                    file_path = os.path.join(caserunname_path, carerunData)
-                    try:
-                        if os.path.isfile(file_path) or os.path.islink(file_path):
-                            os.remove(file_path)
-                        elif os.path.isdir(file_path):
-                            shutil.rmtree(file_path)
-                    except Exception as e:
-                        print(f"Greška pri brisanju {file_path}: {e}")
+            if os.path.exists(self.resultsPath) and os.path.isdir(self.resultsPath):
+                if os.listdir(self.resultsPath):   # returns list of files/folders
+                    for caserunname in os.listdir( self.resultsPath):
+                        caserunname_path = os.path.join(self.resultsPath, caserunname)
+                        for carerunData in os.listdir( caserunname_path):
+                            file_path = os.path.join(caserunname_path, carerunData)
+                            try:
+                                if os.path.isfile(file_path) or os.path.islink(file_path):
+                                    os.remove(file_path)
+                                elif os.path.isdir(file_path):
+                                    shutil.rmtree(file_path)
+                            except Exception as e:
+                                print(f"Greška pri brisanju {file_path}: {e}")
 
-            for filename in os.listdir( self.viewFolderPath):
-                if filename !='resData.json':
-                    file_path = os.path.join(self.viewFolderPath, filename)
-                    try:
-                        if os.path.isfile(file_path) or os.path.islink(file_path):
-                            os.remove(file_path)
-                        elif os.path.isdir(file_path):
-                            shutil.rmtree(file_path)
-                    except Exception as e:
-                        print(f"Greška pri brisanju {file_path}: {e}")
+            if os.path.exists(self.viewFolderPath) and os.path.isdir(self.viewFolderPath):
+                if os.listdir(self.viewFolderPath):   # returns list of files/folders
+                    for filename in os.listdir( self.viewFolderPath):
+                        if filename !='resData.json' and filename != 'viewDefinitions.json':
+                            file_path = os.path.join(self.viewFolderPath, filename)
+                            try:
+                                if os.path.isfile(file_path) or os.path.islink(file_path):
+                                    os.remove(file_path)
+                                elif os.path.isdir(file_path):
+                                    shutil.rmtree(file_path)
+                            except Exception as e:
+                                print(f"Greška pri brisanju {file_path}: {e}")
 
-            #sad moramo napraviti defualt definitions file
-            viewDefPath = Path(self.viewFolderPath, 'viewDefinitions.json')
-            configPath = Path(Config.DATA_STORAGE, 'Variables.json')
-            vars = File.readParamFile(configPath)
-            viewDef = {}
-            for group, lists in vars.items():
-                for list in lists:
-                    viewDef[list['id']] = []
+            #sad moramo napraviti defualt definitions file - ovo smo napustili 18022026 zelimo da ostanu definicije view-ova
+            ##viewDefPath = Path(self.viewFolderPath, 'viewDefinitions.json')
+            # configPath = Path(Config.DATA_STORAGE, 'Variables.json')
+            # vars = File.readParamFile(configPath)
+            # viewDef = {}
+            # for group, lists in vars.items():
+            #     for list in lists:
+            #         viewDef[list['id']] = []
 
-            viewData = {
-                    "osy-views": viewDef
-                }
-            File.writeFile( viewData, viewDefPath)
+            # viewData = {
+            #         "osy-views": viewDef
+            #     }
+            # File.writeFile( viewData, viewDefPath)
 
+            ######### treba provjeriti da li res fodler ima subfolde sa imenom case is resData.json
+
+            case_names = [c["Case"] for c in self.resData.get("osy-cases", [])]
+            for case in case_names:
+                case_path = Path(self.resultsPath, case)
+                if not case_path.exists():
+                    case_path.mkdir(parents=True, exist_ok=True)
 
             response = {
                 "message": "You have recycled results!",
@@ -1063,22 +1103,16 @@ class DataFile(Osemosys):
             raise IndexError
         except OSError:
             raise OSError
-
+        
     def readDataFile( self, caserunname ):
         try:
-            
-            #f = open(self.dataFile, mode="r")
             dataFilePath = Path(Config.DATA_STORAGE, self.case, 'res',caserunname,'data.txt')
             if os.path.exists(dataFilePath):
                 f = open(dataFilePath, mode="r", encoding='utf-8-sig')
                 data =  f.read()
-                f.close
+                f.close()
             else:
                 data = None
-
-            # f = open(self.dataFile, 'r')
-            # file_contents = f.read()
-            # f.close()
             return data
         except(IOError, IndexError):
             raise IndexError
@@ -1990,9 +2024,10 @@ class DataFile(Osemosys):
 
             ##################################Sequential code
             for caserun in cases:
+                logger.info("Starting batch run optimization process for model %s caserun %s!", self.case, caserun)
                 runout =self.run(solver, caserun)
+                logger.info("Batch run optimization process %s  %s !", runout["caserun"], runout["timer"])
                 msg+="Case: {0}{1}{2}".format( runout["caserun"], runout["timer"],  '\n')
-                # batchlog+="GLPK status {0}{1}{2}GLPK log {3}{4}{5}{6}CBC log {7}{8}{9}{10}{11}".format(runout["status_code"], runout["timer"],'\n',runout["glpk_message"],'\n',runout["glpk_stdmsg"],'\n',runout["cbc_message"],'\n',runout["cbc_stdmsg"],'\n', '\n\n')
                 batchlog+="{0}{1}{2}{3}{4}{5}{6}{7}{8}".format(runout["glpk_message"],'\n',runout["glpk_stdmsg"],'\n',runout["cbc_message"],'\n',runout["cbc_stdmsg"],'\n', '\n')
                 batchlog+="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ {0}".format('\n')
                 if runout["status_code"] != 'success':
@@ -2080,7 +2115,164 @@ class DataFile(Osemosys):
         except OSError:
             raise OSError
 
-    def run( self, solver, caserun, lock=None ):
+    def run(self, solver, caserun, lock=None):
+        cbc_out = None
+        glpk_out = None
+
+        try:
+            if lock:
+                lock.acquire(timeout=5)
+
+            start_time = time.time()
+            txtOut = ""
+
+            # ---- PRECOMPUTE PATHS ----
+            base = Path(Config.DATA_STORAGE, self.case, "res", caserun)
+            self.dataFile = base / "data.txt"
+            self.dataFile_processed = base / "data_processed.txt"
+            self.resFile = base / "results.txt"
+            self.logFile = base / "logfile.log"
+            self.logFileTxt = base / "logfile.txt"
+            self.lpFile = base / "lp.lp"
+            self.resPath = base
+
+            modelfile = str(self.osemosysFile.resolve())
+            dataFile_processed = str(Path(self.dataFile_processed).resolve())
+            lpFile = str(Path(self.lpFile).resolve())
+            resFile = str(Path(self.resFile).resolve())
+
+
+            # glpsol_path = str(Path(self.glpkFolder, "glpsol.exe"))
+            # cbc_path = str(Path(self.cbcFolder, "cbc.exe"))
+
+            
+            glpk_cwd = self.glpkFolder if self.glpsol_is_bundled else None
+            cbc_cwd  = self.cbcFolder  if self.cbc_is_bundled  else None
+
+
+            if not Path(self.glpsol_path).exists():
+                raise FileNotFoundError(f"glpsol.exe not found in: {self.glpsol_path}")
+
+            if not Path(self.cbc_path).exists():
+                raise FileNotFoundError(f"cbc.exe not found in: {self.cbc_path}")
+
+            self.deleteCaseResultsJSON(caserun)
+
+            # =======================================================
+            # ---------------------- GLPK ----------------------------
+            # =======================================================
+            if solver == "glpk":
+                glpk_out = subprocess.run(
+                    ["glpsol", "-m", modelfile, "-d", str(self.dataFile), "-o", str(self.resFile)],
+                    cwd=glpk_cwd,
+                    text=True,
+                    capture_output=True
+                )
+
+            # =======================================================
+            # ---------------------- CBC -----------------------------
+            # =======================================================
+            else:
+                logger.info(f"Preprocessing case {caserun}")
+                self.preprocessData(self.dataFile, self.dataFile_processed)
+                logger.info("PREPROCESSING DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+                txtOut += f"Preprocessing time {time.time() - start_time:0.2f}s\n"
+
+                glpk_out = subprocess.run(
+                    [self.glpsol_path, "--check", "-m", modelfile, "-d", dataFile_processed, "--wlp", lpFile],
+                    cwd=cbc_cwd,
+                    text=True,
+                    capture_output=True
+                )
+
+                logger.info("CREATINON OF LP FILE DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+                txtOut += f"Creation of LP file {time.time() - start_time:0.2f}s\n"
+
+                cbc_out = subprocess.run(
+                    [self.cbc_path, lpFile, "solve", "-printing", "all", "-solu", resFile],
+                    cwd=self.cbcFolder,
+                    text=True,
+                    capture_output=True
+                )
+                logger.info("SOLUTION DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+                txtOut += f"Solve time {time.time() - start_time:0.2f}s\n"
+
+            # =======================================================
+            # ---------------- ERROR HANDLING ------------------------
+            # =======================================================
+
+            if (cbc_out and cbc_out.returncode != 0) or (glpk_out and glpk_out.returncode != 0):
+                
+                msg = {
+                    "cbc_message": cbc_out.stdout if cbc_out else None,
+                    "cbc_stdmsg": cbc_out.stderr if cbc_out else None,
+                    "glpk_message": glpk_out.stdout if glpk_out else None,
+                    "glpk_stdmsg": glpk_out.stderr if glpk_out else None,
+                    "timer": "Solver error — check logs.",
+                    "status_code": "error",
+                    "caserun": caserun,
+                }
+                logger.info(f"ERROR HANDLING {msg}")
+                return msg
+
+            # =======================================================
+            # --------------------- SUCCESS --------------------------
+            # =======================================================
+
+            msg = (cbc_out.stdout if cbc_out else glpk_out.stdout).splitlines()
+
+            statusFlag = "warning"
+            customMsg = ""
+
+            if any("Optimal" in s for s in msg):
+                matching = [s for s in msg if "Optimal" in s]
+                customMsg = customMsg + matching[0] + " - "
+                times = [s for s in msg if "Total time (CPU seconds):" in s]
+                customMsg = customMsg + times[0]
+                statusFlag = "success"
+
+            if any("infeasible" in s for s in msg):
+                matching = [s for s in msg if "infeasible" in s]
+                customMsg = customMsg + matching[0] + " - "
+                times = [s for s in msg if "Total time (CPU seconds):" in s]
+                customMsg = customMsg + times[0]
+                statusFlag = "warning"
+
+            if any("ERROR" in s for s in msg):
+                matching = [s for s in msg if "ERROR" in s]
+                customMsg = customMsg + matching[0] + " - "
+                times = [s for s in msg if "Total time (CPU seconds):" in s]
+                customMsg = customMsg + times[0]
+                statusFlag = "error"
+
+            if statusFlag == "success" and cbc_out:
+                self.generateCSVfromCBC(self.dataFile, self.resFile, self.resPath)
+                logger.info("CSV DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+                txtOut = txtOut + ("csv files extraction time {:0.2f} s;{}".format(time.time() - start_time, '\n'))
+                self.generateResultsViewer(caserun)
+                logger.info("PIVOT TABLE DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+                txtOut = txtOut + ("Pivot data preparation time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
+            
+            logger.info("MESSAGES DONE! --- %s seconds --- %s", time.time() - start_time, caserun)
+            txtOut = txtOut + ("Message preparation time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
+            return {
+                "cbc_message": cbc_out.stdout if cbc_out else None,
+                "cbc_stdmsg": cbc_out.stderr if cbc_out else None,
+                "glpk_message": glpk_out.stdout if glpk_out else None,
+                "glpk_stdmsg": glpk_out.stderr if glpk_out else None,
+                "timer": customMsg,
+                "status_code": statusFlag,
+                "caserun": caserun,
+            }
+
+        except Exception as ex:
+            logger.exception("Unhandled exception during solver execution")
+            raise
+        finally:
+            if lock:
+                lock.release()
+
+    def run_26022026( self, solver, caserun, lock=None ):
         try:
             caserunname = caserun
             if lock is not None:
@@ -2127,12 +2319,16 @@ class DataFile(Osemosys):
                 #PREPROCESS data.txt
                 #subprocess.run('preprocess_data.py' + datafile + dataFile_processed)
 
+                logger.debug("Starting preprocessing step for case %s", caserunname)
+
                 self.preprocessData(self.dataFile, self.dataFile_processed)
-                print("PREPROCESSING DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                #print("PREPROCESSING DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                logger.info("PREPROCESSING DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                 txtOut = txtOut + ("Preprocessing time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
 
                 #return output to variable preprocessed data file
-                glpk_out = subprocess.run('glpsol --check -m ' + modelfile +' -d ' + datafile_processed +' --wlp ' + lpfile, cwd=glpfolder,  capture_output=True, text=True, shell=True)
+                glpk_out = subprocess.run(
+                    'glpsol --check -m ' + modelfile +' -d ' + datafile_processed +' --wlp ' + lpfile, cwd=glpfolder,  capture_output=True, text=True, shell=True)
             
 
                 #glpk_out = subprocess.run('glpsol --check -m ' + modelfile +' -d ' + datafile_processed +' --wlp ' + lpfile, cwd=cbcfolder,  capture_output=True, text=True, shell=True)
@@ -2141,7 +2337,8 @@ class DataFile(Osemosys):
                 #original data file without preprocessing
                 #glpk_out = subprocess.run('glpsol --check -m ' + modelfile_original +' -d ' + datafile +' --wlp ' + lpfile, cwd=glpfolder,  capture_output=True, text=True, shell=True)
                 
-                print("CREATINON OF LP FILE DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                #print("CREATINON OF LP FILE DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                logger.info("CREATINON OF LP FILE DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                 txtOut = txtOut + ("Creation of LP file time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
 
 
@@ -2159,7 +2356,8 @@ class DataFile(Osemosys):
                 # prin
                 cbc_out = subprocess.run('cbc ' + lpfile +' solve -printing all -solu '  + resultfile, cwd=cbcfolder,  capture_output=True, text=True, shell=True)
                 # -printing all prints all constraints to result.txt
-                print("SOLUTION DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                #print("SOLUTION DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                logger.info("SOLUTION DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                 txtOut = txtOut + ("Solution time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
                 ####output to lg file .log i .txt with errors
                 # out = subprocess.run('cbc ' + lpfile +' solve -solu '  + resultfile +'>'+ logfile, cwd=cbcfolder,  capture_output=True, text=True, shell=True)
@@ -2204,14 +2402,19 @@ class DataFile(Osemosys):
 
                 if statusFlag == "success":
                     self.generateCSVfromCBC(self.dataFile, self.resFile, self.resPath)
-                    print("CSV DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                    #print("CSV DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                    logger.info("CSV DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                     txtOut = txtOut + ("csv files extraction time {:0.2f} s;{}".format(time.time() - start_time, '\n'))
+                    
                     self.generateResultsViewer(caserunname)
-                    print("PIVOT TABLE DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                    #print("PIVOT TABLE DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                    logger.info("PIVOT TABLE DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                     txtOut = txtOut + ("Pivot data preparation time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
+                    
 
 
-                print("MESSAGES DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                #print("MESSAGES DONE! --- %s seconds --- %s" % (time.time() - start_time, caserunname))
+                logger.info("MESSAGES DONE! --- %s seconds --- %s", time.time() - start_time, caserunname)
                 txtOut = txtOut + ("Message preparation time {:0.2f}s;{}".format(time.time() - start_time, '\n'))
 
                 response = {
@@ -2233,6 +2436,7 @@ class DataFile(Osemosys):
 
         except Exception as ex:
             print(ex) # do whatever you want for debugging.
+            logger.exception("Unhandled exception during solver execution")
             raise    # re-raise exception.
         except(IOError, IndexError):
             raise IndexError
@@ -2268,8 +2472,8 @@ class DataFile(Osemosys):
                 optimal_value = float(optimal_value_header.split()[-1])
 
             ov = {
-            "r": ['RE1'],
-            "ObjectiveValue": [optimal_value]
+                "r": ['RE1'],
+                "ObjectiveValue": [optimal_value]
             }
 
             #load data into a DataFrame object:
@@ -2286,7 +2490,12 @@ class DataFile(Osemosys):
                 #ovdje parsa result.txt file
                 df[['temp','value']] = df['temp'].str.split(')', expand=True)                
 
-                df = df.applymap(lambda x: x.strip() if isinstance(x,str) else x)
+                #FutureWarning: pd.DataFrame.applymap has been deprecated. Use pd.DataFrame.map instead.
+                #df = df.applymap(lambda x: x.strip() if isinstance(x,str) else x)
+                
+                for col in df.select_dtypes(include="object"):
+                    df[col] = df[col].map(lambda x: x.strip() if isinstance(x, str) else x)
+
 
                 #error when moved to ython 3.11, Columns must have smae length as key
                 # df['value'] = df['value'].str.split(' ', expand=True)
@@ -2416,7 +2625,8 @@ class DataFile(Osemosys):
                         df_prod = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_prod.r.unique()) if str(x) != 'nan']
                         df_prod['r'] = str(region[0])
-                        df_prod['RateOfActivity'].fillna(0, inplace=True)
+                        #df_prod['RateOfActivity'].fillna(0, inplace=True)
+                        df_prod["RateOfActivity"] = df_prod["RateOfActivity"].fillna(0)
                         df_prod['ProductionByTechnologyByMode'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
                         df_prod = df_prod.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
                         df_prod['ProductionByTechnologyByMode'] = df_prod['ProductionByTechnologyByMode'].astype(float).round(4)
@@ -2428,7 +2638,8 @@ class DataFile(Osemosys):
                         df_ropbt = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_ropbt.r.unique()) if str(x) != 'nan']
                         df_ropbt['r'] = str(region[0])
-                        df_ropbt['RateOfActivity'].fillna(0, inplace=True)
+                        #df_ropbt['RateOfActivity'].fillna(0, inplace=True)
+                        df_ropbt["RateOfActivity"] = df_ropbt["RateOfActivity"].fillna(0)
 
                         df_ropbt['RateOfProductionByTechnologyByMode'] = df_ropbt['OutputActivityRatio']*df_ropbt['RateOfActivity']
                         df_ropbt = df_ropbt.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -2444,7 +2655,8 @@ class DataFile(Osemosys):
                         df_use = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_use.r.unique()) if str(x) != 'nan']
                         df_use['r'] = str(region[0])
-                        df_use['RateOfActivity'].fillna(0, inplace=True)
+                        #df_use['RateOfActivity'].fillna(0, inplace=True)
+                        df_use["RateOfActivity"] = df_use["RateOfActivity"].fillna(0)
             
                         df_use['UseByTechnologyByMode'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']
                         df_use = df_use.drop(['InputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -2457,7 +2669,8 @@ class DataFile(Osemosys):
                         df_roubt = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_roubt.r.unique()) if str(x) != 'nan']
                         df_roubt['r'] = str(region[0])
-                        df_roubt['RateOfActivity'].fillna(0, inplace=True)
+                        #df_roubt['RateOfActivity'].fillna(0, inplace=True)
+                        df_roubt["RateOfActivity"] = df_roubt["RateOfActivity"].fillna(0)
             
                         df_roubt['RateOfUseByTechnologyByMode'] = df_roubt['InputActivityRatio']*df_roubt['RateOfActivity']
                         df_roubt = df_roubt.drop(['InputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -3333,7 +3546,8 @@ class DataFile(Osemosys):
                 df_prod = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_prod.r.unique()) if str(x) != 'nan']
                 df_prod['r'] = str(region[0])
-                df_prod['RateOfActivity'].fillna(0, inplace=True)
+                #df_prod['RateOfActivity'].fillna(0, inplace=True)
+                df_prod["RateOfActivity"] = df_prod["RateOfActivity"].fillna(0)
 
                 df_prod['ProductionByTechnologyByMode'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
                 df_prod = df_prod.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -3345,7 +3559,8 @@ class DataFile(Osemosys):
                 df_ropbt = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_ropbt.r.unique()) if str(x) != 'nan']
                 df_ropbt['r'] = str(region[0])
-                df_ropbt['RateOfActivity'].fillna(0, inplace=True)
+                #df_ropbt['RateOfActivity'].fillna(0, inplace=True)
+                df_ropbt["RateOfActivity"] = df_ropbt["RateOfActivity"].fillna(0)
 
                 df_ropbt['RateOfProductionByTechnologyByMode'] = df_ropbt['OutputActivityRatio']*df_ropbt['RateOfActivity']
                 df_ropbt = df_ropbt.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -3358,8 +3573,9 @@ class DataFile(Osemosys):
                 df_use = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_use.r.unique()) if str(x) != 'nan']
                 df_use['r'] = str(region[0])
-                df_use['RateOfActivity'].fillna(0, inplace=True)
-       
+                #df_use['RateOfActivity'].fillna(0, inplace=True)
+                df_use["RateOfActivity"] = df_use["RateOfActivity"].fillna(0)
+                
                 df_use['UseByTechnologyByMode'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']
                 df_use = df_use.drop(['InputActivityRatio','YearSplit','RateOfActivity'], axis=1)
                 df_use['UseByTechnologyByMode'] = df_use['UseByTechnologyByMode'].astype(float).round(4)
@@ -3371,7 +3587,8 @@ class DataFile(Osemosys):
                 df_roubt = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_roubt.r.unique()) if str(x) != 'nan']
                 df_roubt['r'] = str(region[0])
-                df_roubt['RateOfActivity'].fillna(0, inplace=True)
+                #df_roubt['RateOfActivity'].fillna(0, inplace=True)
+                df_roubt["RateOfActivity"] = df_roubt["RateOfActivity"].fillna(0)
        
                 df_roubt['RateOfUseByTechnologyByMode'] = df_roubt['InputActivityRatio']*df_roubt['RateOfActivity']
                 df_roubt = df_roubt.drop(['InputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -3643,7 +3860,8 @@ class DataFile(Osemosys):
                 df_prod = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_prod.r.unique()) if str(x) != 'nan']
                 df_prod['r'] = str(region[0])
-                df_prod['RateOfActivity'].fillna(0, inplace=True)
+                #df_prod['RateOfActivity'].fillna(0, inplace=True)
+                df_prod["RateOfActivity"] = df_prod["RateOfActivity"].fillna(0)
 
                 df_prod['ProductionByTechnology'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
                 df_prod = df_prod.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
@@ -3672,7 +3890,8 @@ class DataFile(Osemosys):
                 df_use = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_use.r.unique()) if str(x) != 'nan']
                 df_use['r'] = str(region[0])
-                df_use['RateOfActivity'].fillna(0, inplace=True)
+                #df_use['RateOfActivity'].fillna(0, inplace=True)
+                df_use["RateOfActivity"] = df_use["RateOfActivity"].fillna(0)
 
                 
                 df_use['UseByTechnology'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']
@@ -4368,7 +4587,8 @@ class DataFile(Osemosys):
                 df_prod = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_prod.r.unique()) if str(x) != 'nan']
                 df_prod['r'] = str(region[0])
-                df_prod['RateOfActivity'].fillna(0, inplace=True)
+                #df_prod['RateOfActivity'].fillna(0, inplace=True)
+                df_prod["RateOfActivity"] = df_prod["RateOfActivity"].fillna(0)
                 #df_prod.to_csv(os.path.join(base_folder, 'output_table.csv'), index=None)
                 
                 df_prod['ProductionByTechnologyAnnual'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
@@ -4385,7 +4605,8 @@ class DataFile(Osemosys):
                 df_use = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                 region = [x for x in list(df_use.r.unique()) if str(x) != 'nan']
                 df_use['r'] = str(region[0])
-                df_use['RateOfActivity'].fillna(0, inplace=True)
+                #df_use['RateOfActivity'].fillna(0, inplace=True)
+                df_use["RateOfActivity"] = df_use["RateOfActivity"].fillna(0)
                 #df_use.to_csv(os.path.join(base_folder, 'input_table.csv'), index=None)
 
                 df_use['UseByTechnologyAnnual'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']

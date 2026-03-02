@@ -1,0 +1,214 @@
+/* ================================================================
+   OSY PROFESSIONAL UI — Scientific / Linear Optimization Edition
+   Clean mathematical theme — minimal, precise, neutral
+   ================================================================ */
+
+/* ---------------------------------------------------------------
+   0. DESIGN TOKENS – Professional Neutral Scientific Palette
+---------------------------------------------------------------- */
+:root {
+  --primary: #245c58;                /* scientific green accent */
+  --primary-dark: #1c4b47;
+  --bg: #f5f6f8;                     /* clean scientific background */
+  --surface: #ffffff;
+  --surface-muted: #f2f3f5;
+
+  --text: #1d1f23;                   /* near-black text */
+  --text-muted: #69707a;
+  --border: #d9dce2;
+  --border-strong: #bfc3ca;
+
+  --success: #3d8b40;
+  --danger: #d64541;
+  --warning: #c98a1b;
+  --info: #3a7fc2;
+
+  --radius: 4px;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI",
+             Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Consolas", "Courier New", monospace;
+
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 16px;
+  --space-4: 24px;
+}
+
+/* ---------------------------------------------------------------
+   1. GLOBAL BASE
+---------------------------------------------------------------- */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--primary);
+}
+
+/* Headings clean & scientific */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------------
+   2. PANELS / CARDS
+---------------------------------------------------------------- */
+.panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: none;
+  margin-bottom: var(--space-3);
+}
+
+.panel-heading {
+  background: var(--surface-muted) !important;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.panel-body {
+  padding: var(--space-3);
+}
+
+/* ---------------------------------------------------------------
+   3. TABS
+---------------------------------------------------------------- */
+.nav-tabs > li > a {
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 0 !important;
+}
+
+.nav-tabs > li.active > a {
+  border: none !important;
+  border-bottom: 2px solid var(--primary) !important;
+  color: var(--primary-dark) !important;
+}
+
+/* ---------------------------------------------------------------
+   4. TABLES / GRIDS
+---------------------------------------------------------------- */
+table {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.table > thead > tr > th {
+  background: var(--surface-muted);
+  border-bottom: 2px solid var(--primary);
+  font-weight: 600;
+}
+
+.jqx-grid-cell {
+  font-family: var(--font-mono) !important;
+  font-size: 13px;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* Pivot panels */
+.wj-pivotpanel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------
+   5. FORMS / SELECT2 / INPUTS
+---------------------------------------------------------------- */
+input, select, textarea {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* Select2 */
+.select2-container .select2-selection--single {
+  height: 40px;
+  border: 2px solid var(--primary) !important;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------
+   6. BUTTONS
+---------------------------------------------------------------- */
+.btn {
+  border-radius: var(--radius);
+  padding: 6px 14px !important;
+}
+
+.btn-primary, .btn-osy {
+  background: var(--primary) !important;
+  border: 1px solid var(--primary-dark) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background: var(--primary-dark) !important;
+}
+
+/* ---------------------------------------------------------------
+   7. DROPDOWNS
+---------------------------------------------------------------- */
+.dropdown-menu {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: var(--space-2);
+}
+
+/* ---------------------------------------------------------------
+   8. LAYOUT CLEANUPS
+---------------------------------------------------------------- */
+#main {
+  padding: var(--space-3) !important;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+svg[id^="mermaid-"] {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* ---------------------------------------------------------------
+   9. LOADERS – minimal clean
+---------------------------------------------------------------- */
+.loader {
+  border: 6px solid var(--border);
+  border-top: 6px solid var(--primary);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   10. LOG WINDOW
+---------------------------------------------------------------- */
+#logWidget {
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+}
