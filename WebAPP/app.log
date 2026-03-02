@@ -29,3 +29,5 @@
 2026-03-02 21:44:46,556 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 4.621837139129639 seconds --- test
 2026-03-02 21:44:46,556 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 4.621837139129639 seconds --- test
 2026-03-02 21:44:46,557 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- test --!
+2026-03-02 21:44:57,984 [Routes.DataFile.DataFileRoute] INFO: Clean up process started!
+2026-03-02 21:44:58,068 [Routes.DataFile.DataFileRoute] INFO: Clean up process finished!
