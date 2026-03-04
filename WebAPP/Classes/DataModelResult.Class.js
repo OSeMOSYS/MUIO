@@ -390,7 +390,6 @@ export class DataModelResult{
                         else{
                             chunk['Value'] = null;
                         }
-    
                         if(obj.Comm && !obj.Tech){
                             
                             //uslov dodan vk 18072924 ako smo izbrisali commodity a postoji u resulttima
@@ -409,7 +408,6 @@ export class DataModelResult{
                                 chunk['Unit'] = '<i class="fa fa-exclamation-triangle danger" aria-hidden="true"></i> n/a';
                             }
                         }
-    
                         if(obj.Con){
                             
                             if(obj.Con in conData){
@@ -424,7 +422,6 @@ export class DataModelResult{
                                 chunk['Unit'] = '<i class="fa fa-exclamation-triangle danger" aria-hidden="true"></i> n/a';
                             }
                         }
-    
                         if(obj.Stg){
                             
                             if(obj.Stg in stgData){
@@ -500,7 +497,6 @@ export class DataModelResult{
                             }
     
                         }
-
                         //ako je group koji ima i Tech i Comm
                         if(obj.Tech && obj.Comm){
                             //console.log('techData ', obj.Tech, '------',  techData[obj.Tech])   //DEMINDLFO 
@@ -524,20 +520,26 @@ export class DataModelResult{
                                         
                                         console.log('jsonLogic.apply(rule, {...dataT, ...dataC}) ', jsonLogic.apply(rule, {...dataT, ...dataC}));
                                         tmp['Unit'] = jsonLogic.apply(rule, {...dataT, ...dataC});
+
+                                        tmp['Comm'] = obj.Comm;
+                                        tmp['CommDesc'] = commData[obj.Comm]["Desc"];
                                         pivotData.push(tmp);
                                     })
-                                }else{
+                                }
+                                else{
                                     chunk['Tech'] = obj.Tech;  
                                     chunk['TechGroup'] = 'No group';
                                     chunk['TechDesc'] = techData[obj.Tech]["Desc"];
                                     chunk['TechGroupDesc'] = 'No group';
-    
                                     chunk['Unit'] = jsonLogic.apply(rule, {...dataT, ...dataC});
+                                    //pivotData.push(chunk);
+                                    chunk['Comm'] = obj.Comm;
+                                    chunk['CommDesc'] = commData[obj.Comm]["Desc"];
                                     pivotData.push(chunk);
                                 }
-                                chunk['Comm'] = obj.Comm;
-                                chunk['CommDesc'] = commData[obj.Comm]["Desc"];
-    
+                                // chunk['Comm'] = obj.Comm;
+                                // chunk['CommDesc'] = commData[obj.Comm]["Desc"];
+                                // pivotData.push(chunk);
                                 // console.log('rule ', rule)
                                 // console.log('unitData[group][param] ', unitData[group][param])
                                 // console.log('dataT ', dataT)

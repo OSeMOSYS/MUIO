@@ -10,6 +10,21 @@
   }
 
 
+/* Replace ONLY if your usage supports gradients for backgrounds */
+/* :root {
+  --main-color: linear-gradient(135deg, #7e88a3 0%, #2f374a 45%, #171b24 100%);
+  --main-lighter-color: #8f98b2;
+  --main-darker-color: #11141b;
+
+  --second-color: linear-gradient(135deg, #9dd6a9 0%, #64b074 55%, #3f6a48 100%);
+  --second-darker-color: #365a3f;
+
+  --main-font-color: #222634;
+  --white-font-color: #ffffff;
+  --background-color: #eceff4;
+} */
+
+.navbar-brand {background-color: var(--second-color)!important;}
 
 
 /* #content {

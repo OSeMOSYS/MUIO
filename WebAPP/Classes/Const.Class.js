@@ -87,6 +87,7 @@ export const GROUPNAMES = {
     "RYSeDt": "Region, year, season, daytype",
     "RYT": "Region, year, technology",
     "RYS": "Region, year, storage",
+    "RYCn": "Region, year, constraint",
     "RYTCn": "Region, year, technology, constraint",
     "RYTM": "Region, year, technology, mode of operation",
     "RYC": "Region, year, commodity",
@@ -101,14 +102,17 @@ export const GROUPNAMES = {
 }
 
 export const RESULTGROUPNAMES = {
-    "R"    :"Region",
-    "RT"    :"Region, technology",
+    "R"      :"Region",
+    "RY"     :"Region, year",
+    "RT"     :"Region, technology",
     "RYT"    :"Region, year, technology",
     "RYE"    :"Region, year, emission",
     "RYS"    :"Region, year, storage",
-    "RYTM"  :"Region, year, technology, mode of operation",
-    "RYTC"  :"Region, year, technology, commodity",
-    "RYTE"      :"Region, year, technology, emission",
+    "RYC"    :"Region, year, commodity",
+    "RYCn"    :"Region, year, constraint",
+    "RYTM"   :"Region, year, technology, mode of operation",
+    "RYTC"   :"Region, year, technology, commodity",
+    "RYTE"   :"Region, year, technology, emission",
     "RYTTs"  :"Region, year, technology",
     "RYCTs"  :"Region, year, commodity, timeslice",
     "RYTEM"  :"Region, year, technology, emission, mode of operation",
@@ -166,9 +170,11 @@ export const PARAMCOLORS = {
 
 export const RESULTPARAMORDER = [ 
     "RT"    ,     
-    "RYT"    ,     
+    "RYT" ,
+    "RYC"    ,     
     "RYE"    , 
     "RYS"    ,
+    "RYCn"    ,
     "RYTM"  ,   
     "RYTC" , 
     "RYTE"  ,     

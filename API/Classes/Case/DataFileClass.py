@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import numpy as np
 import traceback
 import logging
 import json, shutil, os, time, subprocess
@@ -2635,6 +2636,95 @@ class DataFile(Osemosys):
                         df_prod = df_prod[df_prod['ProductionByTechnologyByMode']!=0]
                         df_prod.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
 
+                        ########################################################INDICATOR#####################################################
+                        ########################################Commodity Intensisty############################################
+
+                        # electricity_codes = ['ELC001', 'ELC002']  # adjust to your model
+
+                        # try:
+                        #     prod_csv = os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv')
+                        #     dfP = pd.read_csv(prod_csv)
+
+                        #     value_col = "ProductionByTechnologyByMode"
+
+                        #     # Convert numeric
+                        #     dfP[value_col] = pd.to_numeric(dfP[value_col], errors='coerce').fillna(0)
+
+                        #     # Aggregate across time slices (l) to get annual totals
+                        #     dfP_annual = dfP.groupby(['r', 'y', 'f'], as_index=False)[value_col].sum()
+
+                        #     # Total production (all commodities)
+                        #     df_total = dfP_annual.groupby(['r', 'y'], as_index=False)[value_col].sum()
+                        #     df_total = df_total.rename(columns={value_col: "TotalProduction"})
+
+                        #     # Electricity-only production
+                        #     df_el = dfP_annual[dfP_annual['f'].isin(electricity_codes)]
+                        #     df_el = df_el.groupby(['r', 'y'], as_index=False)[value_col].sum()
+                        #     df_el = df_el.rename(columns={value_col: "ElectricityProduction"})
+
+                        #     # Merge both
+                        #     df_int = pd.merge(df_total, df_el, on=['r','y'], how='left')
+                        #     df_int['ElectricityProduction'] = df_int['ElectricityProduction'].fillna(0)
+
+                        #     # Calculate intensity
+                        #     df_int['ElectricityIntensity'] = (
+                        #         df_int['ElectricityProduction'] / df_int['TotalProduction']
+                        #     ).replace([np.inf, -np.inf], 0).fillna(0)
+
+                        #     # Save CSV
+                        #     df_int.to_csv(os.path.join(base_folder, 'csv', 'ElectricityIntensity.csv'), index=False)
+
+                        # except Exception as e:
+                        #     print("Electricity intensity calculation error:", e)
+
+                        ########################################################################################radi
+                        # Example: ['ELC', 'H2', 'HEAT', 'GAS', 'BIO']
+                        # commodity_list = ['ELC001', 'ELC002']  # <-- replace with dynamic user list later
+
+                        # try:
+                        #     # prod_csv = os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv')
+                        #     # dfP = pd.read_csv(prod_csv)
+                        #     dfP = df_prod.copy()
+
+                        #     value_col = "ProductionByTechnologyByMode"
+
+                        #     # Convert numeric
+                        #     dfP[value_col] = pd.to_numeric(dfP[value_col], errors='coerce').fillna(0)
+
+                        #     # Aggregate across time slices to annual totals
+                        #     dfP_annual = dfP.groupby(['r', 'y', 'f'], as_index=False)[value_col].sum()
+
+                        #     # Total production for denominator
+                        #     df_total = dfP_annual.groupby(['r', 'y'], as_index=False)[value_col].sum()
+                        #     df_total = df_total.rename(columns={value_col: "TotalProduction"})
+
+                        #     # Filter user commodities
+                        #     df_user = dfP_annual[dfP_annual['f'].isin(commodity_list)].copy()
+                        #     #df_user = df_user.rename(columns={'f': 'commodity', value_col: 'Production'})
+                        #     df_user = df_user.rename(columns={value_col: 'Production'})
+
+                        #     # Merge with totals
+                        #     df_int = pd.merge(df_user, df_total, on=['r','y'], how='left')
+                        #     df_int['TotalProduction'] = df_int['TotalProduction'].fillna(0)
+
+                        #     # Calculate intensity (no numpy used)
+                        #     df_int['IND_CommodityIntensity'] = 0.0
+                        #     non_zero_mask = df_int['TotalProduction'] != 0
+                        #     df_int.loc[non_zero_mask, 'IND_CommodityIntensity'] = (
+                        #         df_int.loc[non_zero_mask, 'Production'] /
+                        #         df_int.loc[non_zero_mask, 'TotalProduction']
+                        #     )
+
+                        #     # Sort nicely
+                        #     df_int = df_int.sort_values(['r', 'y', 'f'])
+
+                        #     # Save CSV
+                        #     df_int.to_csv(os.path.join(base_folder, 'csv', 'IND_CommodityIntensity.csv'), index=False)
+
+                        # except Exception as e:
+                        #     print("Commodity intensity calculation error:", e)
+
+
                         ########################################RateOfProductionByTechnologyByMode############################################
                         df_ropbt = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_ropbt.r.unique()) if str(x) != 'nan']
@@ -2715,13 +2805,14 @@ class DataFile(Osemosys):
                     df_ACI = df_ACI_temp[['r','t','y','AnnualizedInvestmentCost']]
                     df_ACI = df_ACI[df_ACI['AnnualizedInvestmentCost']!=0]
                     df_ACI.to_csv(os.path.join(base_folder, 'csv', 'AnnualizedInvestmentCost.csv'), index=None)
+
+        except (IOError, OSError, IndexError) as ex:
+            # log and re-raise or wrap
+            raise
         except Exception as ex:
-            print(ex) # do whatever you want for debugging.
-            raise    # re-raise exception.
-        except(IOError, IndexError):
-            raise IndexError
-        except OSError:
-            raise OSError
+            # unexpected
+            raise
+
     
     def generateResultsViewer(self, caserunname):
         try:
@@ -2779,6 +2870,14 @@ class DataFile(Osemosys):
                                     tmp = {}
                                     for obj in jsondata:
                                         tmp[ obj['t']] =obj[param]
+                                    viewData[paramobj['id']][caserunname].append(tmp)
+                                    path = Path(self.viewFolderPath, paramobj['group']+'.json')
+                                    File.writeFile( viewData, path)
+
+                                if paramobj['group'] == 'RY':
+                                    tmp = {}
+                                    for obj in jsondata:
+                                        tmp[ obj['y']] = obj[param]
                                     viewData[paramobj['id']][caserunname].append(tmp)
                                     path = Path(self.viewFolderPath, paramobj['group']+'.json')
                                     File.writeFile( viewData, path)

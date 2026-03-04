@@ -27,7 +27,6 @@ class File:
             #f.write(json.dumps(data, ensure_ascii=True,  indent=4, sort_keys=False))
             #ascii false da zapisemo cirilicu u file
             #f.write(json.dumps(data, ensure_ascii=True,  indent=4, sort_keys=False))
-            #usjon
             f.write(json.dumps(data))
             f.close()
         # except(IOError, IndexError):

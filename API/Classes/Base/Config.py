@@ -191,7 +191,25 @@ VARIABLES_C = {
         'E8_AnnualEmissionsLimit': ['r','e','y'],
         'UDC1_UserDefinedConstraintInequality': ['r','cn','y'],
         'UDC2_UserDefinedConstraintEquality': ['r','cn','y']
+     
     }
+
+#'IND_CommodityIntensity':['r','f','y']
+
+# "RYC": [
+#     {
+#         "id": "ICI",
+#         "value": "Indicator - Commodity Intensity",
+#         "name": "IND_CommodityIntensity",
+#         "unitRule": {
+#             "cat": [
+#                 {
+#                     "var": "number"
+#                 }
+#             ]
+#         }
+#     }
+# ],
 
 DUALS = {
     'EBb4_EnergyBalanceEachYear4_ICR': ['r','f','y'],

@@ -94,6 +94,7 @@ export default class Pivot {
 
     static initPage(model) {
         Message.clearMessages();
+        console.log('model ', model)
         Html.title(model.casename, model.VARNAMES[model.group][model.param], model.group);
 
         //console.log('model ', model)
@@ -554,6 +555,7 @@ export default class Pivot {
         Message.loaderStart('Preparing pivot data...')
         model.group = model.VARGROUPS[param]['group'];
         model.param = param;
+        console.log('group param ', model.group, model.param)
 
         Osemosys.getResultData(model.casename, model.group+'.json')
         .then(DATA => {
@@ -569,6 +571,10 @@ export default class Pivot {
                 if (model.group == 'R'){
                     app.engine.columnFields.push('Optimal');
                     app.engine.rowFields.push('Case');
+                    app.engine.valueFields.push('Value');
+                }
+                else if(model.group == 'RY' ){
+                    app.engine.rowFields.push('Case','Year');
                     app.engine.valueFields.push('Value');
                 }
                 else if(model.group == 'RYE' ){
@@ -640,7 +646,7 @@ export default class Pivot {
                 }
                 //console.log('view ok')
                 app.engine.fields.getField('Unit').isContentHtml = true;
-                if(model.group != "RYS" && model.group != "RYCTs" && model.group != "RYC" && model.group != "RYE" && model.group != "RYCn"&& model.group != "R"){
+                if(model.group != "RYS" && model.group != "RYCTs" && model.group != "RYC" && model.group != "RYE" && model.group != "RYCn" && model.group != "R"  && model.group != "RY"){
                     app.engine.fields.getField('Tech').isContentHtml = true;
                     app.engine.fields.getField('Tech Desc').isContentHtml = true;
                 }
