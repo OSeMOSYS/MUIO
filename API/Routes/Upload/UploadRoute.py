@@ -271,9 +271,15 @@ def uploadCaseUnchunked_old():
                 with ZipFile(os.path.join(Config.DATA_STORAGE, filename)) as zf:
                     MAX_ZIP_UNCOMPRESSED = 1 * 1024 * 1024 * 1024   # 1GB
                     if sum(info.file_size for info in zf.infolist()) > MAX_ZIP_UNCOMPRESSED:
-                        os.remove(os.path.join(Config.DATA_STORAGE, filename))
-                        return jsonify({"error": "File exceeds maximum allowed size"}), 413
+                        too_large = True
+                    else:
+                        too_large = False
+                
+                if too_large:
+                    os.remove(os.path.join(Config.DATA_STORAGE, filename))
+                    return jsonify({"error": "File exceeds maximum allowed size"}), 413
 
+                with ZipFile(os.path.join(Config.DATA_STORAGE, filename)) as zf:
                     errorcode = 1
                     for zippedfile in zf.namelist():
                         # one = zippedfile
@@ -440,9 +446,15 @@ def handle_full_zip(file, filepath=None):
         with ZipFile(filepath) as zf:
             MAX_ZIP_UNCOMPRESSED = 1 * 1024 * 1024 * 1024   # 1GB
             if sum(info.file_size for info in zf.infolist()) > MAX_ZIP_UNCOMPRESSED:
-                os.remove(filepath)
-                return jsonify({"error": "File exceeds maximum allowed size"}), 413
+                too_large = True
+            else:
+                too_large = False
+                
+        if too_large:
+            os.remove(filepath)
+            return jsonify({"error": "File exceeds maximum allowed size"}), 413
 
+        with ZipFile(filepath) as zf:
             errorcode = 1
 
 
