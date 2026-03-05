@@ -1,9 +1,10 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 import os
 from pathlib import Path
 import shutil
 from Classes.Base import Config
 from Classes.Base.SyncS3 import SyncS3
+from Classes.Base.Response import api_response
 
 syncs3_api = Blueprint('SyncS3Route', __name__)
 
@@ -17,15 +18,11 @@ def deleteResultsPreSync():
         shutil.rmtree(resPath)
         os.remove(dataPath)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during sync deletion", status_code=500)
 
 @syncs3_api.route("/uploadSync", methods=['POST'])
 def uploadSync():
@@ -36,15 +33,11 @@ def uploadSync():
         localDir = Path(Config.DATA_STORAGE, case)
         s3.uploadSync(localDir, case, Config.S3_BUCKET, '*')
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> syncronized!',
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(success=True, message='Case <b>'+ case + '</b> syncronized!', status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during sync upload", status_code=500)
 
 @syncs3_api.route("/deleteSync", methods=['POST'])
 def deleteSync():
@@ -54,15 +47,11 @@ def deleteSync():
         s3 = SyncS3()
         s3.deleteSync(case)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during sync deletion", status_code=500)
 
 @syncs3_api.route("/updateSync", methods=['POST'])
 def updateSync():
@@ -74,15 +63,11 @@ def updateSync():
         localDir = Path(Config.DATA_STORAGE, case, str(filename))
         s3.updateSync(localDir, case, Config.S3_BUCKET)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during sync update", status_code=500)
 
 @syncs3_api.route("/updateSyncParamFile", methods=['GET'])
 def updateSyncParamFile():
@@ -94,12 +79,8 @@ def updateSyncParamFile():
 
         s3.updateSync(localDir, case, Config.S3_BUCKET)
 
-        response = {
-            "message": 'Case <b>'+ case + '</b> deleted!',
-            "status_code": "success"
-        }
-        return jsonify(response), 200
+        return api_response(success=True, message='Case <b>'+ case + '</b> deleted!', status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error during sync param update", status_code=500)

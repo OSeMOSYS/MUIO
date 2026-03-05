@@ -3,6 +3,7 @@ from pathlib import Path
 import shutil, datetime, time, os,logging
 from Classes.Case.DataFileClass import DataFile
 from Classes.Base import Config
+from Classes.Base.Response import api_response
 
 logger = logging.getLogger(__name__)
 
@@ -17,13 +18,9 @@ def generateDataFile():
         if casename != None:
             txtFile = DataFile(casename)
             txtFile.generateDatafile(caserunname)
-            response = {
-                "message": "You have created data file!",
-                "status_code": "success"
-            }      
-        return jsonify(response), 200
+        return api_response(success=True, message="You have created data file!", status_code=201)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/createCaseRun", methods=['POST'])
 def createCaseRun():
@@ -36,9 +33,9 @@ def createCaseRun():
             caserun = DataFile(casename)
             response = caserun.createCaseRun(caserunname, data)
      
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/updateCaseRun", methods=['POST'])
 def updateCaseRun():
@@ -52,9 +49,9 @@ def updateCaseRun():
             caserun = DataFile(casename)
             response = caserun.updateCaseRun(caserunname, oldcaserunname, data)
      
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/deleteCaseRun", methods=['POST'])
 def deleteCaseRun():
@@ -80,9 +77,9 @@ def deleteCaseRun():
         return jsonify(response), 200
 
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     except OSError:
-        raise OSError
+        return api_response(success=False, message="OS Error deleting case run", status_code=500)
 
 @datafile_api.route("/deleteScenarioCaseRuns", methods=['POST'])
 def deleteScenarioCaseRuns():
@@ -94,9 +91,9 @@ def deleteScenarioCaseRuns():
             caserun = DataFile(casename)
             response = caserun.deleteScenarioCaseRuns(scenarioId)
      
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/saveView", methods=['POST'])
 def saveView():
@@ -109,9 +106,9 @@ def saveView():
             caserun = DataFile(casename)
             response = caserun.saveView(data, param)
      
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/updateViews", methods=['POST'])
 def updateViews():
@@ -124,9 +121,9 @@ def updateViews():
             caserun = DataFile(casename)
             response = caserun.updateViews(data, param)
      
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/readDataFile", methods=['POST'])
 def readDataFile():
@@ -139,7 +136,7 @@ def readDataFile():
             response = data    
         else:  
             response = None     
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
         return jsonify('No existing cases!'), 404
 
@@ -170,9 +167,9 @@ def validateInputs():
             response = validation    
         else:  
             response = None     
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/downloadDataFile", methods=['GET'])
 def downloadDataFile():
@@ -193,7 +190,7 @@ def downloadDataFile():
         return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
     
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/downloadFile", methods=['GET'])
 def downloadFile():
@@ -204,7 +201,7 @@ def downloadFile():
         return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
     
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/downloadCSVFile", methods=['GET'])
 def downloadCSVFile():
@@ -216,7 +213,7 @@ def downloadCSVFile():
         return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
     
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/downloadResultsFile", methods=['GET'])
 def downloadResultsFile():
@@ -227,7 +224,7 @@ def downloadResultsFile():
         return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
     
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
 
 @datafile_api.route("/run", methods=['POST'])
 def run():
@@ -247,7 +244,7 @@ def run():
     #     return ex, 404
     
     except(IOError):
-        return jsonify('No existing cases!'), 404
+        return api_response(success=False, message="No existing cases!", status_code=404)
     
 @datafile_api.route("/batchRun", methods=['POST'])
 def batchRun():
@@ -265,9 +262,9 @@ def batchRun():
             response = txtFile.batchRun( 'CBC', cases) 
         end = time.time()  
         response['time'] = end-start 
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('Error!'), 404
+        return api_response(success=False, message="Error during batch run", status_code=500)
     
 @datafile_api.route("/cleanUp", methods=['POST'])
 def cleanUp():
@@ -280,6 +277,6 @@ def cleanUp():
             response = model.cleanUp()  
             logger.info("Clean up process finished!") 
 
-        return jsonify(response), 200
+        return api_response(success=True, data=response, status_code=200)
     except(IOError):
-        return jsonify('Error!'), 404
+        return api_response(success=False, message="Error during cleanup", status_code=500)
