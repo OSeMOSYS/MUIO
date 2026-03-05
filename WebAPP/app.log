@@ -1,0 +1,45 @@
+2026-03-04 17:08:47,340 [waitress] INFO: Serving on http://127.0.0.1:5002
+2026-03-04 17:09:02,174 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun REF!
+2026-03-04 17:09:02,244 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun REF!
+2026-03-04 17:09:02,245 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun RETRG!
+2026-03-04 17:09:02,291 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun RETRG!
+2026-03-04 17:09:02,291 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun CO2TAX!
+2026-03-04 17:09:02,341 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun CO2TAX!
+2026-03-04 17:09:02,341 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun CLMCHG!
+2026-03-04 17:09:02,390 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun CLMCHG!
+2026-03-04 17:09:02,391 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun REF!
+2026-03-04 17:09:02,488 [Classes.Case.DataFileClass] INFO: Preprocessing case REF
+2026-03-04 17:09:02,502 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.11032843589782715 seconds --- REF
+2026-03-04 17:09:03,060 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.6684374809265137 seconds --- REF
+2026-03-04 17:09:05,873 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.482041358947754 seconds --- REF
+2026-03-04 17:09:06,645 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.253436326980591 seconds --- REF
+2026-03-04 17:09:07,691 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.299785375595093 seconds --- REF
+2026-03-04 17:09:07,692 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.300703287124634 seconds --- REF
+2026-03-04 17:09:07,692 [Classes.Case.DataFileClass] INFO: Batch run optimization process REF  Result - Optimal solution found - Total time (CPU seconds):       2.78   (Wallclock seconds):       2.78 !
+2026-03-04 17:09:07,692 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun RETRG!
+2026-03-04 17:09:07,880 [Classes.Case.DataFileClass] INFO: Preprocessing case RETRG
+2026-03-04 17:09:07,893 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.20109033584594727 seconds --- RETRG
+2026-03-04 17:09:08,491 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.7990603446960449 seconds --- RETRG
+2026-03-04 17:09:11,139 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.4457578659057617 seconds --- RETRG
+2026-03-04 17:09:11,948 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.256152868270874 seconds --- RETRG
+2026-03-04 17:09:12,903 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.211309432983398 seconds --- RETRG
+2026-03-04 17:09:12,904 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.212268829345703 seconds --- RETRG
+2026-03-04 17:09:12,904 [Classes.Case.DataFileClass] INFO: Batch run optimization process RETRG  Result - Optimal solution found - Total time (CPU seconds):       2.61   (Wallclock seconds):       2.61 !
+2026-03-04 17:09:12,904 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun CO2TAX!
+2026-03-04 17:09:13,133 [Classes.Case.DataFileClass] INFO: Preprocessing case CO2TAX
+2026-03-04 17:09:13,153 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.24880743026733398 seconds --- CO2TAX
+2026-03-04 17:09:13,742 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.8374536037445068 seconds --- CO2TAX
+2026-03-04 17:09:16,373 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.4684455394744873 seconds --- CO2TAX
+2026-03-04 17:09:17,024 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.119615077972412 seconds --- CO2TAX
+2026-03-04 17:09:17,946 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.041390895843506 seconds --- CO2TAX
+2026-03-04 17:09:17,946 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.041390895843506 seconds --- CO2TAX
+2026-03-04 17:09:17,946 [Classes.Case.DataFileClass] INFO: Batch run optimization process CO2TAX  Result - Optimal solution found - Total time (CPU seconds):       2.59   (Wallclock seconds):       2.59 !
+2026-03-04 17:09:17,946 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun CLMCHG!
+2026-03-04 17:09:18,160 [Classes.Case.DataFileClass] INFO: Preprocessing case CLMCHG
+2026-03-04 17:09:18,173 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.2260274887084961 seconds --- CLMCHG
+2026-03-04 17:09:18,745 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.7982981204986572 seconds --- CLMCHG
+2026-03-04 17:09:21,783 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.836109161376953 seconds --- CLMCHG
+2026-03-04 17:09:22,423 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.4761762619018555 seconds --- CLMCHG
+2026-03-04 17:09:23,279 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.332139492034912 seconds --- CLMCHG
+2026-03-04 17:09:23,279 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.332139492034912 seconds --- CLMCHG
+2026-03-04 17:09:23,280 [Classes.Case.DataFileClass] INFO: Batch run optimization process CLMCHG  Result - Optimal solution found - Total time (CPU seconds):       3.01   (Wallclock seconds):       3.01 !

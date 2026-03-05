@@ -20,6 +20,8 @@ S3_SECRET = ""
 ALLOWED_EXTENSIONS = set(['zip', 'application/zip'])
 ALLOWED_EXTENSIONS_XLS = set(['xls', 'xlsx'])
 
+ROOT_DIR = Path(__file__).resolve().parent.parent 
+
 UPLOAD_FOLDER = Path('WebAPP')
 WebAPP_PATH = Path('WebAPP')
 DATA_STORAGE = Path("WebAPP", 'DataStorage')
@@ -189,7 +191,25 @@ VARIABLES_C = {
         'E8_AnnualEmissionsLimit': ['r','e','y'],
         'UDC1_UserDefinedConstraintInequality': ['r','cn','y'],
         'UDC2_UserDefinedConstraintEquality': ['r','cn','y']
+     
     }
+
+#'IND_CommodityIntensity':['r','f','y']
+
+# "RYC": [
+#     {
+#         "id": "ICI",
+#         "value": "Indicator - Commodity Intensity",
+#         "name": "IND_CommodityIntensity",
+#         "unitRule": {
+#             "cat": [
+#                 {
+#                     "var": "number"
+#                 }
+#             ]
+#         }
+#     }
+# ],
 
 DUALS = {
     'EBb4_EnergyBalanceEachYear4_ICR': ['r','f','y'],
@@ -203,7 +223,7 @@ PARAMETERS_C = {
         'DiscountRate': ['r'],
         'OutputActivityRatio':['r','f','t','y','m'],
         'InputActivityRatio':['r','f','t','y','m'],
-        'EmissionActivityRatio':['r','e''t','y','m'],
+        'EmissionActivityRatio':['r','e','t','y','m'],
         'TotalAnnualMaxCapacityInvestment':['r','t','y'],
         'TotalAnnualMinCapacityInvestment':['r','t','y'],
         'TotalTechnologyAnnualActivityUpperLimit':['r','t','y'],

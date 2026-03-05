@@ -288,6 +288,61 @@ export class Osemosys {
         });
     }
 
+    // static readModelFile() {
+    //     return fetch(Base.apiUrl() + "readModelFile", {cache: "no-store"}) 
+    //         .then((response) => {
+    //             if (response.ok) {
+    //                 //                     console.log('response1 ', response)
+    //                 // console.log('data ', response.text())
+    //             return response;
+    //             }
+    //             throw new Error('No casename selecetd');
+    //         })
+    //         .then(response => response.text())
+    //         .catch(error => null);
+    // }
+
+
+    static readModelFile() {
+        return fetch(Base.apiUrl() + "readModelFile", {
+            method: "GET",
+            cache: "no-store"
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Could not load model file");
+            }
+            return response.text();   // ✔ return the real text
+        })
+        .then(text => {
+            return text;             // ✔ pass the text forward
+        })
+        .catch(error => {
+            console.error("readModelFile error:", error);
+            return null;             // ✔ only null on real error
+        });
+    }
+
+    static readLogFile() {
+        return fetch(Base.apiUrl() + "readLogFile", {
+            method: "GET",
+            cache: "no-store"
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Could not load model file");
+            }
+            return response.text();   // ✔ return the real text
+        })
+        .then(text => {
+            return text;             // ✔ pass the text forward
+        })
+        .catch(error => {
+            console.error("readLogFile error:", error);
+            return null;             // ✔ only null on real error
+        });
+    }
+
     static readDataFile(casename, caserunname) {
         return new Promise((resolve, reject) => {
             $.ajax({

@@ -90,7 +90,7 @@ export class Html {
         });
 
         let dt = new Date(value.Runtime).toLocaleString()
-        console.log('value ', value.Case)
+        //console.log('value ', value.Case)
         let htmlstring = `
             <div class="panel panel-default" id=l_${value.Case.replace(/[^A-Z0-9]/ig, "")}>
                 <div class="panel-heading">
@@ -175,29 +175,6 @@ export class Html {
         $("#osy-DataFile").empty();
         $("#osy-DataFile").html('');
 
-        // var table = $("<table />");
-        // var rows = DataFile.split("\n"); 
-
-        // if(rows.length < 2500){
-        //     for (var i = 0; i < rows.length; i++) {
-        //         var row = $("<tr />");
-        //         var cells = rows[i].split(" ");
-        //         //var cells = rows[i].match(/.{1,50}/g);
-        //         if (cells !== null){
-        //             for (var j = 0; j < cells.length; j++) {
-        //                 var cell = $(" <td style='padding-right:5px'></td>");
-        //                 //cells[j] = cells[j].replace(/ /g, '&nbsp;');
-        //                 cell.html(cells[j]);
-        //                 row.append(cell);
-        //             }
-        //             table.append(row);
-        //         }
-        //     }
-        //     $("#osy-DataFile").append(table);
-        // }else{
-        //     $("#osy-DataFile").html('Data file is to large for preview.');
-        // }
-
         $("#osy-DataFile").html('<pre class="log-output">'+DataFile+'</pre>');
 
         $('#tabs a[href="#tabDataFile"]').tab('show');
@@ -207,6 +184,12 @@ export class Html {
                 File
             </a>`);
 
+    }
+
+    static renderModelFile(ModelFile){
+        $("#osy-ModelFile").empty();
+        $("#osy-ModelFile").html('');
+        $("#osy-ModelFile").html('<pre class="log-output">'+ModelFile+'</pre>');
     }
 
     static appendCasePicker(value, selectedCS, pageId) {

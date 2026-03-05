@@ -1,5 +1,8 @@
 import shutil
+ fix/request-size-limits
 from flask import Blueprint, request, jsonify, send_file, after_this_request, current_app
+from unittest import case
+from flask import Blueprint, request, jsonify, send_file, after_this_request
 from zipfile import ZipFile
 from pathlib import Path
 from werkzeug.utils import secure_filename
@@ -581,6 +584,7 @@ def uploadCase():
         dz_chunk_index = request.form.get("dzchunkindex")
         dz_total_chunks = request.form.get("dztotalchunkcount")
         file = request.files.get("file")
+
 
         # Ako nije chunked upload (chrome browser dev mode)
         if dz_uuid is None:
