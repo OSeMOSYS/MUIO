@@ -28,6 +28,13 @@
                 "--no-reload"
             ],
             "jinja": true
+        },
+        {
+            "name": "Run API with Waitress",
+            "type": "python",
+            "request": "launch",
+            "program": "API/app.py",
+            "console": "integratedTerminal"
         }
     ]
 }

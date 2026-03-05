@@ -1,4 +1,5 @@
 import shutil
+from unittest import case
 from flask import Blueprint, request, jsonify, send_file, after_this_request
 from zipfile import ZipFile
 from pathlib import Path
@@ -550,6 +551,7 @@ def uploadCase():
         dz_chunk_index = request.form.get("dzchunkindex")
         dz_total_chunks = request.form.get("dztotalchunkcount")
         file = request.files.get("file")
+
 
         # Ako nije chunked upload (chrome browser dev mode)
         if dz_uuid is None:

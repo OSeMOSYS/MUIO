@@ -1,8 +1,10 @@
-from flask import Blueprint, jsonify, request, send_file, session
+from flask import Blueprint, Response, jsonify, request, send_file, session
 from pathlib import Path
-import shutil, datetime, time, os
+import shutil, datetime, time, os,logging
 from Classes.Case.DataFileClass import DataFile
 from Classes.Base import Config
+
+logger = logging.getLogger(__name__)
 
 datafile_api = Blueprint('DataFileRoute', __name__)
 
@@ -61,34 +63,22 @@ def deleteCaseRun():
         caserunname = request.json['caserunname']
         resultsOnly = request.json['resultsOnly']
         
-        casePath = Path(Config.DATA_STORAGE, casename, 'res', caserunname)
-        if not resultsOnly:
-            shutil.rmtree(casePath)
-        else:
-            for item in os.listdir(casePath):
-                item_path = os.path.join(casePath, item)
-                if os.path.isfile(item_path) or os.path.islink(item_path):
-                    os.remove(item_path)  # delete file
-                elif os.path.isdir(item_path):
-                    shutil.rmtree(item_path)  # delete subfolder
+        # casePath = Path(Config.DATA_STORAGE, casename, 'res', caserunname)
+        # if not resultsOnly:
+        #     shutil.rmtree(casePath)
+        # else:
+        #     for item in os.listdir(casePath):
+        #         item_path = os.path.join(casePath, item)
+        #         if os.path.isfile(item_path) or os.path.islink(item_path):
+        #             os.remove(item_path)  # delete file
+        #         elif os.path.isdir(item_path):
+        #             shutil.rmtree(item_path)  # delete subfolder
 
         if casename != None:
             caserun = DataFile(casename)
             response = caserun.deleteCaseRun(caserunname, resultsOnly)    
         return jsonify(response), 200
 
-        # if casename == session.get('osycase'):
-        #     session['osycase'] = None
-        #     response = {
-        #         "message": 'Case <b>'+ casename + '</b> deleted!',
-        #         "status_code": "success_session"
-        #     }
-        # else:
-        #     response = {
-        #         "message": 'Case <b>'+ casename + '</b> deleted!',
-        #         "status_code": "success"
-        #     }
-        # return jsonify(response), 200
     except(IOError):
         return jsonify('No existing cases!'), 404
     except OSError:
@@ -150,6 +140,22 @@ def readDataFile():
         else:  
             response = None     
         return jsonify(response), 200
+    except(IOError):
+        return jsonify('No existing cases!'), 404
+
+@datafile_api.route("/readModelFile", methods=['GET'])
+def readModelFile():
+    try:
+        text = Path(Config.SOLVERs_FOLDER,'model.v.5.4.txt') .read_text(encoding="utf-8", errors="replace")
+        return Response(text, mimetype="text/plain; charset=utf-8")
+    except(IOError):
+        return jsonify('No existing cases!'), 404
+     
+@datafile_api.route("/readLogFile", methods=['GET'])
+def readLogFile():
+    try:
+        text = Path(Config.WebAPP_PATH,'app.log') .read_text(encoding="utf-8", errors="replace")
+        return Response(text, mimetype="text/plain; charset=utf-8")
     except(IOError):
         return jsonify('No existing cases!'), 404
     
@@ -226,11 +232,15 @@ def downloadResultsFile():
 @datafile_api.route("/run", methods=['POST'])
 def run():
     try:
+        logger.info("Starting long task...")
         casename = request.json['casename']
         caserunname = request.json['caserunname']
         solver = request.json['solver']
+        logger.info("Starting optimization process for model -- %s -- caserun -- %s --!", casename, caserunname)
         txtFile = DataFile(casename)
-        response = txtFile.run(solver, caserunname)     
+        response = txtFile.run(solver, caserunname)   
+        logger.info("Optimization finished for model -- %s -- caserun -- %s --!", casename, caserunname) 
+        #logger.info(f"\033[92mStarting optimization process for model -- {casename} -- caserun -- {caserunname} --!\033[0m")
         return jsonify(response), 200
     # except Exception as ex:
     #     print(ex)
@@ -249,8 +259,9 @@ def batchRun():
         if modelname != None:
             txtFile = DataFile(modelname)
             for caserun in cases:
+                logger.info("Data file generation process started for model %s caserun %s!", modelname, caserun)
                 txtFile.generateDatafile(caserun)
-
+                logger.info("Data file generation process finished for model%s caserun %s!", modelname, caserun)
             response = txtFile.batchRun( 'CBC', cases) 
         end = time.time()  
         response['time'] = end-start 
@@ -265,7 +276,9 @@ def cleanUp():
 
         if modelname != None:
             model = DataFile(modelname)
-            response = model.cleanUp()    
+            logger.info("Clean up process started!")
+            response = model.cleanUp()  
+            logger.info("Clean up process finished!") 
 
         return jsonify(response), 200
     except(IOError):
