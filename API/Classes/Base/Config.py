@@ -1,21 +1,19 @@
 from pathlib import Path
 import os
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 import platform
 
-#load environment variables
-#load_dotenv()
+# Load .env file for local development.
+# Real environment variables always override values from .env.
+load_dotenv()
 
 SYSTEM = platform.system()
 
-# S3_BUCKET = os.environ.get("S3_BUCKET")
-# S3_KEY = os.environ.get("S3_KEY")
-# S3_SECRET = os.environ.get("S3_SECRET")
-
-#S3 bucket is not used in Osemosys
-S3_BUCKET = ""
-S3_KEY = ""
-S3_SECRET = ""
+# S3 credentials – read from environment; fall back to empty strings so the app
+# starts without AWS configured (AWS functionality is optional in OSeMOSYS).
+S3_BUCKET = os.environ.get("S3_BUCKET", "")
+S3_KEY    = os.environ.get("S3_KEY", "")
+S3_SECRET = os.environ.get("S3_SECRET", "")
 
 ALLOWED_EXTENSIONS = set(['zip', 'application/zip'])
 ALLOWED_EXTENSIONS_XLS = set(['xls', 'xlsx'])
@@ -39,8 +37,9 @@ SOLVERs_FOLDER = Path('WebAPP', 'SOLVERs')
 
 os.chmod(DATA_STORAGE, 0o777)
 
-HEROKU_DEPLOY = 0
-AWS_SYNC = 0
+# Deployment flags – read from environment; default to 0 (local / non-Heroku).
+HEROKU_DEPLOY = int(os.environ.get("HEROKU_DEPLOY", "0").strip() or "0")
+AWS_SYNC      = int(os.environ.get("AWS_SYNC", "0").strip() or "0")
 
 PINNED_COLUMNS = ('Sc', 'Tech', 'Comm', 'Emis','Stg', 'Ts', 'MoO', 'UnitId', 'Se','Dt', 'Dtb', 'paramName','TechName', 'CommName', 'EmisName', 'ConName', 'MoId')
 
