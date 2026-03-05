@@ -43,7 +43,8 @@ app = Flask(__name__, static_url_path='', static_folder=static_dir,  template_fo
 
 app.permanent_session_lifetime = timedelta(days=5)
 app.config['SECRET_KEY'] = '12345'
-app.config["MAX_CONTENT_LENGTH"] = None
+UPLOAD_MAX_SIZE = int(os.getenv("UPLOAD_MAX_SIZE", 500 * 1024 * 1024))
+app.config["MAX_CONTENT_LENGTH"] = UPLOAD_MAX_SIZE
 
 app.register_blueprint(upload_api)
 app.register_blueprint(case_api)
@@ -72,6 +73,12 @@ def add_headers(response):
 #     response = jsonify(error.to_dict())
 #     response.status_code = error.status_code
 #     return response
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return jsonify({
+        "error": "Uploaded file is too large"
+    }), 413
 
 #entry point to frontend
 @app.route("/", methods=['GET'])
