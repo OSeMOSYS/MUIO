@@ -5,6 +5,7 @@ import shutil
 import pandas as pd
 from Classes.Base import Config
 from Classes.Base.FileClass import File
+from Classes.Base.security import Security
 from Classes.Case.CaseClass import Case
 from Classes.Case.UpdateCaseClass import UpdateCase
 from Classes.Case.ImportTemplate import ImportTemplate
@@ -43,6 +44,10 @@ def getResultCSV():
     try:
         casename = request.json['casename']
         caserunname = request.json['caserunname']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, casename)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         csvFolder = Path(Config.DATA_STORAGE,casename,"res", caserunname, "csv")
         if os.path.isdir(csvFolder):
             csvs = [ f.name for f in os.scandir(csvFolder) ]
@@ -56,6 +61,10 @@ def getResultCSV():
 def getDesc():
     try:
         casename = request.json['casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, casename)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         genDataPath = Path(Config.DATA_STORAGE,casename,"genData.json")
         genData = File.readFile(genDataPath)
         response = {
@@ -70,6 +79,10 @@ def getDesc():
 def copy():
     try:
         case = request.json['casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, case)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         case_copy = case + '_copy'
         casePath = Path(Config.DATA_STORAGE, case_copy, 'genData.json')
 
@@ -101,6 +114,10 @@ def copy():
 def deleteCase():
     try:        
         case = request.json['casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, case)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         
         casePath = Path(Config.DATA_STORAGE, case)
         shutil.rmtree(casePath)
@@ -128,6 +145,10 @@ def getResultData():
         casename = request.json['casename']
         dataJson = request.json['dataJson']
         if casename != None:
+            try:
+                Security.safeCasePath(Config.DATA_STORAGE, casename)
+            except ValueError as e:
+                return jsonify({'message': str(e), 'status_code': 'error'}), 400
             dataPath = Path(Config.DATA_STORAGE,casename,'view',dataJson)
             data = File.readFile(dataPath)
             response = data   
@@ -142,6 +163,10 @@ def getResultData():
 def getParamFile():
     try:
         dataJson = request.json['dataJson']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, dataJson)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         configPath = Path(Config.DATA_STORAGE, dataJson)
         ConfigFile = File.readParamFile(configPath)
         response = ConfigFile       
@@ -154,6 +179,10 @@ def resultsExists():
     try:
         casename = request.json['casename']
         if casename != None:
+            try:
+                Security.safeCasePath(Config.DATA_STORAGE, casename)
+            except ValueError as e:
+                return jsonify({'message': str(e), 'status_code': 'error'}), 400
             resPath = Path(Config.DATA_STORAGE, casename, 'view', 'RYT.json')
             dataPath = Path(Config.DATA_STORAGE,casename,'view','resData.json')
             data = File.readFile(dataPath)
@@ -196,6 +225,10 @@ def saveScOrder():
     try:
         data = request.json['data']
         case = request.json['casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, case)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         genDataPath = Path(Config.DATA_STORAGE, case, 'genData.json')
         genData = File.readFile(genDataPath)
         genData['osy-scenarios'] = data
@@ -235,6 +268,10 @@ def saveCase():
     try:
         genData = request.json['data']
         casename = genData['osy-casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, casename)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         case = session.get('osycase', None)
 
         configPath = Path(Config.DATA_STORAGE, 'Variables.json')
@@ -390,6 +427,10 @@ def saveCase():
 def prepareCSV():
     try:
         casename = request.json['casename']
+        try:
+            Security.safeCasePath(Config.DATA_STORAGE, casename)
+        except ValueError as e:
+            return jsonify({'message': str(e), 'status_code': 'error'}), 400
         jsonData = request.json['jsonData']
 
         Pd = pd.DataFrame(jsonData)
