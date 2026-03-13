@@ -6,6 +6,30 @@ from Classes.Base import Config
 
 datafile_api = Blueprint('DataFileRoute', __name__)
 
+
+def _validate_simple_name(name):
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError('Invalid path segment')
+
+    cleaned_name = name.strip()
+    if '/' in cleaned_name or '\\' in cleaned_name:
+        raise ValueError('Invalid path segment')
+
+    if cleaned_name in ['.', '..']:
+        raise ValueError('Invalid path segment')
+
+    return cleaned_name
+
+
+def _resolve_within(base_dir, *parts):
+    resolved_base_dir = Path(base_dir).resolve()
+    resolved_target_path = resolved_base_dir.joinpath(*parts).resolve()
+
+    if not resolved_target_path.is_relative_to(resolved_base_dir):
+        raise ValueError('Invalid file path')
+
+    return resolved_target_path
+
 @datafile_api.route("/generateDataFile", methods=['POST'])
 def generateDataFile():
     try:
@@ -181,45 +205,73 @@ def downloadDataFile():
         # }         
         # return jsonify(response), 200
         #path = "/Examples.pdf"
-        case = session.get('osycase', None)
-        caserunname = request.args.get('caserunname')
-        dataFile = Path(Config.DATA_STORAGE,case, 'res',caserunname, 'data.txt')
-        return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
+        case = _validate_simple_name(session.get('osycase', None))
+        caserunname = _validate_simple_name(request.args.get('caserunname'))
+        case_base_dir = _resolve_within(Config.DATA_STORAGE, case)
+        dataFile = _resolve_within(case_base_dir, 'res', caserunname, 'data.txt')
+
+        if not dataFile.is_file():
+            return jsonify('No existing cases!'), 404
+
+        return send_file(dataFile, as_attachment=True, max_age=0)
     
+    except ValueError:
+        return jsonify('Invalid file path!'), 400
     except(IOError):
         return jsonify('No existing cases!'), 404
 
 @datafile_api.route("/downloadFile", methods=['GET'])
 def downloadFile():
     try:
-        case = session.get('osycase', None)
-        file = request.args.get('file')
-        dataFile = Path(Config.DATA_STORAGE,case,'res','csv',file)
-        return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
+        case = _validate_simple_name(session.get('osycase', None))
+        requested_file = _validate_simple_name(request.args.get('file'))
+        case_base_dir = _resolve_within(Config.DATA_STORAGE, case)
+        dataFile = _resolve_within(case_base_dir, 'res', 'csv', requested_file)
+
+        if not dataFile.is_file():
+            return jsonify('No existing cases!'), 404
+
+        return send_file(dataFile, as_attachment=True, max_age=0)
     
+    except ValueError:
+        return jsonify('Invalid file path!'), 400
     except(IOError):
         return jsonify('No existing cases!'), 404
 
 @datafile_api.route("/downloadCSVFile", methods=['GET'])
 def downloadCSVFile():
     try:
-        case = session.get('osycase', None)
-        file = request.args.get('file')
-        caserunname = request.args.get('caserunname')
-        dataFile = Path(Config.DATA_STORAGE,case,'res',caserunname,'csv',file)
-        return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
+        case = _validate_simple_name(session.get('osycase', None))
+        requested_file = _validate_simple_name(request.args.get('file'))
+        caserunname = _validate_simple_name(request.args.get('caserunname'))
+        case_base_dir = _resolve_within(Config.DATA_STORAGE, case)
+        dataFile = _resolve_within(case_base_dir, 'res', caserunname, 'csv', requested_file)
+
+        if not dataFile.is_file():
+            return jsonify('No existing cases!'), 404
+
+        return send_file(dataFile, as_attachment=True, max_age=0)
     
+    except ValueError:
+        return jsonify('Invalid file path!'), 400
     except(IOError):
         return jsonify('No existing cases!'), 404
 
 @datafile_api.route("/downloadResultsFile", methods=['GET'])
 def downloadResultsFile():
     try:
-        case = session.get('osycase', None)
-        caserunname = request.args.get('caserunname')
-        dataFile = Path(Config.DATA_STORAGE,case, 'res', caserunname,'results.txt')
-        return send_file(dataFile.resolve(), as_attachment=True, max_age=0)
+        case = _validate_simple_name(session.get('osycase', None))
+        caserunname = _validate_simple_name(request.args.get('caserunname'))
+        case_base_dir = _resolve_within(Config.DATA_STORAGE, case)
+        dataFile = _resolve_within(case_base_dir, 'res', caserunname, 'results.txt')
+
+        if not dataFile.is_file():
+            return jsonify('No existing cases!'), 404
+
+        return send_file(dataFile, as_attachment=True, max_age=0)
     
+    except ValueError:
+        return jsonify('Invalid file path!'), 400
     except(IOError):
         return jsonify('No existing cases!'), 404
 
