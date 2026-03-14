@@ -2,7 +2,7 @@
 Quick Start
 ###########################
 
-Once you have followed the instructions of :doc:`/getting-started/installation`, you are ready for creating your first OSeMOSYS model using MUIO. The Youtube tutorial shown below provides a step-by-step workflow to move quickly from zero to one basic functional model. This instroductory video aims at teaching how to define sets, input data, run cases, visualize results, and perform basic scenario analyses.
+Once you have followed the instructions in :doc:`Installation </getting-started/installation>`, you are ready to create your first OSeMOSYS model using MUIO. The YouTube tutorial shown below provides a step-by-step workflow to move quickly from zero to a basic functional model. This introductory video aims at teaching how to define sets, input data, run cases, visualize results, and perform basic scenario analyses.
 
 Repository with the data
 ------------------------
