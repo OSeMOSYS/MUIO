@@ -6,18 +6,17 @@ Once you have followed the instructions in :doc:`Installation </getting-started/
 
 Repository with the data
 ------------------------
-You can access all the data to set this basic model here:
-
-`OSeMOSYS example data <https://zenodo.org/records/16896196>`_
+You can access all the data to set this basic model here: `OSeMOSYS example data <https://zenodo.org/records/16896196>`_
 
 Tutorial to create a basic OSeMOSYS model using MUIO
 ----------------------
 .. raw:: html
 
-   <iframe width="560" height="315" 
-           src="https://www.youtube.com/embed/MDSQqm8RMrw" 
-           title="YouTube video player" 
-           frameborder="0" 
-           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+   <iframe width="700" height="400"
+           style="display:block; margin-left:auto; margin-right:auto;"
+           src="https://www.youtube.com/embed/MDSQqm8RMrw"
+           title="YouTube video player"
+           frameborder="0"
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
            allowfullscreen>
    </iframe>
