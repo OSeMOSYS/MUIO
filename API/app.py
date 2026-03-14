@@ -15,6 +15,8 @@ from Routes.Case.CaseRoute import case_api
 from Routes.Case.SyncS3Route import syncs3_api
 from Routes.Case.ViewDataRoute import viewdata_api
 from Routes.DataFile.DataFileRoute import datafile_api
+from Classes.Base.CustomExceptionClass import CustomException
+from Classes.Base.Response import api_response
 
 import logging
 import warnings
@@ -105,7 +107,7 @@ CORS(app)
 def add_headers(response):
     if Config.HEROKU_DEPLOY == 0: 
         #localhost
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1')
+        response.headers.add('Access-Control-Allow-Origin', '*')
     else:
         #HEROKU
         response.headers.add('Access-Control-Allow-Origin', 'https://osemosys.herokuapp.com/')
@@ -114,11 +116,23 @@ def add_headers(response):
     #response.headers['Content-Type'] = 'application/javascript'
     return response
 
-# @app.errorhandler(CustomException)
-# def handle_invalid_usage(error):
-#     response = jsonify(error.to_dict())
-#     response.status_code = error.status_code
-#     return response
+@app.errorhandler(CustomException)
+def handle_custom_exception(error):
+    return api_response(success=False, message=error.message, data=error.payload, status_code=error.status_code)
+
+@app.errorhandler(404)
+def handle_404(error):
+    return api_response(success=False, message="Resource not found", status_code=404)
+
+@app.errorhandler(500)
+def handle_500(error):
+    return api_response(success=False, message="Internal server error", status_code=500)
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+    # Log the error if needed
+    print(f"Unhandled Exception: {str(error)}")
+    return api_response(success=False, message=str(error), status_code=500)
 
 #entry point to frontend
 @app.route("/", methods=['GET'])
@@ -137,12 +151,9 @@ def home():
 def getSession():
     try:
         ses = session.get('osycase', None) or None
-        response = {
-            "session":ses
-        }
-        return jsonify(response), 200
+        return api_response(success=True, data=ses, status_code=200)
     except( KeyError ):
-        return jsonify('No selected parameters!'), 404
+        return api_response(success=False, message="No selected parameters!", status_code=404)
 
 @app.route("/setSession", methods=['POST'])
 def setSession():
@@ -150,10 +161,9 @@ def setSession():
         cs = request.json['case']
         #session.permanent= True
         session['osycase'] = cs
-        response = {"osycase": session['osycase']}
-        return jsonify(response), 200
+        return api_response(success=True, message="Session updated!", data=session['osycase'], status_code=200)
     except( KeyError ):
-        return jsonify('No selected parameters!'), 404
+        return api_response(success=False, message="No selected parameters!", status_code=404)
 
 
 if __name__ == '__main__':
