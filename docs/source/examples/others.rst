@@ -1,5 +1,5 @@
 ###########################
-Addtional model examples
+Additional Model Examples
 ###########################
 
 Content to be updated soon.
