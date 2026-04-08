@@ -8,7 +8,7 @@ import os, time, json, glob
 
 from threading import Thread
 
-from API.Classes.Case.HelpersClass import Helpers
+from Classes.Case.HelpersClass import Helpers
 from Classes.Base import Config
 from Classes.Base.FileClass import File
 
