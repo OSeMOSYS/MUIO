@@ -21,6 +21,7 @@ extensions = [
     'sphinx_book_theme',
 ]
 
+html_allow_embedded_html = True
 autosummary_generate = True
 todo_include_todos = True
 source_suffix = '.rst'

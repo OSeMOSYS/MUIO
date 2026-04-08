@@ -8,8 +8,10 @@ Need help using MUIO or found a bug? There are several ways to reach out and con
 ++++++++++++++++++++
 
 To connect with other MUIO and OSeMOSYS users, ask questions, share updates, or collaborate on projects, you can:
+
 •	Join the OSeMOSYS Community via the Energy Modelling Community on `Linkedin <https://www.linkedin.com/groups/13141974/>`_
-•	Participate in discussions on the OSeMOSYS Discourse Forum [Link to be updated soon]
+
+•	Ask questions and participate in discussions on the `OSeMOSYS Discourse Forum <https://forum.u4ria.org/>`_
 
 🐞 Report Bugs or Suggest Features
 ++++++++++++++++++++++++++++++++++

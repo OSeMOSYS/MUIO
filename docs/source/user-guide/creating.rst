@@ -2,8 +2,7 @@
 Creating a Model in MUIO
 ###########################
 
-MUIO serves as an effective tool to streamline the process of creating your first model with OSeMOSYS. For a step-by-step guide on how to do this, please watch our YouTube video, where we demonstrate how to build a simple energy model using MUIO.
-[Link to be updated soon].
+MUIO serves as an effective tool to streamline the process of creating your first model with OSeMOSYS. For a step-by-step guide on how to do this, please watch our YouTube video, where we demonstrate how to build a simple energy model using MUIO in :doc:`Quick Start </getting-started/quick-start>`.
 
 If you’re interested in learning how to build a complete energy system model from scratch, we invite you to join the free and open online course offered by The Open University. This course provides a comprehensive curriculum with lectures and hands-on exercises, guiding you through the entire modelling process using MUIO.
 
