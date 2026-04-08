@@ -8,6 +8,7 @@ import os, time, json, glob
 
 from threading import Thread
 
+from API.Classes.Case.HelpersClass import Helpers
 from Classes.Base import Config
 from Classes.Base.FileClass import File
 
@@ -138,18 +139,61 @@ def updateStorageSet(casename):
 
     File.writeFile( genData, genDataPath)
 
-def updateViewDefintions(casename):
+def updateViewDefintions(casename, genData):
+
     viewDataPath = Path(Config.DATA_STORAGE,casename,'view','viewDefinitions.json')
-    viewDefExisting = File.readParamFile(viewDataPath)
-    configPath = Path(Config.DATA_STORAGE, 'Variables.json')
-    vars = File.readParamFile(configPath)
+
+    
+    if not viewDataPath.exists():
+        viewDefExisting = {"osy-views": {} }
+        File.writeFile(viewDefExisting, viewDataPath)
+    else:
+        viewDefExisting = File.readParamFile(viewDataPath)
+
+
+    # configPath = Path(Config.DATA_STORAGE, 'Variables.json')
+    # vars = File.readParamFile(configPath)
+
+    ##########
+    customIndicators = genData['osy-indicators']
+    techsMap = {tech['TechId']: tech['Tech'] for tech in genData["osy-tech"] }
+    storagePath = Path(Config.DATA_STORAGE)
+    VARIABLES = File.readParamFile(storagePath / 'Variables.json')
+    INDICATORS = File.readParamFile(storagePath / 'Indicators.json')
+
+    IND_GROUPED = Helpers.merge_all_indicators_grouped(INDICATORS, customIndicators, techsMap)
+
+    vars = Helpers.merge_groups(VARIABLES, IND_GROUPED)
+
+    ################
+
+
     viewDef = {}
+    # for group, lists in vars.items():
+    #     for list in lists:
+    #         if list['id'] not in viewDefExisting["osy-views"]:
+    #             viewDef[list['id']] = []
+    #         else:
+    #             viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+
+
+
     for group, lists in vars.items():
         for list in lists:
-            if list['id'] not in viewDefExisting["osy-views"]:
-                viewDef[list['id']] = []
+            if list['id'] not in viewDefExisting["osy-views"]:      
+                # Ako postoji indicator_type → izbriši ključ (ako je ranije kreiran)
+                if "indicator_type" in list and list["indicator_type"]:
+                    if list['id'] in viewDef:
+                        del viewDef[list['id']]
+                    else:
+                        viewDef[list['id']] = []
+                else:
+                    viewDef[list['id']] = []
             else:
-                viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+                if "indicator_type" in list and list["indicator_type"]:
+                    viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+                else:           
+                    viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
 
 
     viewData = {
@@ -452,21 +496,33 @@ def handle_full_zip(file, filepath=None):
                 if not os.path.exists(Path(Config.DATA_STORAGE,casename)):
                     data = json.loads(zf.read(target_info).decode('ISO-8859-1'))
                     name = data.get('osy-version', None)
+
+
                     # --------------------------- 
                     #     TVOJA ORIGINALNA LOGIKA
                     # ---------------------------
                     if name == '1.0' or name == '2.0':
                         zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
-                        configPath = Path(Config.DATA_STORAGE, 'Variables.json')
-                        vars = File.readParamFile(configPath)
-                        viewDef = {}
-                        for group, lists in vars.items():
-                            for list in lists:
-                                viewDef[list['id']] = []
+
+                        ##dio za update ViewDefintions
+                        #configPath = Path(Config.DATA_STORAGE, 'Variables.json')
+                        # vars = File.readParamFile(configPath)
+                        # viewDef = {}
+
+                        # for group, lists in vars.items():
+                        #     for list in lists:
+                        #         viewDef[list['id']] = []
+                        #viewDataPath = Path(Config.DATA_STORAGE,case,'view','viewDefinitions.json')
+                        #viewData = {"osy-views": viewDef}
+                        #File.writeFile(viewData, viewDataPath)
+
+                        genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+                        genData = File.readParamFile(genDataPath)
+
                         resPath = Path(Config.DATA_STORAGE,casename,'res')
                         viewPath = Path(Config.DATA_STORAGE,casename,'view')
                         resDataPath = Path(Config.DATA_STORAGE,case,'view','resData.json')
-                        viewDataPath = Path(Config.DATA_STORAGE,case,'view','viewDefinitions.json')
+                        
                         if os.path.exists(resPath):
                             shutil.rmtree(resPath)
                         if os.path.exists(viewPath):
@@ -475,10 +531,13 @@ def handle_full_zip(file, filepath=None):
                         os.makedirs(viewPath, mode=0o777, exist_ok=False)
                         resData = {"osy-cases":[]}
                         File.writeFile(resData, resDataPath)
-                        viewData = {"osy-views": viewDef}
-                        File.writeFile(viewData, viewDataPath)
+
+
+
                         updateTimeslices(casename)
                         updateStorageSet(casename)
+                        updateViewDefintions(casename)
+
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",
@@ -494,7 +553,7 @@ def handle_full_zip(file, filepath=None):
                         File.writeFile(genData, genDataPath)
                         updateTimeslices(casename)
                         updateStorageSet(casename)
-                        updateViewDefintions(casename)
+                        updateViewDefintions(casename, genData)
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",
@@ -502,9 +561,11 @@ def handle_full_zip(file, filepath=None):
                         })
                     elif name in ['4.0', '4.5', '4.9']:
                         zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+                        genData = File.readParamFile(genDataPath)
                         updateTimeslices(casename)
                         updateStorageSet(casename)
-                        updateViewDefintions(casename)
+                        updateViewDefintions(casename, genData)
                         msg.append({
                             "message_warning": "You have restored a model created in a earlier version...",
                             "message": "Model " + casename +" have been uploaded!",
@@ -513,7 +574,9 @@ def handle_full_zip(file, filepath=None):
                         })
                     elif name == '5.0':
                         zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
-                        updateViewDefintions(casename)
+                        genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+                        genData = File.readParamFile(genDataPath)
+                        updateViewDefintions(casename, genData)
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",

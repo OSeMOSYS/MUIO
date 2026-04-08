@@ -186,30 +186,15 @@ VARIABLES_C = {
         'CapitalInvestmentStorage':['r','s','y'],
         'DiscountedCapitalInvestmentStorage':['r','s','y'],
         'DiscountedSalvageValueStorage':['r','s','y'],
-        'TotalDiscountedStorageCost':['r','s','y'],
-        'EBb4_EnergyBalanceEachYear4_ICR': ['r','f','y'],
-        'E8_AnnualEmissionsLimit': ['r','e','y'],
-        'UDC1_UserDefinedConstraintInequality': ['r','cn','y'],
-        'UDC2_UserDefinedConstraintEquality': ['r','cn','y']
-     
+        'TotalDiscountedStorageCost':['r','s','y']    
     }
 
-#'IND_CommodityIntensity':['r','f','y']
 
-# "RYC": [
-#     {
-#         "id": "ICI",
-#         "value": "Indicator - Commodity Intensity",
-#         "name": "IND_CommodityIntensity",
-#         "unitRule": {
-#             "cat": [
-#                 {
-#                     "var": "number"
-#                 }
-#             ]
-#         }
-#     }
-# ],
+        # 'EBb4_EnergyBalanceEachYear4_ICR': ['r','f','y'],
+        # 'E8_AnnualEmissionsLimit': ['r','e','y'],
+        # 'UDC1_UserDefinedConstraintInequality': ['r','cn','y'],
+        # 'UDC2_UserDefinedConstraintEquality': ['r','cn','y']
+#
 
 DUALS = {
     'EBb4_EnergyBalanceEachYear4_ICR': ['r','f','y'],

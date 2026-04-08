@@ -26,7 +26,7 @@ export class Routes {
         //settings 
         import('../App/Controller/Settings.js')
         .then(Settings => {
-            $( ".demo" ).load( 'App/View/Settings.html', function() {
+            $( "#osy-demo" ).load( 'App/View/Settings.html', function() {
                 Settings.default.Load();
             });
         });
@@ -42,6 +42,17 @@ export class Routes {
                 });
             });
         }); 
+
+        // crossroads.addRoute('/Settings', function() {
+        //     $('#content').html('<h1 class="ajax-loading-animation"><i class="fa fa-cog fa-spin"></i> Loading...</h1>');
+        //     import('../App/Controller/Settings.js')
+        //     .then(Settings => {
+        //         $( "#osy-demo" ).load( 'App/View/Settings.html', function() {
+        //             Settings.default.Load();
+        //         });
+        //     });
+        // }); 
+
         crossroads.addRoute('/Config', function() {
             $('#content').html('<h1 class="ajax-loading-animation"><i class="fa fa-cog fa-spin"></i> Loading...</h1>');
             import('../App/Controller/Config.js')

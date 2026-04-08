@@ -22,6 +22,10 @@ export default class Pivot {
                     promise.push(resData);
                     const VARIABLES = Osemosys.getParamFile('Variables.json');
                     promise.push(VARIABLES);
+                    const INDICATORS = Osemosys.getParamFile('Indicators.json');
+                    promise.push(INDICATORS);
+                    const DUALS = Osemosys.getParamFile('Duals.json');
+                    promise.push(DUALS);
                     const VIEWS = Osemosys.getResultData(casename,'viewDefinitions.json');
                     promise.push(VIEWS);
                     const DATA = Osemosys.getResultData(casename, 'RYT.json');
@@ -38,8 +42,8 @@ export default class Pivot {
                 }
             })
             .then(data => {      
-                let [casename, genData, resData, VARIABLES, VIEWS, DATA] = data;         
-                let model = new Model(casename, genData, resData, VARIABLES, DATA, VIEWS);
+                let [casename, genData, resData, VARIABLES, INDICATORS, DUALS, VIEWS, DATA] = data;         
+                let model = new Model(casename, genData, resData, VARIABLES, INDICATORS, DUALS, DATA, VIEWS);
                 this.initPage(model);
             })
             .catch(error => {
@@ -64,6 +68,10 @@ export default class Pivot {
                 promise.push(resData);
                 const VARIABLES = Osemosys.getParamFile('Variables.json');
                 promise.push(VARIABLES);
+                const INDICATORS = Osemosys.getParamFile('Indicators.json');
+                promise.push(INDICATORS);
+                const DUALS = Osemosys.getParamFile('Duals.json');
+                promise.push(DUALS);
                 const VIEWS = Osemosys.getResultData(casename, 'viewDefinitions.json');
                 promise.push(VIEWS);
                 const DATA = Osemosys.getResultData(casename, 'RYT.json');
@@ -72,8 +80,8 @@ export default class Pivot {
             })
             .then(data => {
                 
-                let [casename, genData, resData, VARIABLES, VIEWS, DATA] = data;
-                let model = new Model(casename, genData, resData, VARIABLES, DATA, VIEWS);
+                let [casename, genData, resData, VARIABLES, INDICATORS, DUALS, VIEWS, DATA] = data;
+                let model = new Model(casename, genData, resData, VARIABLES, INDICATORS, DUALS, DATA, VIEWS);
                 model.refreshPage = true;
                 this.initPage(model);
                 //this.initEvents(model);
@@ -94,7 +102,7 @@ export default class Pivot {
 
     static initPage(model) {
         Message.clearMessages();
-        console.log('model ', model)
+        //console.log('model ', model)
         Html.title(model.casename, model.VARNAMES[model.group][model.param], model.group);
 
         //console.log('model ', model)
@@ -555,14 +563,16 @@ export default class Pivot {
         Message.loaderStart('Preparing pivot data...')
         model.group = model.VARGROUPS[param]['group'];
         model.param = param;
-        console.log('group param ', model.group, model.param)
+        //console.log('group param ', model.group, model.param)
 
         Osemosys.getResultData(model.casename, model.group+'.json')
         .then(DATA => {
             //console.log('DATA ', DATA, model.group)
             if (DATA !== null && model.param in DATA && Object.getOwnPropertyNames(DATA[model.param]).length != 0){
+                // let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.DUALS, model.CUSTOM_INDICATORS, model.group, model.param);
                 let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.group, model.param);
                 console.log('pivotData ', pivotData)
+                console.log('group ', model.group, 'param ', model.param)
                 model.pivotData = pivotData;
                 app.engine.itemsSource = model.pivotData;
 

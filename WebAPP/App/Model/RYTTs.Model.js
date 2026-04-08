@@ -74,9 +74,9 @@ export class Model {
                 return editor.val() == null ? null : editor.val();
             }
 
-            columns.push({ text: 'Scenario', datafield: 'Sc', pinned: true, editable: false, align: 'left', filterable: false, menu:false });
-            columns.push({ text: 'Technology', datafield: 'Tech', pinned: true, editable: false, align: 'center' })
-            columns.push({ text: 'Timeslice', datafield: 'Ts', pinned: true, editable: false, align: 'center', filterable: true })
+            columns.push({ text: 'Scenario', datafield: 'Sc', pinned: true, editable: false, align: 'left', filterable: false, menu:false, cellclassname: cellclass, });
+            columns.push({ text: 'Technology', datafield: 'Tech', pinned: true, editable: false, align: 'center', cellclassname: cellclass, })
+            columns.push({ text: 'Timeslice', datafield: 'Ts', pinned: true, editable: false, align: 'center', filterable: true, cellclassname: cellclass, })
             $.each(years, function (id, year) {
                 datafields.push({ name: year, type: 'number' });
                 columns.push({

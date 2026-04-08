@@ -969,16 +969,16 @@ export class Grid {
 
         var validation_1 = function (cell, value) {
             var validationResult = true;
-            var rows = $('#osy-gridScenario').jqxGrid('getrows');
+            var rows = $('#osy-gridConstraint').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Scenario.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Constraint.trim() == value.trim() && i != cell.row) {
                     validationResult = false;
                     break;
                 }
             };
 
             if (validationResult == false) {
-                Message.smallBoxWarning("Input message", "Scenario name should be unique!", 3000);
+                Message.smallBoxWarning("Input message", "Constraint name should be unique!", 3000);
                 return { result: false, message: "" };
             }
             return true;
@@ -1058,7 +1058,158 @@ export class Grid {
         });
     }
 
-    static Grid($div, daGrid, columns, {groupable = false, filterable = false, clipboard = true, editable=true, pageable=false, sortable= false, autoshowfiltericon=true, autoheight= false, height = $(window).height() - 275}={}) {
+    
+    static indicatorGrid(techs, indicators, indicatorTypes, techNames) {
+
+        // console.log('indicators ',indicators)
+        console.log('indicatorTypes ',indicatorTypes)
+
+        this.srcTechs = JqxSources.srcTech(techs);
+        this.srcType = JqxSources.srcIndType(indicatorTypes);
+
+        console.log('this.srcType ',this.srcType)
+
+        this.daTech = new $.jqx.dataAdapter(this.srcTechs, {
+            autoBind: true
+        });
+
+        this.daType = new $.jqx.dataAdapter(this.srcType, {
+            autoBind: true
+        });
+
+        this.srcIndicator = JqxSources.srcIndicators(indicators, indicatorTypes);
+        this.daIndicator = new $.jqx.dataAdapter(this.srcIndicator);
+
+        var ddlTechs = function (row, value, editor) {
+            let data = techs;
+            editor.jqxDropDownList({
+                source: this.daTech, displayMember: 'Tech', valueMember: 'TechId', checkboxes: true,theme: this.themeMaterial,filterHeight:30,
+                renderer: function (index, label, value) {
+                    let tootltipValue = label;
+                    let tooltipContent = `<div data-toggle="tooltip" data-placement="top" title="${data[index]['Desc']}">${tootltipValue}</div>`;
+                    return tooltipContent
+                }
+                , filterable: true 
+            }).bind(this);
+        }.bind(this);
+
+        var ddlType = function (row, value, editor) {
+            editor.jqxDropDownList({ source: this.daType, displayMember: 'value', valueMember: 'id',theme: this.themeMaterial });
+        }.bind(this);
+
+        // var getTypeEditorValue = function (row, cellvalue, editor) {
+        //     var selectedItem = editor.jqxDropDownList('getSelectedItem');
+        //     console.log('getTypeEditorValue - selectedItem:', selectedItem);
+            
+        //     if (selectedItem) {
+        //         // Vraćamo samo ID vrednost, display će se rešavati preko cellsrenderer
+        //         return selectedItem.value;  // ovo je ID iz valueMember
+        //     }
+            
+        //     return cellvalue || '';
+        // }
+
+        // Dodajem cellsrenderer funkciju za Type kolonu
+        // var cellsrendererType = function (row, columnfield, value, defaulthtml, columnproperties) {
+        //     // Pronađi display tekst na osnovu ID vrednosti
+        //     let displayText = '';
+        //     console.log('cellsrendererType - value:', value, indicatorTypes);
+        //     if (value && indicatorTypes) {
+        //         const foundType = indicatorTypes.find(type => type.value === value);
+        //         displayText = foundType ? foundType.value : value;
+        //     }
+        //     return `<div class='jqx-grid-cell-middle-align' style="margin-top: 8.5px;">${displayText}</div>`;
+        // }.bind(this);
+
+        // console.log('this.daType ',this.daType)
+
+        var validation_1 = function (cell, value) {
+            var validationResult = true;
+            var rows = $('#osy-gridIndicator').jqxGrid('getrows');
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].Indicator.trim() == value.trim() && i != cell.row) {
+                    validationResult = false;
+                    break;
+                }
+            };
+            if (validationResult == false) {
+                Message.smallBoxWarning("Input message", "Indicator name should be unique!", 3000);
+                return { result: false, message: "" };
+            }
+            return true;
+        }
+
+        var getEditorValue = function (row, cellvalue, editor) {
+            // let tootltipValue =cellvalue;
+            // let tooltipContent = "<div>" + tootltipValue + "</div>";
+            // editor.jqxTooltip({ content: tooltipContent });
+            // editor.jqxTooltip('open', 15, 15);
+            return editor.val();
+        }
+
+        var initeditor = function (row, cellvalue, editor, celltext, pressedkey) {
+            // set the editor's current value. The callback is called each time the editor is displayed.
+            var items = editor.jqxDropDownList('getItems');
+            editor.jqxDropDownList('uncheckAll');
+
+            if (Array.isArray(cellvalue)) {
+                var values = cellvalue;
+            } else {
+                var values = cellvalue.split(/,\s*/);
+            }
+
+            for (var j = 0; j < values.length; j++) {
+                for (var i = 0; i < items.length; i++) {
+                    //if (items[i].label === values[j]) {
+                    if (items[i].value === values[j]) {
+                        editor.jqxDropDownList('checkIndex', i);
+                    }
+                }
+            }
+        }.bind(this);
+
+        var cellsrendererbutton = function (row, column, value) {
+            return '<span style="padding:10px; width:100%; border:none" class="btn btn-default deleteIndicator" data-id=' + row + ' ><i class="fa fa-times danger"></i>Delete</span>';
+        }
+
+        var cellsrendererTechs = function (row, columnfield, value, defaulthtml, columnproperties) {
+            let valueNames = [];
+            if (Array.isArray(value)) {
+                var values = value;
+            } else {
+                var values = value.split(/,\s*/);
+            }
+            $.each(values, function (id, techId) {
+                valueNames.push(techNames[techId])
+            });
+            return `<div class='jqx-grid-cell-middle-align'  style="margin-top: 8.5px;">${valueNames} </div>`;
+        }.bind(this);
+
+        $("#osy-gridIndicator").jqxGrid({
+            width: '100%',
+            autoheight: true,
+            // columnsheight: 20,
+            filterable:true,
+            theme: this.theme(),
+            source: this.daIndicator,
+            editable: true,
+            selectionmode: 'none',
+            enablehover: false,
+            sortable:true,
+            showsortcolumnbackground: false,
+            autoshowcolumnsmenubutton: false,
+            columns: [
+                { text: 'IndicatorId', datafield: 'IndicatorId', hidden: true },
+                { text: 'Indicator name', datafield: 'Indicator', width: '15%', align: 'center', cellsalign: 'left', validation: validation_1 },
+                { text: 'Description', datafield: 'Desc', width: '25%', align: 'center', cellsalign: 'left',sortable: false, menu:false },
+                { text: 'Type', datafield: 'IndicatorTypeId', displayfield: 'TypeName', width: '20%', columntype: 'dropdownlist', createeditor: ddlType, align: 'center', cellsalign: 'center', sortable: false, menu:false },
+                { text: 'Sets', datafield: 'Sets', width: '30%', columntype: 'dropdownlist', cellsrenderer: cellsrendererTechs, createeditor: ddlTechs, align: 'center', cellsalign: 'center', initeditor: initeditor, geteditorvalue: getEditorValue, sortable: false, menu:false },
+                { text: '<span style="padding:10px; width:100%; border:none" id="osy-addIndicator" class="btn btn-osy" ><i class="fa fa-plus fa-lg"></i>Add indicator</span>', datafield: 'Delete', width: '10%', editable: false, cellsrenderer: cellsrendererbutton, sortable: false, menu:false },
+            ]
+        });
+    }
+
+    static Grid($div, daGrid, columns, {groupable = false, filterable = false, clipboard = true, editable=true, pageable=false, sortable= false, autoshowfiltericon=true, autoheight= false, height = $(window).height() - 205}={}) {
         //setting page size
         // let pagesize = JSON.parse(localStorage.getItem("osy-pagesize"));
         // if(!pagesize){

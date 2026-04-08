@@ -3,16 +3,46 @@ import { DataModel } from "../../Classes/DataModel.Class.js";
 
 export class Model {
 
-    constructor(casename, genData, resData, VARIABLES, DATA, VIEW) {
+    constructor(casename, genData, resData, VARIABLES, INDICATORS, DUALS, DATA, VIEW) {
         let group = 'RYT';
         let param = 'ANC';
 
-        //console.log('VARIABLES ', VARIABLES)
+        let CUSTOM_INDICATORS = DataModelResult.mergeAllIndicatorsGrouped(INDICATORS, genData['osy-indicators']);
 
+         console.log('VARIABLES original ', VARIABLES)
+         console.log('CUSTOM_INDICATORS ', CUSTOM_INDICATORS)
+        console.log('DUALS ', DUALS)
+        VARIABLES = DataModelResult.mergeGroups(VARIABLES, CUSTOM_INDICATORS);
+             console.log('VARIABLES 1 ', VARIABLES)
+        VARIABLES = DataModelResult.mergeGroups(VARIABLES, DUALS);
+             console.log('VARIABLES 2 ', VARIABLES)
         let VARGROUPS = DataModelResult.getVarById(VARIABLES);
         let VARIABLEOBJECT = DataModelResult.getVarialblesObject(VARIABLES);
+          console.log('VARIABLEOBJECT ', VARIABLEOBJECT)
         let VARNAMES = DataModel.AllParamName(VARIABLES);
+
+   
+        /////////////////////////////////////////////
+        // let VARGROUPS = DataModelResult.getVarById(VARIABLES);
+
+        // let INDGROUPS =  DataModelResult.getVarById(CUSTOM_INDICATORS);
+        // let DUALGROUPS =  DataModelResult.getVarById(DUALS);
+        // VARGROUPS = {...VARGROUPS, ...DUALGROUPS, ...INDGROUPS,}
+        // let VARIABLEOBJECT = DataModelResult.getVarialblesObject(VARIABLES, genData['osy-indicators']);
+        // let CUSTOM_INDICATORS = DataModelResult.mergeAllIndicatorsGrouped(INDICATORS, genData['osy-indicators']);
+        // let VARNAMES = DataModel.AllParamName(VARIABLES);
+        // let INDNAMES = DataModel.AllParamName(CUSTOM_INDICATORS);
+        // let DUALNAMES = DataModel.AllParamName(DUALS);
+        // VARNAMES = DataModelResult.mergeGroups(VARNAMES, INDNAMES);
+        // VARNAMES = DataModelResult.mergeGroups(VARNAMES, DUALNAMES);
+        console.log('VARNAMES ', VARNAMES)
+        /////////////////////////////////////////////////// 
+
+
+        //let pivotData = DataModelResult.getPivot(DATA, genData, VARIABLES, DUALS, CUSTOM_INDICATORS, group, param);
+
         let pivotData = DataModelResult.getPivot(DATA, genData, VARIABLES, group, param);
+
         //let VIEWS = DataModelResult.getViews(VIEW['osy-views']);
 
         // console.log('pivotData ', pivotData)
@@ -69,6 +99,9 @@ export class Model {
         this.group = group;
         this.param = param;
         this.VARIABLES = VARIABLES;
+        this.INDICATORS = INDICATORS;
+        this.CUSTOM_INDICATORS = CUSTOM_INDICATORS;
+        this.DUALS = DUALS;
         this.VARGROUPS = VARGROUPS;
         this.VARNAMES = VARNAMES;
         this.VARIABLEOBJECT = VARIABLEOBJECT;

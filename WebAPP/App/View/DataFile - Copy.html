@@ -1,4 +1,4 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
         <h2 class="page-title txt-color-blueDark" id="osy-title"><i class="fa-fw fa fa-home"></i> Data File <span>>
                 create & edit</span></h2>
@@ -10,53 +10,12 @@
             </li>
         </ul>
     </div>
-</div> -->
-
-
-<div class="row pt-2 mb-0">
-    <div class="col-sm-3 col-md-3 col-lg-3">
-        <ul id="sparks" class="sparks-run">
-            <li class="sparks-info" id="osy-case"> </li>
-            <li class="sparks-info" id="osy-title"> </li>
-        </ul>
-    </div>
-
-    <div class="col-sm-3 col-md-3 col-lg-3 ">           
-
-        <button id="osy-batchRun" class="btn btn-default btn-bold" style="display: none; border-radius: 10px;">
-            BATCH RUN<i class="fa fa-play fa-lg secondary ml-10"></i>
-        </button>
-        <button id="osy-generateDataFile"
-            class="btn btn-default btn-bold" style=" display: none; border-radius: 10px;">
-            Generate data File<i class="fa fa-play fa-lg fa-pulse  ml-10"></i> 
-        </button>
-        <button id="osy-run" class="btn btn-default" style="display: none; border-radius: 10px;">
-            RUN MODEL<i class="fa fa-play fa-lg danger ml-10"></i> 
-        </button>
-   
-    </div>
-    <div class="col-sm-6 col-md-6 col-lg-6">           
-        <button id="osy-logFile" class="btn btn-header pull-right" title="MUIO log file">
-            <i class="fa fa-clipboard fa-lg"></i> 
-        </button>
-        <button data-toggle="modal" data-target="#osy-ModelFileModal"
-                class="btn btn-header pull-right" title="MUIO model file">
-            <i class="fa fa-file-text-o fa-lg"></i>
-        </button>
-
-        <button id="osy-cleanUp" class="btn bbtn-header pull-right" title="MUIO clean up">
-            <i class="fa fa-recycle fa-lg danger"></i>
-        </button>      
-    </div>
-
 </div>
 
 <div id="osy-caseRun">
     <section id="widget-grid" class="">
-        <div class="row p-0">
-            <article class="col-sm-3 col-md-3 col-lg-3 p-0">
-
-
+        <div class="row">
+            <article class="col-sm-3 col-md-3 col-lg-3">
                 <div class="jarviswidget" id="osy-caseDataDiv" data-widget-colorbutton="false"
                     data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
                     <header>
@@ -135,9 +94,7 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- <div class="jarviswidget" id="osy-runCaseDiv" style="display: none;" data-widget-colorbutton="false"
+                <div class="jarviswidget" id="osy-runCaseDiv" style="display: none;" data-widget-colorbutton="false"
                     data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false"
                     data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-collapsed="false"
                     data-widget-sortable="false">
@@ -164,6 +121,7 @@
                             <br />
                             <div class="row">
                                 <div class="col-md-12">
+                                    <!-- <div class="form-inline"> -->
                                     <div class="input-group" id='osy-solver' style="display: none;">
                                         <div class="smart-form">
                                             <div class="inline-group">
@@ -179,14 +137,37 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- <hr> -->
+                            <!-- <div class="row">
+                                <div class="col-md-12">
+                                    <button id="osy-run" class="btn btn-white btn-default btn-bold btn-block"
+                                        style="display: none;">
+                                        <i class="fa fa-play-circle fa-lg danger"></i> RUN MODEL
+                                    </button>
+                                </div>
+                            </div> -->
+                            <!-- <hr> -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- <button id="osy-batchRun" class="btn btn-white btn-default btn-bold btn-block"
+                                        style="display: none;">
+                                        <i class="fa fa-play-circle fa-lg osy-second-color"></i> BATCH RUN
+                                    </button> -->
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div> -->
-
-
+                </div>
             </article>
 
-            <article class="col-sm-9 col-md-9 col-lg-9 mt-10">
+            <article class="col-sm-9 col-md-9 col-lg-9">
+                <!-- <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false"
+                    data-widget-custombutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2> Case runs </h2>
+                    </header>
+                    <div> -->
                 <div id="tabs">
                     <ul class="nav nav-tabs in">
                         <li class="active">
@@ -226,6 +207,30 @@
                             </a>
                         </li>
 
+                        <li class="pull-right">
+    
+                            <button id="osy-logFile"
+                                    class="btn btn-white btn-default btn-bold">
+                                <i class="fa fa-clipboard fa-lg text-info"></i> LOG FILE
+                            </button>
+
+                            <button data-toggle="modal" data-target="#osy-ModelFileModal"
+                                    class="btn btn-white btn-default btn-bold">
+                                <i class="fa fa-cogs fa-lg text-danger"></i> MODEL FILE
+                            </button>
+
+
+       
+
+                            </button>
+                            <button id="osy-batchRun" class="btn btn-white btn-default btn-bold"
+                                style="display: none;">
+                                <i class="fa fa-play-circle fa-lg osy-second-color"></i> BATCH RUN
+                            </button>
+                            <button id="osy-cleanUp" class="btn btn-white btn-default btn-bold">
+                                <i class="fa fa-recycle fa-lg danger"></i> CLEAN UP
+                            </button>
+                        </li>
                     </ul>
 
                 </div>

@@ -1,5 +1,5 @@
 <div  class="navbar-brand ">
-	<i class="fa fa-cubes fa-lg"></i><span style="font-weight: bold;">  MUIO <sub>ver.5.5</sub></span><br>
+	<i class="fa fa-cubes fa-lg"></i><span style="font-weight: bold;">  MUIO <sub>ver.5.6</sub></span><br>
 	<!-- <i class="fa fa-cubes bigger-150 "></i><span style="font-weight: bold;">   PROTOTYPE <sub>ver.2.0</sub></span><br> -->
 	<!-- <span style="font-size:10px; margin-top:0px" class="hidden-xs "><i>Electricity Simulation Environment ver.2.0</i></span> -->
 </div>
@@ -8,16 +8,31 @@
 	<span class="label">Models:</span>
 	<span class="project-selector dropdown-toggle" data-toggle="dropdown">Select model <i class="fa fa-angle-down"></i></span>
 	<ul class="dropdown-menu" id="casePicker"></ul>
+	 
 </div>
+<div class="pull-left" id="osy-runtitle" style="padding-top:20px!important; display: none;">
+	<span id="osy-caserun"></span> /
+	<span id="osy-titlerun"><i class="fa-fw fa fa-home"></i> Data File </span>
+</div>
+
 
 <!-- #TOGGLE LAYOUT BUTTONS -->
 <!-- pulled right: nav area -->
 <div class="pull-right">
-
-		<!-- collapse menu button -->
+	<!-- collapse menu button -->
 	<div class="btn-header pull-right">
 		<span> <a href="/#Versions"  title="Code versions"><i class="fa fa-code" style="margin:0px!important"></i></a> </span>
 	</div>
+	<!-- <div class="btn-header pull-right">
+		<span> <a href="/#Settings"  title="MUIO settings"><i class="fa fa-cogs" style="margin:0px!important"></i></a> </span>
+	</div> -->
+
+	<div class="btn-header pull-right">
+		<span> <a href="javascript:void(0)"  data-toggle="modal" data-target="#muio-settings"   title="MUIO settings"><i class="fa fa-cogs" style="margin:0px!important"></i></a> </span>
+	</div>
+
+
+
 	<!-- collapse menu button -->
 	<div id="hide-menu" class="btn-header pull-right">
 		<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder" style="margin:0px!important"></i></a> </span>
@@ -28,8 +43,9 @@
 	</div>
 	<div class="btn-header transparent pull-right">
 		<span> 
-			<a id='osy-sounds' title='Trun sounds off/on'>
-				<i class="fa fa-volume-up" style="margin:0px!important"></i></a> 
+			<a id='osy-sounds' title='Trun sounds off/on'><i class="fa fa-volume-up" style="margin:0px!important"></i></a> 
 		</span>
 	</div>
 </div>
+
+

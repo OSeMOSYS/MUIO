@@ -40,7 +40,7 @@
 
 		
 		<!-- MathJax 3 -->
-		<script>
+		<!-- <script>
 			window.MathJax = {
 				tex: {
 					// Dodaj AMS paket
@@ -53,7 +53,7 @@
 				}
 			};
 		</script>
-		<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+		<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script> -->
 
 		<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
 		<link rel="stylesheet" type="text/css" media="screen" href="References/smartadmin/css/smartadmin-production-plugins.min.css">
@@ -131,7 +131,7 @@
 					
 			<div class="osy-content pace-done" id="content"></div>
 
-			<div class="demo"></div>
+			<!-- <div class="demo"></div> -->
 
 		</div>
 
@@ -140,7 +140,7 @@
 			<div class="page-footer">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
-						<span class="txt-color-white">MUIO ver.5.5<span class="hidden-xs"> - Modelling User Interface for Osemosys</span> © 2020-2025</span>
+						<span class="txt-color-white">MUIO ver.5.6<span class="hidden-xs"> - Modelling User Interface for Osemosys</span> © 2020-2026</span>
 					</div>
 				</div>
 				<!-- end row -->
@@ -151,6 +151,7 @@
 		
 		<script> $("aside").load("App/View/Sidebar.html"); </script>
         <script> $("header").load("App/View/Navbar.html"); </script>
+		<script> $("#modals").load("App/View/Modals.html"); </script>
 
 		<!--ROUTES-->
 		<script type="module" src="{{ url_for('static', filename='Routes/Routes.Class.js') }}"></script>

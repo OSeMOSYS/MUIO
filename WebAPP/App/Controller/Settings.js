@@ -1,10 +1,7 @@
 import { Model } from "../Model/Settings.Model.js";
-import { Html } from "../../Classes/Html.Class.js";
 import { JqxSources } from "../../Classes/JqxSources.Class.js";
 import { Message } from "../../Classes/Message.Class.js";
-import { Osemosys } from "../../Classes/Osemosys.Class.js";
 import { Base } from "../../Classes/Base.Class.js";
-
 export default class Settings {
     static Load(){
         let model = new Model();
@@ -98,28 +95,6 @@ export default class Settings {
         $("#demo-setting").on('click', function () {
             $(".demo").toggleClass("activate");
             $("#demo-setting i").toggleClass("fa-spin");
-            // let UnitsSettings = JSON.parse(localStorage.getItem("osy-units"));
-            // if(UnitsSettings){
-            //     Settings.refreshPage();
-            // }else{
-            //     $("#dllSettingUnits").jqxDropDownList('uncheckAll'); 
-            // }
-
-            // let pagesize = localStorage.getItem("osy-pagesize");
-            // if(pagesize){
-            //     $("#ddlGridPageSize").jqxDropDownList('checkItem', pagesize);   
-            // }
-            // else{
-            //     $("#ddlGridPageSize").jqxDropDownList('clearSelection'); 
-            // }
-            // let decimalpoint = localStorage.getItem("osy-decimalpoints");
-            // if(decimalpoint){
-            //     $("#ddlPivotDecimalPoints").jqxDropDownList('checkItem', decimalpoint);   
-            // }
-            // else{
-            //     $("#ddlPivotDecimalPoints").jqxDropDownList('clearSelection');  
-            // }
-            // console.log(UnitsSettings, pagesize, decimalpoint);
         });
 
         $("#osy-saveSettings").off('click');
@@ -136,15 +111,6 @@ export default class Settings {
             else{
                 localStorage.removeItem("osy-units");
             }
-
-            // var gridPageSize = $("#ddlGridPageSize").jqxDropDownList('getSelectedItem'); 
-            // if(gridPageSize){
-            //     localStorage.setItem("osy-pagesize", gridPageSize.value);
-            // }   
-            // else{
-            //     localStorage.removeItem("osy-pagesize");
-            // }
-
 
             var pivotDecimalPoints = $("#ddlPivotDecimalPoints").jqxDropDownList('getSelectedItem'); 
             if(pivotDecimalPoints){

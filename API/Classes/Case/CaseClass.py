@@ -7,6 +7,8 @@ class Case:
         self.case = case
         self.PARAMETERS = File.readParamFile(Path(Config.DATA_STORAGE, 'Parameters.json'))
         self.genData =  genData
+
+        #ovdje pravimo automatski path-ove grupama, ako grupa ima parametre onda se pravi path, ako nema onda se ne pravi path i ne pravi se ni json file
         self.jsonPath = {}
         for group, array in self.PARAMETERS.items():
             if array:

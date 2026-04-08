@@ -1,9 +1,11 @@
 import os
 from pathlib import Path
 import platform
-import shutil
+import shutil, json
+from copy import deepcopy
 from Classes.Base import Config
 from Classes.Base.FileClass import File
+from Classes.Case.HelpersClass import Helpers
 
 class Osemosys():
     def __init__(self, case):
@@ -13,6 +15,8 @@ class Osemosys():
 
         self.PARAMETERS = File.readParamFile(self.storagePath / 'Parameters.json')
         self.VARIABLES = File.readParamFile(self.storagePath / 'Variables.json')
+        self.DUALS = File.readParamFile(self.storagePath / 'Duals.json')
+        self.INDICATORS = File.readParamFile(self.storagePath / 'Indicators.json')
 
 
         self.resultsPath = self.casePath / 'res'
@@ -20,6 +24,7 @@ class Osemosys():
         self.resDataPath = self.viewFolderPath / 'resData.json'
 
         self.genData =  File.readFile(self.casePath / 'genData.json')
+        self.customIndicators = self.genData['osy-indicators']
         self.resData = File.readFile(self.resDataPath)
         
         #Case.__init__(self, case)
@@ -69,22 +74,230 @@ class Osemosys():
         self.cbc_path,    self.cbc_is_bundled    = self._resolve_solver_executable(self.cbcFolder,  cbc_name, platform.system())
 
 
+        self.PARAM = Helpers.build_param(self.PARAMETERS)
+        self.VARS  = Helpers.build_vars(self.VARIABLES)
+        self.VAR_BY_NAME = Helpers.build_var_by_name(self.VARIABLES)
+        self.IND_BY_NAME = Helpers.merge_all_indicators(self.INDICATORS, self.customIndicators, self.getTechsMap())
+        self.IND_GROUPED = Helpers.merge_all_indicators_grouped(self.INDICATORS, self.customIndicators, self.getTechsMap())
+        self.DUALS_BY_NAME = Helpers.build_var_by_name(self.DUALS)
+        
+
         #
-        d = {}
-        for k, l in self.PARAMETERS.items():
-            tmp = {}
-            for de in l:
-                tmp[de['id']] = de['value'].replace(" ", "")
+        # d = {}
+        # for k, l in self.PARAMETERS.items():
+        #     tmp = {}
+        #     for de in l:
+        #         tmp[de['id']] = de['value'].replace(" ", "")
+        #     d[k] = tmp
+        # self.PARAM = d
+
+        # a=[]
+        # for k, l in self.VARIABLES.items():
+        #     for de in l:
+        #         a.append(de['name'])
+        # self.VARS = a
+
+ 
+    @staticmethod
+    def __build_param(parameters: dict) -> dict[str, dict[str, str]]:
+        d: dict[str, dict[str, str]] = {}
+        for k, lst in parameters.items():
+            tmp: dict[str, str] = {}
+            for de in lst:
+                tmp[de['id']] = str(de['value']).replace(" ", "")
             d[k] = tmp
-        self.PARAM = d
+        return d
 
-        a=[]
-        for k, l in self.VARIABLES.items():
-            for de in l:
-                a.append(de['name'])
-        self.VARS = a
+    @staticmethod
+    def __build_vars(variables: dict) -> list[str]:
+        names: list[str] = []
+        for _, lst in variables.items():
+            for de in lst:
+                names.append(de['name'])
+        return names
 
-    def _resolve_solver_executable(self, folder: Path, exe_name: str, system: str):
+
+    @staticmethod
+    def __build_var_by_name(variables: dict) -> dict:
+        out = {}
+        for group, entries in variables.items():
+            for obj in entries:
+                out[obj["name"]] = {
+                    "id": obj["id"],
+                    "group": group,
+                    "setrelation": obj.get("setrelation", [])
+                }
+        return out
+
+    @staticmethod
+    def __merge_groups(a: dict, b: dict) -> dict:
+        out = { **a }   # kopija A
+
+        for key, value in b.items():
+            if (
+                key in out and
+                isinstance(out[key], dict) and
+                isinstance(value, dict)
+            ):
+                # oba su dict → plitko spajanje pod-ključevа
+                out[key] = { **out[key], **value }
+
+            # Ako su oba liste → spoji liste
+            elif (
+                key in out and
+                isinstance(out[key], list) and
+                isinstance(value, list)
+            ):
+                out[key] = out[key] + value  # ili list(set(...)) ako želiš unikate
+
+            # Inače samo prepiši
+
+            else:
+                # key postoji samo u b → direktno dodaj
+                out[key] = value
+
+        return out
+
+    def __merge_all_indicators(self, indicator_types_json: dict, custom_indicators: list) -> dict:
+        """
+        Spaja tipove indikatora iz indicator_types_json sa custom_indicators.
+        U finalni objekat dodaje root-level 'group'.
+        indicator_type se kopira bez 'group'.
+        Ključ u finalnom dict-u je id (bivši IndicatorId).
+        """
+
+        # 1) Sakupi sve tipove indikatora iz svih grupa + group info
+        type_by_id = {}
+
+        for group_name, group_items in indicator_types_json.items():
+            if not isinstance(group_items, list):
+                continue
+
+            for item in group_items:
+                if isinstance(item, dict) and "id" in item:
+                    type_by_id[item["id"]] = { **item, "group": group_name }
+
+        # 2) Rezultat
+        result = {}
+        tech_map = self.getTechsMap()
+
+        # 3) Obrada custom indikatora
+        for item in custom_indicators:
+            if not isinstance(item, dict):
+                continue
+
+            indicator_name = item.get("Indicator")
+            indicator_id = item.get("IndicatorId")
+            indicator_type_id = item.get("IndicatorTypeId")
+
+            if not indicator_name or not indicator_type_id or not indicator_id:
+                continue
+
+            type_rec = type_by_id.get(indicator_type_id)
+            if not type_rec:
+                continue
+
+            merged = deepcopy(item)
+
+            # --- Mapiranje SETS: TECHid -> TechName ---
+            sets_ids = merged.get("Sets", [])
+            if isinstance(sets_ids, list):
+                mapped_sets = [
+                    tech_map.get(tech_id, tech_id) for tech_id in sets_ids
+                ]
+                merged["Sets"] = mapped_sets
+
+            # --- Root-level group ---
+            merged["group"] = type_rec.get("group")
+
+            # --- indicator_type bez 'group' ---
+            clean_type = {k: v for k, v in type_rec.items() if k != "group"}
+            merged["indicator_type"] = deepcopy(clean_type)
+
+            # --- Rename IndicatorId -> id ---
+            merged["id"] = indicator_id
+            if "IndicatorId" in merged:
+                del merged["IndicatorId"]
+
+            # Spremi pod ključem = id
+            result[indicator_id] = merged
+
+        return result
+
+    def __merge_all_indicators_grouped(self, indicator_types_json: dict, custom_indicators: list) -> dict:
+        """
+        Vraća strukturu grupisanu po 'group':
+        {
+            "<group>": [
+                { ... indikator ... },
+                { ... indikator ... }
+            ]
+        }
+        """
+
+        # 1) Sakupi sve tipove indikatora + group info
+        type_by_id = {}
+        for group_name, group_items in indicator_types_json.items():
+            if not isinstance(group_items, list):
+                continue
+
+            for item in group_items:
+                if isinstance(item, dict) and "id" in item:
+                    type_by_id[item["id"]] = { **item, "group": group_name }
+
+        # 2) rezultat: group -> list of objects
+        result = {}
+        tech_map = self.getTechsMap()
+
+        # 3) obrada custom indikatora
+        for item in custom_indicators:
+            if not isinstance(item, dict):
+                continue
+
+            indicator_name = item.get("Indicator")
+            indicator_id = item.get("IndicatorId")
+            indicator_type_id = item.get("IndicatorTypeId")
+
+            if not indicator_name or not indicator_id or not indicator_type_id:
+                continue
+
+            type_rec = type_by_id.get(indicator_type_id)
+            if not type_rec:
+                continue
+
+            group = type_rec["group"]
+            merged = deepcopy(item)
+
+            # Mapiranje Sets: TECHid -> TechName
+            sets_ids = merged.get("Sets", [])
+            if isinstance(sets_ids, list):
+                merged["Sets"] = [tech_map.get(t, t) for t in sets_ids]
+
+            # Root-level group
+            merged["group"] = group
+
+            # indicator_type bez 'group'
+            clean_type = {k: v for k, v in type_rec.items() if k != "group"}
+            merged["indicator_type"] = deepcopy(clean_type)
+
+            # Rename IndicatorId -> id
+            merged["id"] = indicator_id
+            if "IndicatorId" in merged:
+                del merged["IndicatorId"]
+
+            # -------------------------------
+            # UPIS: grupa -> lista objekata
+            # -------------------------------
+            if group not in result:
+                result[group] = []
+
+            result[group].append(merged)
+
+        return result
+
+
+    @staticmethod
+    def _resolve_solver_executable( folder: Path, exe_name: str, system: str):
         # 1) Bundled
         candidate = folder / exe_name
         if candidate.exists():
@@ -112,8 +325,6 @@ class Osemosys():
                     return str(test), False
 
         raise FileNotFoundError(f"Solver not found: {exe_name}")
-
-
 
     def getParamDefaultValues(self):
         d = {}

@@ -23,11 +23,13 @@ export default class AddCase {
                 promise.push(resData);
                 const PARAMETERS = Osemosys.getParamFile();
                 promise.push(PARAMETERS);
+                const INDICATORS = Osemosys.getParamFile('Indicators.json');
+                promise.push(INDICATORS);
                 return Promise.all(promise);
             })
             .then(data => {
-                let [genData, resData, PARAMETERS] = data;
-                let model = new Model(genData, resData, PARAMETERS, "AddCase");
+                let [genData, resData, PARAMETERS, INDICATORS] = data;
+                let model = new Model(genData, resData, PARAMETERS, INDICATORS, "AddCase");
                 
                 this.initPage(model);
             })
@@ -46,11 +48,13 @@ export default class AddCase {
                 promise.push(resData);
                 const PARAMETERS = Osemosys.getParamFile();
                 promise.push(PARAMETERS);
+                const INDICATORS = Osemosys.getParamFile('Indicators.json');
+                promise.push(INDICATORS);
                 return Promise.all(promise);
             })
             .then(data => {
-                let [genData, resData, PARAMETERS] = data;
-                let model = new Model(genData, resData, PARAMETERS, "AddCase");
+                let [genData, resData, PARAMETERS, INDICATORS] = data;
+                let model = new Model(genData, resData, PARAMETERS, INDICATORS, "AddCase");
                 AddCase.initPage(model);
             })
             .catch(error => {
@@ -63,7 +67,7 @@ export default class AddCase {
         Message.clearMessages();
         //$('a[href="#tabComms"]').click();
         //Navbar.initPage(model.casename, model.pageId);
-        //console.log('model ', model)
+        console.log('model ', model)
         
         Html.title(model.casename, model.title, "create & edit");
         Html.genData(model);
@@ -81,6 +85,8 @@ export default class AddCase {
         Grid.scenarioGrid(model.scenarios);
         Grid.constraintGrid(model.techs, model.constraints, model.techNames);
 
+        Grid.indicatorGrid(model.techs, model.indicators, model.indicatorTypes, model.techNames);
+
         if (model.casename == null) {
             $('#osy-save').show();
             $('#osy-update').hide();
@@ -96,7 +102,7 @@ export default class AddCase {
     }
 
     static initEvents(model) {
-        console.log('model ', model)
+        //console.log('model ', model)
         let $divTech = $("#osy-gridTech");
         let $divTechGroup = $("#osy-gridTechGroup");
         let $divStg = $("#osy-gridStg");
@@ -108,6 +114,7 @@ export default class AddCase {
         let $divEmi = $("#osy-gridEmis");
         let $divScenario = $("#osy-gridScenario");
         let $divConstraint = $("#osy-gridConstraint");
+        let $divIndicator = $("#osy-gridIndicator");
 
         $("#casePicker").off('click');
         $("#casePicker").on('click', '.selectCS', function (e) {
@@ -247,6 +254,7 @@ export default class AddCase {
                 "osy-emis": model.emissions,
                 "osy-scenarios": model.scenarios,
                 "osy-constraints": model.constraints,
+                "osy-indicators": model.indicators,
                 "osy-years": years
             }
 
@@ -358,6 +366,16 @@ export default class AddCase {
                     //izbrisati iz model constraints eventualne tehnologijel koje smo izbrisali
                     $.each(model.constraints, function (id, conObj) {
                         conObj['CM'] = conObj['CM'].filter(item => item !== techId);
+                    });
+
+
+                    //izbirsati iz modela za tech nz indicators eventualne tehnologijel koje smo izbrisali
+                    $.each(model.indicators, function (id, indObj) {
+                       indObj['Sets'] = indObj['Sets'].filter(item => item !== techId);
+                    });
+                    $.each(model.stg, function (id, stgObj) {
+                       stgObj['TTS'] = stgObj['TTS'].filter(item => item !== techId);
+                       stgObj['TFS'] = stgObj['TFS'].filter(item => item !== techId);
                     });
                 }
             }
@@ -1057,8 +1075,70 @@ export default class AddCase {
                 }
                 model.constraints[rowBoundIndex][column] = array;
             } else if (column == 'Tag') {
-                //console.log('eqyuality ', value.value)
+                //console.log('eqyuality ', value)
                 model.constraints[rowBoundIndex][column] = value.value;
+            }
+        });
+
+        //INDICATORS GRID AND EVENTS
+        $('#osy-caseForm').undelegate("#osy-addIndicator", "click");
+        $('#osy-caseForm').delegate("#osy-addIndicator", "click", function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            let defaultIndicator = DefaultObj.defaultIndicator();
+            model.indicators.push(JSON.parse(JSON.stringify(defaultIndicator[0], ['IndicatorId', 'Indicator', 'Desc', 'IndicatorTypeId', 'Sets'])));
+            console.log('model.defaultIndicator ',defaultIndicator)
+
+            $divIndicator.jqxGrid('addrow', null, defaultIndicator);
+            $divIndicator.jqxGrid('updatebounddata', 'data');
+            model.indicatorsCount++;
+            $("#indicatorsCount").text(model.indicatorsCount);
+            //$divConstraint.jqxGrid('refresh');
+        });
+
+        $('#osy-caseForm').undelegate(".deleteIndicator", "click");
+        $('#osy-caseForm').delegate(".deleteIndicator", "click", function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var id = $(this).attr('data-id');
+            //no condition needed, we can delete all constraints
+            //if(id!=0){
+            //var conId = $divIndicator.jqxGrid('getcellvalue', id, 'IndicatorId');
+            var rowid = $divIndicator.jqxGrid('getrowid', id);
+            $divIndicator.jqxGrid('deleterow', rowid);
+            model.indicators.splice(id, 1);
+            //smanji counter za broj emisjia i update html
+            model.indicatorsCount--;
+            $("#indicatorsCount").text(model.indicatorsCount);
+
+        });
+
+        $divIndicator.on('cellvaluechanged', function (event) {
+            var args = event.args;
+            var column = event.args.datafield;
+            var rowBoundIndex = args.rowindex;
+            if(typeof args.newvalue !== 'object'){
+                var value = args.newvalue.trim();
+            }else{
+                var value = args.newvalue;
+            }
+            console.log('column ', column)
+            console.log('value ', value)
+            if (column != 'Sets' && column != 'IndicatorTypeId') {
+                model.indicators[rowBoundIndex][column] = value;
+            } else if (column == 'Sets') {
+                if (value.includes(',') && value) {
+                    var array = value.split(',');
+                } else if (value) {
+                    var array = [];
+                    array.push(value);
+                } else {
+                    var array = [];
+                }
+                model.indicators[rowBoundIndex][column] = array;
+            } else if (column == 'IndicatorTypeId') {
+                console.log('IndicatorTypeId value received:', value);
+                model.indicators[rowBoundIndex][column] = value;
             }
         });
 

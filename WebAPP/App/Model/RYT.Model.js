@@ -54,6 +54,9 @@ export class Model {
                 return scClass[data.ScId];
             }
 
+
+
+
             let cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
                 //console.log('value ', value)
                 

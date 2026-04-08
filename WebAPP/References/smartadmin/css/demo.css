@@ -98,8 +98,9 @@
     right: 0;
     width: 280px;
     z-index: 902;
-    /* background: #f1da91; */
-    background: #71a06a;
+    /* background: #f0f1f4; */
+        background: url(../img/mybg.png) #fff;
+    /* background: #71a06a; */
     /* background: #3a3f51; */
 }
 .demo > #demo-setting {
@@ -107,17 +108,18 @@
     right: 0;
     top: 0;
     display: block;
-    height: 30px;
+    height: 32px;
     width: 30px;
     border-radius: 5px 0 0 5px;
-    /* background: #f1da91; */
-    background: #71a06a;
+    background: #3a3f51;
+    /* background: url(../img/mybg.png) #fff; */
+    /* background: #71a06a; */
     /* background: #3a3f51; */
     padding: 2px;
     text-align: center;
     line-height: 28px;
     cursor: pointer;
-    color:whitesmoke;
+    color:#fff;
 }
 
 .demo > #demo-setting i {
@@ -130,7 +132,7 @@
     left: -30px;
 }
 .demo > #demo-setting:hover i {
-    color: #333 !important;
+    color: #71a06a !important;
 }
 /* .demo #demo-content section {
     margin: 0 !important;

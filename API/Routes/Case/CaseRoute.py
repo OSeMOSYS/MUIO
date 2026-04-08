@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import shutil
 import pandas as pd
+from Classes.Case.HelpersClass import Helpers
 from Classes.Base import Config
 from Classes.Base.FileClass import File
 from Classes.Case.CaseClass import Case
@@ -177,11 +178,17 @@ def saveParamFile():
     try:
         ParamData = request.json['ParamData']
         VarData = request.json['VarData']
+        DualData = request.json['DualData']
+        IndicatorData = request.json['IndicatorData']
 
         paramPath = Path(Config.DATA_STORAGE, 'Parameters.json')
         varPath = Path(Config.DATA_STORAGE, 'Variables.json')
+        dualPath = Path(Config.DATA_STORAGE, 'Duals.json')
+        indicatorPath = Path(Config.DATA_STORAGE, 'Indicators.json')
         File.writeFile( ParamData, paramPath)
         File.writeFile( VarData, varPath)
+        File.writeFile( DualData, dualPath)
+        File.writeFile( IndicatorData, indicatorPath)
         response = {
             "message": "You have updated parameters & variables data!",
             "status_code": "success"
@@ -237,28 +244,19 @@ def saveCase():
         casename = genData['osy-casename']
         case = session.get('osycase', None)
 
-        configPath = Path(Config.DATA_STORAGE, 'Variables.json')
-        vars = File.readParamFile(configPath)
+        #osy = Osemosys(casename)
 
-        
-        # viewDef = {}
-        # for group, lists in vars.items():
-        #     for list in lists:
-        #         viewDef[list['id']] = []
-
-        #ukoliko dodamo varijablu onda se prilikom update case treba taj var dodati defaultno u view Definition
-        # viewDataPath = Path(Config.DATA_STORAGE,casename,'view','viewDefinitions.json')
-        # viewDefExisting = File.readParamFile(viewDataPath)
         # configPath = Path(Config.DATA_STORAGE, 'Variables.json')
         # vars = File.readParamFile(configPath)
-        # viewDef = {}
-        # for group, lists in vars.items():
-        #     for list in lists:
-        #         if list['id'] not in viewDefExisting["osy-views"]:
-        #             viewDef[list['id']] = []
-        #         else:
-        #             viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+        customIndicators = genData['osy-indicators']
+        techsMap = {tech['TechId']: tech['Tech'] for tech in genData["osy-tech"] }
+        storagePath = Path(Config.DATA_STORAGE)
+        VARIABLES = File.readParamFile(storagePath / 'Variables.json')
+        INDICATORS = File.readParamFile(storagePath / 'Indicators.json')
 
+        IND_GROUPED = Helpers.merge_all_indicators_grouped(INDICATORS, customIndicators, techsMap)
+
+        vars = Helpers.merge_groups(VARIABLES, IND_GROUPED)
 
         #ako je izabran case, edit mode
         if case != None and case != '':
@@ -276,9 +274,27 @@ def saveCase():
             for group, lists in vars.items():
                 for list in lists:
                     if list['id'] not in viewDefExisting["osy-views"]:
-                        viewDef[list['id']] = []
+                        
+                        # Ako postoji indicator_type → izbriši ključ (ako je ranije kreiran)
+                        if "indicator_type" in list and list["indicator_type"]:
+                            if list['id'] in viewDef:
+                                del viewDef[list['id']]
+                            else:
+                                viewDef[list['id']] = []
+                        else:
+                            viewDef[list['id']] = []
                     else:
-                        viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+                        if "indicator_type" in list and list["indicator_type"]:
+                            viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+                        else:           
+                            viewDef[list['id']] = viewDefExisting["osy-views"][list['id']]
+
+            #dodavanje custom indikatora u view definition 
+            # for ind in customIndicators:
+            #     if ind['IndicatorId'] not in viewDef:
+            #         viewDef[ind['IndicatorId']] = []
+            #     else
+
 
             viewData = {
                     "osy-views": viewDef

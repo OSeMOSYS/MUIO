@@ -1,12 +1,15 @@
 :root {
     --main-color: #3a3f51; 
     --second-color: #71a06a;
+    --second-lighter-color:#b5cdb1;
     --second-darker-color: #4b6d46;
     --main-lighter-color: #555c77;
     --main-darker-color: #20232d;
     --main-font-color: #3a3f51;
     --white-font-color: #fff;
-    --background-color:#f0f1f4;
+    /* --background-color:#f0f1f4; */
+    --background-color:#fff;
+    /* --background-color:: url(../img/mybg.png) #fff; */
   }
 
 
@@ -56,6 +59,13 @@ html {
     z-index: 901;
 }
 
+.gridDiv{
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 2px;
+    padding-bottom: 0px;
+}
+ 
 label.select {
     border-radius: 0px !important;
 }
@@ -65,15 +75,10 @@ label.select {
     font-size: 18px!important;
 } */
 
-.m-0{
-    margin: 0 4 0 0!important;
-}
-.p-0{
-    padding: 0 0 0 0!important;
-}
-.alert {
-    margin-bottom: 2px;
-}
+
+
+
+.alert {margin-bottom: 2px;}
 
 .panel { margin-bottom: 9px;}
 .panel-body { padding:0px; }
@@ -190,6 +195,12 @@ label.select {
     margin: 0px!important;
 }
 
+.sparks-run{
+    text-align: left!important;
+    color: #555!important;
+    font-size: 14px!important;
+}
+
 .jarviswidget-color-blueDark>header {
     border-color: #45474b!important;
     background: var(--main-color)!important;
@@ -278,22 +289,122 @@ label.select {
     font-weight: 700!important;
 }
 
-.jqx-grid-cell-bootstrap{
+/* .jqx-grid-cell-bootstrap{
     color:var(--main-color)!important;
 }
-/* .jqx-grid-cell-pinned-bootstrap{
-    background: repeat-x #f7f7f7;
-    font-weight: bold;
-    color:var(--main-color)!important;
+
+.jqx-grid-cell-pinned-bootstrap {
+    background-color: var(--background-color) !important;
+    font-weight: 700!important;
+}
+
+.jqx-grid-cell-pinned-bootstrap.jqx-grid-cell-alt {
+    background: #f9f9f9 !important; 
+}
+
+.jqx-grid-cell-selected-bootstrap {
+    color: whitesmoke!important;
+    background-color: var(--second-color) !important;
 } */
 
-.jqx-grid-cell-pinned-alt {
-    background-color: var(--body-background) !important;
+
+
+
+
+/* 1) Osnovno ponašanje (već imaš) */
+.jqx-grid-cell-bootstrap {
+    color: var(--main-color) !important;
 }
-.jqx-grid-cell-pinned {
-    /* background-color: var(--body-background) !important; */
-    background-color: var(--background-color) !important;
+
+.jqx-grid-cell-pinned-bootstrap {
+    background-color: var(--background-color);
+    font-weight: 700 !important;
 }
+
+.jqx-grid-cell-pinned-bootstrap.jqx-grid-cell-alt {
+    background: #f9f9f9 ; /* alt pinned */
+}
+
+/* 2) Selektovana ćelija (regularna) – već imaš */
+.jqx-grid-cell-selected-bootstrap {
+    color: whitesmoke !important;
+    background-color: var(--second-lighter-color) !important;
+    background-image: none !important; /* ukini gradiente ako ih ima */
+    border: 1px solid #f2f2f2!important;
+}
+
+/* 3) Selektovana + pinned: neka selekcija uvijek pobijedi pinned */
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap {
+    color: whitesmoke !important;
+    background-color: var(--second-lighter-color) !important;
+    background-image: none !important;
+    border: 1px solid #f2f2f2!important;
+}
+
+/* 4) Selektovana + pinned + alt: isto kao gore, samo dodatno nadjačaj alt */
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap.jqx-grid-cell-alt {
+    color: whitesmoke !important;
+    background-color: var(--second-lighter-color) !important;
+    background-image: none !important;
+}
+
+  /*scenario cells*/
+.jqx-grid-cell-bootstrap.SC_1{
+    background-color: #ffe6e6!important;
+}
+ 
+/* .jqx-grid-cell-bootstrap.jqx-grid-cell-alt.SC_1{
+    background-color: #ffcccc!important;
+} */
+
+    .jqx-grid-cell-bootstrap.SC_2 {
+        background-color: #e6ffe6!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_3 {
+        background-color: #e6eeff!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_4 {
+        background-color: #ffffe6!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_5 {
+        background-color: #f2e6ff!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_6 {
+        background-color: #e6faff!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_7 {
+        background-color: #f7ffe6!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_8 {
+        background-color: #faebf5!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_9 {
+        background-color: #e6ffff!important;
+    }
+    .jqx-grid-cell-bootstrap.SC_10 {
+        background-color: #f0f0f5!important;
+    }
+
+
+/* Selektovana ćelija – nadjačaj SVE scenarije i pin/alt varijante */
+.jqx-grid-cell-selected-bootstrap,
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap,
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-alt,
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap.jqx-grid-cell-alt,
+/* selekcija + scenario klase (SC_...) */
+.jqx-grid-cell-selected-bootstrap[class*="SC_"],
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap[class*="SC_"],
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-alt[class*="SC_"],
+.jqx-grid-cell-selected-bootstrap.jqx-grid-cell-pinned-bootstrap.jqx-grid-cell-alt[class*="SC_"] {
+    /* koristi 'background' (ne samo background-color) da pobijedi scenarije koji koriste background !important */
+    background: var(--second-lighter-color) !important;
+    color: whitesmoke !important;
+    background-image: none !important;
+    /* po potrebi ivica da se istakne selekcija */
+    border: 1px solid #f2f2f2 !important;
+}
+
+
 
 .no-gutter {
     margin-right: 0;
@@ -315,38 +426,6 @@ label.select {
     padding-left:  -16px!important;
   }
 
-  /*scenario cells*/
-    .SC_1 {
-        background-color: #ffe6e6;
-    }
-    .SC_2 {
-        background-color: #e6ffe6;
-    }
-    .SC_3 {
-        background-color: #e6eeff;
-    }
-    .SC_4 {
-        background-color: #ffffe6;
-    }
-    .SC_5 {
-        background-color: #f2e6ff;
-    }
-
-    .SC_6 {
-        background-color: #e6faff;
-    }
-    .SC_7 {
-        background-color: #f7ffe6;
-    }
-    .SC_8 {
-        background-color: #faebf5;
-    }
-    .SC_9 {
-        background-color: #e6ffff;
-    }
-    .SC_10 {
-        background-color: #f0f0f5;
-    }
 
 
 
@@ -417,32 +496,65 @@ label.select {
 
 
 
-        .osy-unitRuleSort {
-            list-style-type: 'horizontal';
-            margin: 2px;
-            padding: 5px;
-            width: 200px;
-            border: lightblue solid 1px;
-        }
-        .osy-unitRuleSort-container{
-            float: left;
-            width: 220px;
-        }
-        .osy-unitRuleSort-container span {
-            font-weight: bold;
-        }
-        .osy-unitRuleSort div {
-            border-radius: 5px;
-            padding: 5px;
-            background-color: white;
-            color: black;
-            cursor: pointer;
-            border: 1px solid transparent;
-         }
-         .osy-unitRuleSort div:hover {
-            border: 1px solid #356AA0;
-          }
+.osy-unitRuleSort {
+    list-style-type: 'horizontal';
+    margin: 2px;
+    padding: 5px;
+    width: 200px;
+    border: lightblue solid 1px;
+}
+.osy-unitRuleSort-container{
+    float: left;
+    width: 220px;
+}
+.osy-unitRuleSort-container span {
+    font-weight: bold;
+}
+.osy-unitRuleSort div {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 1px solid transparent;
+ }
+ .osy-unitRuleSort div:hover {
+    border: 1px solid #356AA0;
+  }
 
+
+.osy-indRuleSort {
+    list-style-type: 'horizontal';
+    margin: 2px;
+    padding: 5px;
+    width: 460px;
+    border: lightblue solid 1px;
+    /* height: auto;  */
+    
+}
+.osy-indRuleSort-container{
+    float: left;
+    width: 500px;
+    
+    height: 600px;  
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+.osy-indRuleSort-container span {
+    font-weight: bold;
+}
+.osy-indRuleSort div {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 1px solid transparent;
+ }
+ .osy-indRuleSort div:hover {
+    border: 1px solid #356AA0;
+  }
 /*loader*/
 .loader {
     border: 14px solid var(--main-color); /* Light grey */
@@ -754,7 +866,7 @@ li {
     /* background: 0 0; */
 }
 .wj-pivotpanel {
-    height: 500px!important;
+    min-height: 500px!important;
     /* background: 0 0!important; */
     border: 1px solid #e4e4e4; 
     background: #fff;
@@ -829,6 +941,18 @@ li {
     margin: 30px auto;
 }
 
+
+/* Make modal wide */
+.modal-wide {
+    width: 90%;          /* or whatever you want */
+    max-width: 1200px;   /* optional safety limit */
+}
+
+.modal-wide .modal-content {
+    border-radius: 6px;  /* keep nice rounding */
+}
+
+
 .jarviswidget-noHeader>header {
     height: 47px!important;
 
@@ -870,7 +994,9 @@ li {
     padding: 6px 12px !important;
 }
 
-.jqx-tree-material .jqx-checkbox-material .jqx-checkbox-default-material, .jqx-checkbox-material[checked] .jqx-checkbox-default-material, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-material, .jqx-radiobutton-material[checked] .jqx-radiobutton-default-material {
+.jqx-tree-material .jqx-checkbox-material .jqx-checkbox-default-material, 
+.jqx-checkbox-material[checked] .jqx-checkbox-default-material, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-material, 
+.jqx-radiobutton-material[checked] .jqx-radiobutton-default-material {
     background-color: var(--second-color)!important;
     border-color: var(--main-color)!important;
 }
@@ -880,10 +1006,13 @@ li {
 .jqx-listitem-state-selected-material, 
 .jqx-menu-item-selected-material, .jqx-tree-item-selected-material, 
 .jqx-calendar-cell-selected-material, .jqx-grid-cell-selected-material, 
-jqx-menu-vertical-material .jqx-menu-item-top-selected-material, .jqx-grid-selectionarea-material, .jqx-input-button-header-material, .jqx-input-button-innerHeader-material {
+jqx-menu-vertical-material .jqx-menu-item-top-selected-material, .jqx-grid-selectionarea-material, 
+.jqx-input-button-header-material, .jqx-input-button-innerHeader-material {
     color: whitesmoke!important;
     background-color: var(--second-color) !important;
 }
+
+
 .jqx-dropdownlist-content {
     color: var(--main-color) !important;
 }
@@ -1015,3 +1144,193 @@ jqx-menu-vertical-material .jqx-menu-item-top-selected-material, .jqx-grid-selec
     font-size: 12px;
     white-space: pre-wrap;
 }
+
+.smart-style-4 #content>.row:first-child {
+    background-color: transparent!important; 
+    padding-bottom: 0px!important;
+}
+
+
+
+/* Margin all sides */
+.m-0  { margin: 0px !important; }
+.m-1  { margin: 1px !important; }
+.m-2  { margin: 2px !important; }
+.m-3  { margin: 3px !important; }
+.m-4  { margin: 4px !important; }
+.m-5  { margin: 5px !important; }
+.m-6  { margin: 6px !important; }
+.m-7  { margin: 7px !important; }
+.m-8  { margin: 8px !important; }
+.m-9  { margin: 9px !important; }
+.m-10 { margin: 10px !important; }
+
+/* Margin top */
+.mt-0  { margin-top: 0px !important; }
+.mt-1  { margin-top: 1px !important; }
+.mt-2  { margin-top: 2px !important; }
+.mt-3  { margin: 3px !important; }
+.mt-4  { margin-top: 4px !important; }
+.mt-5  { margin-top: 5px !important; }
+.mt-6  { margin-top: 6px !important; }
+.mt-7  { margin-top: 7px !important; }
+.mt-8  { margin-top: 8px !important; }
+.mt-9  { margin-top: 9px !important; }
+.mt-10 { margin-top: 10px !important; }
+
+/* Margin right */
+.mr-0  { margin-right: 0px !important; }
+.mr-1  { margin-right: 1px !important; }
+.mr-2  { margin-right: 2px !important; }
+.mr-3  { margin-right: 3px !important; }
+.mr-4  { margin-right: 4px !important; }
+.mr-5  { margin-right: 5px !important; }
+.mr-6  { margin-right: 6px !important; }
+.mr-7  { margin-right: 7px !important; }
+.mr-8  { margin-right: 8px !important; }
+.mr-9  { margin-right: 9px !important; }
+.mr-10 { margin-right: 10px !important; }
+
+/* Margin bottom */
+.mb-0  { margin-bottom: 0px !important; }
+.mb-1  { margin-bottom: 1px !important; }
+.mb-2  { margin-bottom: 2px !important; }
+.mb-3  { margin-bottom: 3px !important; }
+.mb-4  { margin-bottom: 4px !important; }
+.mb-5  { margin-bottom: 5px !important; }
+.mb-6  { margin-bottom: 6px !important; }
+.mb-7  { margin-bottom: 7px !important; }
+.mb-8  { margin-bottom: 8px !important; }
+.mb-9  { margin-bottom: 9px !important; }
+.mb-10 { margin-bottom: 10px !important; }
+
+/* Margin left */
+.ml-0  { margin-left: 0px !important; }
+.ml-1  { margin-left: 1px !important; }
+.ml-2  { margin-left: 2px !important; }
+.ml-3  { margin-left: 3px !important; }
+.ml-4  { margin-left: 4px !important; }
+.ml-5  { margin-left: 5px !important; }
+.ml-6  { margin-left: 6px !important; }
+.ml-7  { margin-left: 7px !important; }
+.ml-8  { margin-left: 8px !important; }
+.ml-9  { margin-left: 9px !important; }
+.ml-10 { margin-left: 10px !important; }
+
+/* Margin X (left + right) */
+.mx-0  { margin-left: 0px !important; margin-right: 0px !important; }
+.mx-1  { margin-left: 1px !important; margin-right: 1px !important; }
+.mx-2  { margin-left: 2px !important; margin-right: 2px !important; }
+.mx-3  { margin-left: 3px !important; margin-right: 3px !important; }
+.mx-4  { margin-left: 4px !important; margin-right: 4px !important; }
+.mx-5  { margin-left: 5px !important; margin-right: 5px !important; }
+.mx-6  { margin-left: 6px !important; margin-right: 6px !important; }
+.mx-7  { margin-left: 7px !important; margin-right: 7px !important; }
+.mx-8  { margin-left: 8px !important; margin-right: 8px !important; }
+.mx-9  { margin-left: 9px !important; margin-right: 9px !important; }
+.mx-10 { margin-left: 10px !important; margin-right: 10px !important; }
+
+/* Margin Y (top + bottom) */
+.my-0  { margin-top: 0px !important; margin-bottom: 0px !important; }
+.my-1  { margin-top: 1px !important; margin-bottom: 1px !important; }
+.my-2  { margin-top: 2px !important; margin-bottom: 2px !important; }
+.my-3  { margin-top: 3px !important; margin-bottom: 3px !important; }
+.my-4  { margin-top: 4px !important; margin-bottom: 4px !important; }
+.my-5  { margin-top: 5px !important; margin-bottom: 5px !important; }
+.my-6  { margin-top: 6px !important; margin-bottom: 6px !important; }
+.my-7  { margin-top: 7px !important; margin-bottom: 7px !important; }
+.my-8  { margin-top: 8px !important; margin-bottom: 8px !important; }
+.my-9  { margin-top: 9px !important; margin-bottom: 9px !important; }
+.my-10 { margin-top: 10px !important; margin-bottom: 10px !important; }
+
+/* Padding all sides */
+.p-0  { padding: 0px !important; }
+.p-1  { padding: 1px !important; }
+.p-2  { padding: 2px !important; }
+.p-3  { padding: 3px !important; }
+.p-4  { padding: 4px !important; }
+.p-5  { padding: 5px !important; }
+.p-6  { padding: 6px !important; }
+.p-7  { padding: 7px !important; }
+.p-8  { padding: 8px !important; }
+.p-9  { padding: 9px !important; }
+.p-10 { padding: 10px !important; }
+
+/* Padding top */
+.pt-0  { padding-top: 0px !important; }
+.pt-1  { padding-top: 1px !important; }
+.pt-2  { padding-top: 2px !important; }
+.pt-3  { padding-top: 3px !important; }
+.pt-4  { padding-top: 4px !important; }
+.pt-5  { padding-top: 5px !important; }
+.pt-6  { padding-top: 6px !important; }
+.pt-7  { padding-top: 7px !important; }
+.pt-8  { padding-top: 8px !important; }
+.pt-9  { padding-top: 9px !important; }
+.pt-10 { padding-top: 10px !important; }
+
+/* Padding right */
+.pr-0  { padding-right: 0px !important; }
+.pr-1  { padding-right: 1px !important; }
+.pr-2  { padding-right: 2px !important; }
+.pr-3  { padding-right: 3px !important; }
+.pr-4  { padding-right: 4px !important; }
+.pr-5  { padding-right: 5px !important; }
+.pr-6  { padding-right: 6px !important; }
+.pr-7  { padding-right: 7px !important; }
+.pr-8  { padding-right: 8px !important; }
+.pr-9  { padding-right: 9px !important; }
+.pr-10 { padding-right: 10px !important; }
+
+/* Padding bottom */
+.pb-0  { padding-bottom: 0px !important; }
+.pb-1  { padding-bottom: 1px !important; }
+.pb-2  { padding-bottom: 2px !important; }
+.pb-3  { padding-bottom: 3px !important; }
+.pb-4  { padding-bottom: 4px !important; }
+.pb-5  { padding-bottom: 5px !important; }
+.pb-6  { padding-bottom: 6px !important; }
+.pb-7  { padding-bottom: 7px !important; }
+.pb-8  { padding-bottom: 8px !important; }
+.pb-9  { padding-bottom: 9px !important; }
+.pb-10 { padding-bottom: 10px !important; }
+
+/* Padding left */
+.pl-0  { padding-left: 0px !important; }
+.pl-1  { padding-left: 1px !important; }
+.pl-2  { padding-left: 2px !important; }
+.pl-3  { padding-left: 3px !important; }
+.pl-4  { padding-left: 4px !important; }
+.pl-5  { padding-left: 5px !important; }
+.pl-6  { padding-left: 6px !important; }
+.pl-7  { padding-left: 7px !important; }
+.pl-8  { padding-left: 8px !important; }
+.pl-9  { padding-left: 9px !important; }
+.pl-10 { padding-left: 10px !important; }
+
+/* Padding X */
+.px-0  { padding-left: 0px !important; padding-right: 0px !important; }
+.px-1  { padding-left: 1px !important; padding-right: 1px !important; }
+.px-2  { padding-left: 2px !important; padding-right: 2px !important; }
+.px-3  { padding-left: 3px !important; padding-right: 3px !important; }
+.px-4  { padding-left: 4px !important; padding-right: 4px !important; }
+.px-5  { padding-left: 5px !important; padding-right: 5px !important; }
+.px-6  { padding-left: 6px !important; padding-right: 6px !important; }
+.px-7  { padding-left: 7px !important; padding-right: 7px !important; }
+.px-8  { padding-left: 8px !important; padding-right: 8px !important; }
+.px-9  { padding-left: 9px !important; padding-right: 9px !important; }
+.px-10 { padding-left: 10px !important; padding-right: 10px !important; }
+
+/* Padding Y */
+.py-0  { padding-top: 0px !important; padding-bottom: 0px !important; }
+.py-1  { padding-top: 1px !important; padding-bottom: 1px !important; }
+.py-2  { padding-top: 2px !important; padding-bottom: 2px !important; }
+.py-3  { padding-top: 3px !important; padding-bottom: 3px !important; }
+.py-4  { padding-top: 4px !important; padding-bottom: 4px !important; }
+.py-5  { padding-top: 5px !important; padding-bottom: 5px !important; }
+.py-6  { padding-top: 6px !important; padding-bottom: 6px !important; }
+.py-7  { padding-top: 7px !important; padding-bottom: 7px !important; }
+.py-8  { padding-top: 8px !important; padding-bottom: 8px !important; }
+.py-9  { padding-top: 9px !important; padding-bottom: 9px !important; }
+.py-10 { padding-top: 10px !important; padding-bottom: 10px !important; }
+

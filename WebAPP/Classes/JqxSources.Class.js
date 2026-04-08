@@ -237,6 +237,36 @@ export class JqxSources {
         return srcConstraint;
     }
 
+    static srcIndicators(indicators, daTypes) {
+        var srcIndicators = {
+            localdata: indicators,
+            datatype: "json",
+            datafields:
+                [
+                    { name: 'IndicatorId', type: 'string' },
+                    { name: 'Indicator', type: 'string' },
+                    { name: 'Desc', type: 'string' },
+                    { name: 'TypeName', value: 'IndicatorTypeId', values: { source: daTypes, value: 'id', name: 'value' } },
+                    { name: 'IndicatorTypeId', type: 'string' },
+                    { name: 'Sets', type: 'array' }
+                ],
+        }
+        return srcIndicators;
+    }
+
+    static srcIndType(tags) {
+        var srcTags = {
+            localdata: tags,
+            datatype: "json",
+            datafields:
+                [
+                    { name: 'id', type: 'string' },
+                    { name: 'value', type: 'string' },
+                ],
+        };
+        return srcTags;
+    }
+
     static techGridColumns(daComms) {
         var ddlComms = function (row, value, editor) {
             editor.jqxDropDownList({ source: daComms, displayMember: 'Comm', valueMember: 'CommId', checkboxes: true });

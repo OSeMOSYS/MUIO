@@ -119,6 +119,31 @@ export class DataModel{
         return unitsDef;
     }
 
+    static getIndicatorDef(VARIABLES){
+        let indDef = {};
+        indDef['divide'] = { name: ' / ', ruleVal: {"var":"divide"}};
+        indDef['multiply'] = { name: ' * ', ruleVal: {"var":"multiply"}};
+        $.each(VARIABLES, function (group, array) {
+            $.each(array, function (i, obj) {
+                obj.group = group;
+                obj.ruleVal = {"var":obj.id};
+                indDef[obj.id] = obj;
+            });   
+        });        
+        return indDef;
+    }
+
+
+    static getIndicatorTypes(INDICATORS){
+        let indTypes = [];
+        $.each(INDICATORS, function (group, array) {
+            $.each(array, function (i, obj) {
+                indTypes.push(obj);
+            });   
+        });        
+        return indTypes;
+    }
+
     //get name from id
     static TechName(genData){
         let techNames = {};
@@ -381,7 +406,8 @@ export class DataModel{
         $.each(parameters, function (group, array) {
             ParamName[group] = {};
             $.each(array, function (id, obj) {
-                ParamName[group][obj.id] = obj.value;
+                //ParamName[group][obj.id] = obj.value;
+                ParamName[group][obj.id] = obj.value ?? obj.Indicator;
             });
         });
         return ParamName;

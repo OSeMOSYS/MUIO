@@ -1,1 +1,1167 @@
-{"R": [{"id": "DR", "value": "Discount Rate", "default": 0.05, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RT": [{"id": "DRI", "value": "Discount Rate Idv", "default": 0.05, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}, {"id": "CAU", "value": "Capacity To Activity Unit", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}, {"var": "divide"}, {"var": "CapUnitId"}]}}, {"id": "OL", "value": "Operational Life", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "years"}]}}, {"id": "TMPAL", "value": "Total Technology Model Period Activity Lower Limit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}, {"id": "TMPAU", "value": "Total Technology Model Period Activity Upper Limit", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}], "RE": [{"id": "MPEL", "value": "Model Period Emission Limit", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "EmiUnit"}]}}], "RYCn": [{"id": "UCC", "value": "UDC Constant", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}], "RYTCn": [{"id": "CCM", "value": "UDC Multiplier Total Capacity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}, {"id": "CNCM", "value": "UDC Multiplier New Capacity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}, {"id": "CAM", "value": "UDC Multiplier Activity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}], "RYTs": [{"id": "YS", "value": "Year Split", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYDtb": [{"id": "DS", "value": "Day Split", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYSeDt": [{"id": "DIDT", "value": "Days In Day Type", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "number"}]}}], "RYT": [{"id": "AF", "value": "Availability Factor", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}, {"id": "CC", "value": "Capital Cost", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "milion"}, {"var": "multiply"}, {"var": "Currency"}, {"var": "divide"}, {"var": "CapUnitId"}]}}, {"id": "FC", "value": "Fixed Cost", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "milion"}, {"var": "Currency"}, {"var": "divide"}, {"var": "CapUnitId"}]}}, {"id": "RC", "value": "Residual Capacity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}, {"id": "TAMaxC", "value": "Total Annual Max Capacity", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}, {"id": "TAMaxCI", "value": "Total Annual Max Capacity Investment", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}, {"id": "TAMinC", "value": "Total Annual Min Capacity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}, {"id": "TAMinCI", "value": "Total Annual Min Capacity Investment", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}, {"id": "TAL", "value": "Total Technology Annual Activity Lower Limit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}, {"id": "TAU", "value": "Total Technology Annual Activity Upper Limit", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}, {"id": "COTU", "value": "Capacity Of One Technology Unit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CapUnitId"}]}}], "RYTM": [{"id": "VC", "value": "Variable Cost", "default": 0.0001, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "milion"}, {"var": "Currency"}, {"var": "divide"}, {"var": "ActUnitId"}]}}, {"id": "TAMLL", "value": "Technology Activity By Mode Lower Limit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}, {"id": "TAMUL", "value": "Technology Activity By Mode Upper Limit", "default": 99999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "ActUnitId"}]}}, {"id": "TADML", "value": "Technology Activity Decrease By Mode Limit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}, {"id": "TAIML", "value": "Technology Activity Increase By Mode Limit", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYTC": [{"id": "INCR", "value": "Input To New Capacity Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}, {"id": "ITCR", "value": "Input To Total Capacity Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}], "RYTCM": [{"id": "IAR", "value": "Input Activity Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}, {"id": "OAR", "value": "Output Activity Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}], "RS": [{"id": "OLS", "value": "Operational Life Storage", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "years"}]}}, {"id": "SLS", "value": "Storage Level Start", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYS": [{"id": "CCS", "value": "Capital Cost Storage", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "milion"}, {"var": "Currency"}, {"var": "divide"}, {"var": "StgUnit"}]}}, {"id": "RSC", "value": "Residual Storage Capacity", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "StgUnit"}]}}, {"id": "MSC", "value": "Min Storage Charge", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RTSM": [{"id": "TTS", "value": "Technology To Storage", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}, {"id": "TFS", "value": "Technology From Storage", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": []}}], "RYTTs": [{"id": "CF", "value": "Capacity Factor", "default": 1, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYC": [{"id": "AAD", "value": "Accumulated Annual Demand", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}]}}, {"id": "SAD", "value": "Specified Annual Demand", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "CommUnit"}]}}], "RYCTs": [{"id": "SDP", "value": "Specified Demand Profile", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "percent"}, {"var": "divide"}, {"var": "hundert"}]}}], "RYE": [{"id": "AEL", "value": "Annual Emission Limit", "default": 999999, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "EmiUnit"}]}}, {"id": "EP", "value": "Emissions Penalty", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "milion"}, {"var": "Currency"}, {"var": "divide"}, {"var": "EmiUnit"}]}}], "RYTEM": [{"id": "EAR", "value": "Emission Activity Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "EmiUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}, {"id": "EACR", "value": "Emission To Activity Change Ratio", "default": 0, "enable": true, "menu": 1, "unitRule": {"cat": [{"var": "EmiUnit"}, {"var": "divide"}, {"var": "ActUnitId"}]}}]}
+{
+    "R": [
+        {
+            "id": "DR",
+            "value": "Discount Rate",
+            "name": "DiscountRate",
+            "default": 0.05,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RT": [
+        {
+            "id": "TMPAU",
+            "value": "Total Technology Model Period Activity Upper Limit",
+            "name": "TotalTechnologyModelPeriodActivityUpperLimit",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TMPAL",
+            "value": "Total Technology Model Period Activity Lower Limit",
+            "name": "TotalTechnologyModelPeriodActivityLowerLimit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "OL",
+            "value": "Operational Life",
+            "name": "OperationalLife",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "years"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "CAU",
+            "value": "Capacity To Activity Unit",
+            "name": "CapacityToActivityUnit",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "DRI",
+            "value": "Discount Rate Idv",
+            "name": "DiscountRateIdv",
+            "default": 0.05,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RE": [
+        {
+            "id": "MPEL",
+            "value": "Model Period Emission Limit",
+            "name": "ModelPeriodEmissionLimit",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "e"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "EmiUnit"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYCn": [
+        {
+            "id": "UCC",
+            "value": "UDC Constant",
+            "name": "UDCConstant",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "cn",
+                "y"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        }
+    ],
+    "RYTCn": [
+        {
+            "id": "CAM",
+            "value": "UDC Multiplier Activity",
+            "name": "UDCMultiplierActivity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "cn",
+                "y"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        },
+        {
+            "id": "CNCM",
+            "value": "UDC Multiplier New Capacity",
+            "name": "UDCMultiplierNewCapacity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "cn",
+                "y"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        },
+        {
+            "id": "CCM",
+            "value": "UDC Multiplier Total Capacity",
+            "name": "UDCMultiplierTotalCapacity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "cn",
+                "y"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        }
+    ],
+    "RYTs": [
+        {
+            "id": "YS",
+            "value": "Year Split",
+            "name": "YearSplit",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "l",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYDtb": [
+        {
+            "id": "DS",
+            "value": "Day Split",
+            "name": "DaySplit",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "dtb"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYSeDt": [
+        {
+            "id": "DIDT",
+            "value": "Days In Day Type",
+            "name": "DaysInDayType",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "se",
+                "dtb"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "number"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYT": [
+        {
+            "id": "COTU",
+            "value": "Capacity Of One Technology Unit",
+            "name": "CapacityOfOneTechnologyUnit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAU",
+            "value": "Total Technology Annual Activity Upper Limit",
+            "name": "TotalTechnologyAnnualActivityUpperLimit",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAL",
+            "value": "Total Technology Annual Activity Lower Limit",
+            "name": "TotalTechnologyAnnualActivityLowerLimit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMinCI",
+            "value": "Total Annual Min Capacity Investment",
+            "name": "TotalAnnualMinCapacityInvestment",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMinC",
+            "value": "Total Annual Min Capacity",
+            "name": "TotalAnnualMinCapacity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMaxCI",
+            "value": "Total Annual Max Capacity Investment",
+            "name": "TotalAnnualMaxCapacityInvestment",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMaxC",
+            "value": "Total Annual Max Capacity",
+            "name": "TotalAnnualMaxCapacity",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "RC",
+            "value": "Residual Capacity",
+            "name": "ResidualCapacity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "FC",
+            "value": "Fixed Cost",
+            "name": "FixedCost",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "milion"
+                    },
+                    {
+                        "var": "Currency"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "CC",
+            "value": "Capital Cost",
+            "name": "CapitalCost",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "milion"
+                    },
+                    {
+                        "var": "multiply"
+                    },
+                    {
+                        "var": "Currency"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "CapUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "AF",
+            "value": "Availability Factor",
+            "name": "AvailabilityFactor",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYTM": [
+        {
+            "id": "TAIML",
+            "value": "Technology Activity Increase By Mode Limit",
+            "name": "TechnologyActivityIncreaseByModeLimit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TADML",
+            "value": "Technology Activity Decrease By Mode Limit",
+            "name": "TechnologyActivityDecreaseByModeLimit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMUL",
+            "value": "Technology Activity By Mode Upper Limit",
+            "name": "TechnologyActivityByModeUpperLimit",
+            "default": 99999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "TAMLL",
+            "value": "Technology Activity By Mode Lower Limit",
+            "name": "TechnologyActivityByModeLowerLimit",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "VC",
+            "value": "Variable Cost",
+            "name": "VariableCost",
+            "default": 0.0001,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "t",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "milion"
+                    },
+                    {
+                        "var": "Currency"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYTC": [
+        {
+            "id": "ITCR",
+            "value": "Input To Total Capacity Ratio",
+            "name": "InputToTotalCapacityRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "f",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "INCR",
+            "value": "Input To New Capacity Ratio",
+            "name": "InputToNewCapacityRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "y",
+                "f",
+                "t"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYTCM": [
+        {
+            "id": "OAR",
+            "value": "Output Activity Ratio",
+            "name": "OutputActivityRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "f",
+                "t",
+                "y",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "IAR",
+            "value": "Input Activity Ratio",
+            "name": "InputActivityRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "f",
+                "t",
+                "y",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        }
+    ],
+    "RS": [
+        {
+            "id": "SLS",
+            "value": "Storage Level Start",
+            "name": "StorageLevelStart",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "s"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "OLS",
+            "value": "Operational Life Storage",
+            "name": "OperationalLifeStorage",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "s"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "years"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYS": [
+        {
+            "id": "MSC",
+            "value": "Min Storage Charge",
+            "name": "MinStorageCharge",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "s",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "RSC",
+            "value": "Residual Storage Capacity",
+            "name": "ResidualStorageCapacity",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "s",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "StgUnit"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "CCS",
+            "value": "Capital Cost Storage",
+            "name": "CapitalCostStorage",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "s",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "milion"
+                    },
+                    {
+                        "var": "Currency"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "StgUnit"
+                    }
+                ]
+            }
+        }
+    ],
+    "RTSM": [
+        {
+            "id": "TFS",
+            "value": "Technology From Storage",
+            "name": "TechnologyFromStorage",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "s",
+                "m"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        },
+        {
+            "id": "TTS",
+            "value": "Technology To Storage",
+            "name": "TechnologyToStorage",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "s",
+                "m"
+            ],
+            "unitRule": {
+                "cat": []
+            }
+        }
+    ],
+    "RYTTs": [
+        {
+            "id": "CF",
+            "value": "Capacity Factor",
+            "name": "CapacityFactor",
+            "default": 1,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "t",
+                "y",
+                "l"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYC": [
+        {
+            "id": "SAD",
+            "value": "Specified Annual Demand",
+            "name": "SpecifiedAnnualDemand",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "f",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "AAD",
+            "value": "Accumulated Annual Demand",
+            "name": "AccumulatedAnnualDemand",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "f",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYCTs": [
+        {
+            "id": "SDP",
+            "value": "Specified Demand Profile",
+            "name": "SpecifiedDemandProfile",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "f",
+                "y",
+                "l"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "percent"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "hundert"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYE": [
+        {
+            "id": "EP",
+            "value": "Emissions Penalty",
+            "name": "EmissionsPenalty",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "e",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "milion"
+                    },
+                    {
+                        "var": "Currency"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "EmiUnit"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "AEL",
+            "value": "Annual Emission Limit",
+            "name": "AnnualEmissionLimit",
+            "default": 999999,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "e",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "EmiUnit"
+                    }
+                ]
+            }
+        }
+    ],
+    "RYTEM": [
+        {
+            "id": "EACR",
+            "value": "Emission To Activity Change Ratio",
+            "name": "EmissionToActivityChangeRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "e",
+                "t",
+                "y",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "EmiUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "EAR",
+            "value": "Emission Activity Ratio",
+            "name": "EmissionActivityRatio",
+            "default": 0,
+            "enable": true,
+            "menu": 1,
+            "setrelation": [
+                "r",
+                "e",
+                "t",
+                "y",
+                "m"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "EmiUnit"
+                    },
+                    {
+                        "var": "divide"
+                    },
+                    {
+                        "var": "ActUnitId"
+                    }
+                ]
+            }
+        }
+    ]
+}

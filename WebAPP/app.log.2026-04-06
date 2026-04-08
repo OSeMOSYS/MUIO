@@ -1,0 +1,70 @@
+2026-04-06 23:37:42,765 [werkzeug] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2026-04-06 23:37:42,765 [werkzeug] INFO: [33mPress CTRL+C to quit[0m
+2026-04-06 23:37:49,926 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:49] "POST /generateDataFile HTTP/1.1" 200 -
+2026-04-06 23:37:49,940 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:49] "POST /readDataFile HTTP/1.1" 200 -
+2026-04-06 23:37:50,027 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:50] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-04-06 23:37:53,082 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-04-06 23:37:53,085 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- test -- caserun -- test --!
+2026-04-06 23:37:53,093 [Classes.Case.DataFileClass] INFO: Preprocessing case test
+2026-04-06 23:37:53,096 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.008530378341674805 seconds --- test
+2026-04-06 23:37:53,427 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.3381679058074951 seconds --- test
+2026-04-06 23:37:53,792 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 0.7039933204650879 seconds --- test
+2026-04-06 23:37:54,244 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 1.155850887298584 seconds --- test
+2026-04-06 23:37:54,608 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 1.5203030109405518 seconds --- test
+2026-04-06 23:37:54,608 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 1.5203030109405518 seconds --- test
+2026-04-06 23:37:54,608 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- test -- caserun -- test --!
+2026-04-06 23:37:54,610 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "POST /run HTTP/1.1" 200 -
+2026-04-06 23:37:54,620 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "POST /getResultCSV HTTP/1.1" 200 -
+2026-04-06 23:37:54,627 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "GET /DataStorage/test/genData.json HTTP/1.1" 200 -
+2026-04-06 23:37:54,629 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "[35m[1mGET /References/smartadmin/sound/bigbox.mp3 HTTP/1.1[0m" 206 -
+2026-04-06 23:37:54,660 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:37:54,665 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:37:54,686 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:54] "POST /resultsExists HTTP/1.1" 200 -
+2026-04-06 23:37:57,610 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "[36mGET /AppResults/Controller/Pivot.js HTTP/1.1[0m" 304 -
+2026-04-06 23:37:57,638 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "[36mGET /Classes/Definition.Class.js HTTP/1.1[0m" 304 -
+2026-04-06 23:37:57,650 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "[36mGET /AppResults/Model/Pivot.Model.js HTTP/1.1[0m" 304 -
+2026-04-06 23:37:57,652 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "[36mGET /Classes/DataModelResult.Class.js HTTP/1.1[0m" 304 -
+2026-04-06 23:37:57,698 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "[36mGET /Classes/DataModel.Class.js HTTP/1.1[0m" 304 -
+2026-04-06 23:37:57,726 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /AppResults/View/Pivot.html HTTP/1.1" 200 -
+2026-04-06 23:37:57,733 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /getSession HTTP/1.1" 200 -
+2026-04-06 23:37:57,748 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /DataStorage/test/genData.json HTTP/1.1" 200 -
+2026-04-06 23:37:57,751 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /DataStorage/test/view/resData.json HTTP/1.1" 200 -
+2026-04-06 23:37:57,752 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:37:57,755 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:37:57,766 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /DataStorage/test/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-04-06 23:37:57,770 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:37:57] "GET /DataStorage/test/view/RYT.json HTTP/1.1" 200 -
+2026-04-06 23:38:00,904 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:00] "[33mGET /DataStorage/test/view/RYC.json HTTP/1.1[0m" 404 -
+2026-04-06 23:38:05,932 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:05] "[33mGET /DataStorage/test/view/RYC.json HTTP/1.1[0m" 404 -
+2026-04-06 23:38:08,562 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /App/Controller/Home.js HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,588 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /App/Model/Home.Model.js HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,590 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /App/Controller/Navbar.js HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,613 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /App/Model/Navbar.Model.js HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,634 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,643 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "GET /getSession HTTP/1.1" 200 -
+2026-04-06 23:38:08,648 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,656 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,658 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-04-06 23:38:08,658 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "GET /getCases HTTP/1.1" 200 -
+2026-04-06 23:38:08,671 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "GET /DataStorage/test/genData.json HTTP/1.1" 200 -
+2026-04-06 23:38:08,672 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "GET /getCases HTTP/1.1" 200 -
+2026-04-06 23:38:08,728 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:08,731 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:08,735 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "POST /resultsExists HTTP/1.1" 200 -
+2026-04-06 23:38:08,837 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:08] "[36mGET /References/smartadmin/js/plugin/dropzone/dropzone5.min.js HTTP/1.1[0m" 304 -
+2026-04-06 23:38:10,155 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "GET /DataStorage/CLEWs%20Demo_copy_copy/genData.json HTTP/1.1" 200 -
+2026-04-06 23:38:10,167 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "POST /setSession HTTP/1.1" 200 -
+2026-04-06 23:38:10,177 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "GET /getCases HTTP/1.1" 200 -
+2026-04-06 23:38:10,184 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "GET /getCases HTTP/1.1" 200 -
+2026-04-06 23:38:10,185 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "GET /DataStorage/CLEWs%20Demo_copy_copy/genData.json HTTP/1.1" 200 -
+2026-04-06 23:38:10,220 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:10,224 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:10,257 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:10] "POST /resultsExists HTTP/1.1" 200 -
+2026-04-06 23:38:11,107 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-04-06 23:38:11,118 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "GET /getSession HTTP/1.1" 200 -
+2026-04-06 23:38:11,131 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "GET /DataStorage/CLEWs%20Demo_copy_copy/genData.json HTTP/1.1" 200 -
+2026-04-06 23:38:11,136 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "GET /DataStorage/CLEWs%20Demo_copy_copy/view/resData.json HTTP/1.1" 200 -
+2026-04-06 23:38:11,141 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:11,146 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "GET /DataStorage/CLEWs%20Demo_copy_copy/view/RYT.json HTTP/1.1" 200 -
+2026-04-06 23:38:11,151 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "POST /getParamFile HTTP/1.1" 200 -
+2026-04-06 23:38:11,162 [werkzeug] INFO: 127.0.0.1 - - [06/Apr/2026 23:38:11] "GET /DataStorage/CLEWs%20Demo_copy_copy/view/viewDefinitions.json HTTP/1.1" 200 -

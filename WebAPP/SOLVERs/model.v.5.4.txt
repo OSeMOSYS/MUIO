@@ -122,14 +122,9 @@ var DiscountedSalvageValue{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
 #var InputToNewCapacity{r in REGION, f in COMMODITY, t in INPUTxNEWxCAPACITYperFUEL[f], y in YEAR} >= 0;
 #var InputToTotalCapacity{r in REGION, f in COMMODITY, t in INPUTxTOTALxCAPACITYperFUEL[f], y in YEAR} >= 0;
 
-# Variables over sparse domains (choose a consistent index order)
-var InputToNewCapacity
-    {r in REGION,  t in TECHNOLOGY,f in COMMODITY, y in YEAR:
-     (t,f) in INPUT_TF_PAIRS_NEW}   >= 0;
-
-var InputToTotalCapacity
-    {r in REGION,  t in TECHNOLOGY, f in COMMODITY,y in YEAR:
-     (t,f) in INPUT_TF_PAIRS_TOTAL} >= 0;
+# Variables over sparse domains (choose a consistent index order) vk 16012026
+var InputToNewCapacity{r in REGION,  t in TECHNOLOGY,f in COMMODITY, y in YEAR:(t,f) in INPUT_TF_PAIRS_NEW} >= 0;
+var InputToTotalCapacity{r in REGION,  t in TECHNOLOGY, f in COMMODITY,y in YEAR:(t,f) in INPUT_TF_PAIRS_TOTAL} >= 0;
 
 var NewCapacity{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0;
 var NumberOfNewTechnologyUnits{r in REGION, t in TECHNOLOGY, y in YEAR} >= 0,integer;
@@ -202,42 +197,35 @@ s.t. SV3_SalvageValueAtEndOfPeriod3{r in REGION, t in TECHNOLOGY, y in YEAR: (y 
 s.t. SV4_SalvageValueDiscountedToStartYear{r in REGION, t in TECHNOLOGY, y in YEAR}: DiscountedSalvageValue[r,t,y] = SalvageValue[r,t,y]/((1+DiscountRate[r])^(1+max{yy in YEAR} max(yy)-min{yy in YEAR} min(yy)));
 s.t. TAC1_TotalModelHorizonTechnologyActivity{r in REGION, t in TECHNOLOGY}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t], y in YEAR} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] = TotalTechnologyModelPeriodActivity[r,t];
 
-#  InputToCapacityRatios
-# s.t. EBb4_EnergyBalanceEachYear4_ICR{r in REGION, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y] + sum{t in TECHNOLOGY} InputToNewCapacity [r, t, f, y] + sum{t in TECHNOLOGY} InputToTotalCapacity [r, t, f, y];
+#  InputToCapacityRatios 
+#s.t. EBb4_EnergyBalanceEachYear4_ICR {r in REGION, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y] * TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y] + sum{t in TECHNOLOGY} InputToNewCapacity [r, t, f, y] + sum{t in TECHNOLOGY} InputToTotalCapacity [r, t, f, y];
 
-# Energy balance – include only pairs that exist (others implicitly 0)
+# Energy balance – include only pairs that exist (others implicitly 0) vk 16012026
 s.t. EBb4_EnergyBalanceEachYear4_ICR
-{r in REGION, f in COMMODITY, y in YEAR}:
+    {r in REGION, f in COMMODITY, y in YEAR}:
     sum { (m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE }
-        RateOfActivity[r,l,t,m,y] * OutputActivityRatio[r,t,f,m,y] * YearSplit[l,y]
-  >=
+    RateOfActivity[r,l,t,m,y] * OutputActivityRatio[r,t,f,m,y] * YearSplit[l,y]
+    >=
     sum { (m,t) in MODExTECHNOLOGYperFUELin[f],  l in TIMESLICE }
-        RateOfActivity[r,l,t,m,y] * InputActivityRatio[r,t,f,m,y]  * YearSplit[l,y]
-  + sum { l in TIMESLICE, rr in REGION } Trade[r,rr,l,f,y] * TradeRoute[r,rr,f,y]
-  + AccumulatedAnnualDemand[r,f,y]
-  + sum { t in TECHNOLOGY : (t,f) in INPUT_TF_PAIRS_NEW   }   InputToNewCapacity[r,t,f,y]
-  + sum { t in TECHNOLOGY : (t,f) in INPUT_TF_PAIRS_TOTAL }   InputToTotalCapacity[r,t,f,y];
+    RateOfActivity[r,l,t,m,y] * InputActivityRatio[r,t,f,m,y]  * YearSplit[l,y]
+    + sum { l in TIMESLICE, rr in REGION } Trade[r,rr,l,f,y] * TradeRoute[r,rr,f,y]
+    + AccumulatedAnnualDemand[r,f,y]
+    + sum { t in TECHNOLOGY : (t,f) in INPUT_TF_PAIRS_NEW   }   InputToNewCapacity[r,t,f,y]
+    + sum { t in TECHNOLOGY : (t,f) in INPUT_TF_PAIRS_TOTAL }   InputToTotalCapacity[r,t,f,y];
 
 # s.t. INC1_InputToNewCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR: InputToNewCapacityRatio [r, t, f, y] <> 0}: InputToNewCapacityRatio [r, t, f, y] * NewCapacity [r, t, y] = InputToNewCapacity [r, t, f, y];
+# vk 16012026
 s.t. INC1_InputToNewCapacity
-{r in REGION, y in YEAR,
- #f in INPUTxFUEL,
- #t in INPUTxNEWxCAPACITYperFUEL[f] 
- (t,f) in INPUT_TF_PAIRS_NEW  :
-   InputToNewCapacityRatio[r,t,f,y] <> 0}:
+    {r in REGION, y in YEAR, (t,f) in INPUT_TF_PAIRS_NEW: InputToNewCapacityRatio[r,t,f,y] <> 0}:
     InputToNewCapacityRatio[r,t,f,y] * NewCapacity[r,t,y]
-  = InputToNewCapacity[r,t,f,y];
+    = InputToNewCapacity[r,t,f,y];
 
 #s.t. ITC1_InputToTotalCapacity{r in REGION, t in TECHNOLOGY, f in COMMODITY, y in YEAR: InputToTotalCapacityRatio [r, t, f, y] <> 0}: InputToTotalCapacityRatio [r, t, f, y] * TotalCapacityAnnual [r, t, y] = InputToTotalCapacity [r, t, f, y];
-
+# vk 16012026
 s.t. ITC1_InputToTotalCapacity
-{r in REGION, y in YEAR,
- #f in INPUTxFUEL,
- #t in INPUTxTOTALxCAPACITYperFUEL[f] :
- (t,f) in INPUT_TF_PAIRS_TOTAL:
-   InputToTotalCapacityRatio[r,t,f,y] <> 0}:
+    {r in REGION, y in YEAR,(t,f) in INPUT_TF_PAIRS_TOTAL:InputToTotalCapacityRatio[r,t,f,y] <> 0}:
     InputToTotalCapacityRatio[r,t,f,y] * TotalCapacityAnnual[r,t,y]
-  = InputToTotalCapacity[r,t,f,y];
+    = InputToTotalCapacity[r,t,f,y];
 
 #  Long_Code_Equations
 s.t. AAC1_TotalAnnualTechnologyActivity{r in REGION, t in TECHNOLOGY, y in YEAR}: sum{l in TIMESLICE, m in MODEperTECHNOLOGY[t]} RateOfActivity[r,l,t,m,y]*YearSplit[l,y] = TotalTechnologyAnnualActivity[r,t,y];
@@ -265,7 +253,15 @@ s.t. E8_AnnualEmissionsLimit{r in REGION, e in EMISSION, y in YEAR}: sum{l in TI
 #vk 20242303 exogenous emission removed
 s.t. E9_ModelPeriodEmissionsLimit{r in REGION, e in EMISSION}: sum{(m,t) in MODExTECHNOLOGYperEMISSION[e], y in YEAR, l in TIMESLICE} EmissionActivityRatio [r, t, e, m, y] * RateOfActivity [r, l, t, m, y] * YearSplit [l, y] + sum{(m,t) in MODExTECHNOLOGYperEMISSIONChange[e], y in YEAR} EmissionByActivityChange[r, t, e, m, y] <= ModelPeriodEmissionLimit [r, e];
 
-s.t. EBa11_EnergyBalanceEachTS5{r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f]} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= SpecifiedAnnualDemand[r,f,y]*SpecifiedDemandProfile[r,f,l,y] + sum{(m,t) in MODExTECHNOLOGYperFUELin[f]} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y];
+s.t. EBa11_EnergyBalanceEachTS5
+    {r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: 
+    sum{(m,t) in MODExTECHNOLOGYperFUELout[f]} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] 
+    >= 
+    SpecifiedAnnualDemand[r,f,y]*SpecifiedDemandProfile[r,f,l,y] 
+    + sum{(m,t) in MODExTECHNOLOGYperFUELin[f]} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] 
+    + sum{rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y];
+
+
 s.t. EBa9_EnergyBalanceEachTS3{r in REGION, l in TIMESLICE, f in COMMODITY, y in YEAR}: SpecifiedAnnualDemand[r,f,y]*SpecifiedDemandProfile[r,f,l,y] = Demand[r,l,f,y];
 s.t. EBb4_EnergyBalanceEachYear4{r in REGION, f in COMMODITY, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y];
 #20240611 VK commented, 3 params removed

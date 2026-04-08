@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12">
         <section>
             <div class="widget-body-toolbar-osy">
@@ -28,29 +28,37 @@
             </div>
         </section>
     </div>
-</div>
-
-<!-- <div id="row">
-    <div class="col-lg-12">
-        <div  id="definition" style="display:none">
-        </div>
-    </div>
 </div> -->
 
 <div id="tabs">
 	<ul class="nav nav-tabs in">
 		<li class="active">
 			<a data-toggle="tab" href="#tabParams" id='Params'> 
-				<i class="fa fa-lg fa-file-text info"></i>
-				<span class="hidden-mobile hidden-tablet"> Parameters </span>
+				<i class="fa fa-lg fa-file-text "></i>
+				<span class="hidden-mobile hidden-tablet"> Parameters <span class="badge bg-color-blue txt-color-white" id="paramCounts"></span></span>
 			</a>
 		</li>
 		<li>
 			<a data-toggle="tab" href="#tabVars" id='Vars'>
-				 <i class="fa fa-lg fa-file-text success"></i>
-				<span class="hidden-mobile hidden-tablet"> Variables </span>
+				 <i class="fa fa-lg fa-file-text"></i>
+				<span class="hidden-mobile hidden-tablet"> Variables <span class="badge bg-color-blue txt-color-white" id="varCounts"></span></span>
 			</a>
 		</li>
+		<li>
+			<a data-toggle="tab" href="#tabDuals" id='Duals'>
+				 <i class="fa fa-lg fa-file-text "></i>
+				<span class="hidden-mobile hidden-tablet"> Duals <span class="badge bg-color-blue txt-color-white" id="dualCounts"></span></span>
+			</a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#tabIndicators" id='Indicators'>
+				 <i class="fa fa-lg fa-file-text "></i>
+				<span class="hidden-mobile hidden-tablet"> Indicators <span class="badge bg-color-blue txt-color-white" id="indicatorCounts"></span></span>
+			</a>
+		</li>
+									<button id="osy-saveData" class="btn btn-white btn-default pull-right">
+								<i class="fa fa-save fa-lg success"></i> Save data 
+							 </button>
 	</ul>
 </div>
 
@@ -69,13 +77,38 @@
 		</div>
 	</div>
 	<div class="tab-pane" id="tabVars">
-		Variables
 		<div class="jarviswidget" >            
 			<div>
 				<div class="widget-body no-padding">
 					<fieldset>
 						<section>
 							<div id="osy-gridVar" class="no-padding-bottom"></div>
+						</section>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="tabDuals">
+		<div class="jarviswidget" >            
+			<div>
+				<div class="widget-body no-padding">
+					<fieldset>
+						<section>
+							<div id="osy-gridDual" class="no-padding-bottom"></div>
+						</section>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="tabIndicators">
+		<div class="jarviswidget" >            
+			<div>
+				<div class="widget-body no-padding">
+					<fieldset>
+						<section>
+							<div id="osy-gridIndicator" class="no-padding-bottom"></div>
 						</section>
 					</fieldset>
 				</div>
@@ -147,7 +180,65 @@
 	</div>
 </div>
 
+<div class="modal" id="osy-indicatorFormulaModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-wide">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="display: inline-block;">
+					Indicator formula
+				</h4>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        <i class="fa fa-times fa-lg" aria-hidden="true"></i> Cancel
+                    </button>
+                </div>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-white btn-default btn-sm" id='btnSaveFormula'>
+                        <i class="fa fa-save fa-lg info"></i> Save
+                    </button>
+                </div>
 
+			</div>
+			<div class="modal-body" style="padding-top: 5px;">
+
+				<div class="row" style="margin-bottom: 10px;">
+					<div class="col-md-12 col-lg-12">
+						<div id='indTitle' style="border-bottom: 2px solid red;"></div>
+					</div>
+				</div>
+				<blockquote>
+					<small>Drag variables from variables container to formula container in order to create formula for selected indicator.</small>
+				  </blockquote>
+				<div class="row">
+					<div class="col-md-6 col-lg-6">
+
+						<div class="osy-indRuleSort-container">
+							<span>Variables</span>
+							<div id="osy-indFormulaSort1" class="osy-indRuleSort" ></div>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-6">
+						<div class="osy-indRuleSort-container">
+							<span>Formula</span>
+							<div id="osy-indFormulaSort2" class="osy-indRuleSort"></div>
+						</div>
+
+                    </div>
+                </div>
+				<div class="row" style="margin-bottom: 10px;">
+					<div class="col-md-12 col-lg-12">
+						<div id='indResult' style="border-bottom: 2px solid red;"></div>
+					</div>
+				</div>
+				<div id='formulaView' style="display: none; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: larger;"> </div>
+				<!-- <blockquote id='ruleFormula' style="display: none;"> </blockquote> -->
+                <footer>
+
+                </footer>
+            </div>
+        </div>
+	</div>
+</div>
 
 
 

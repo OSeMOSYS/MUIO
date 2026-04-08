@@ -235,6 +235,26 @@ export class DefaultObj{
         return defaultObj;
     }
 
+    static defaultIndicator(first=false){
+        let id;
+        if(first){
+            id = 'IN_0';
+        }else{
+            id = this.getId('IN');
+        }
+        let emptyArray = [];
+        let defaultObj = [
+            {
+                "IndicatorId": id,
+                "Indicator":id,
+                "Desc": "Default indicator",
+                "IndicatorTypeId": "PI_i",
+                "Sets": emptyArray
+            }
+        ];
+        return defaultObj;
+    }
+
     static defaultCase(first=false){
         let id;
         if(first){

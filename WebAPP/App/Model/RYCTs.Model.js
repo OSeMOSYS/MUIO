@@ -75,9 +75,9 @@ export class Model {
                 return editor.val() == null ? null : editor.val();
             }
 
-            columns.push({ text: 'Scenario', datafield: 'Sc', pinned: true, editable: false, align: 'left', minWidth: 75, maxWidth: 150, filterable: false, menu:false });
-            columns.push({ text: 'Commodity', datafield: 'Comm', pinned: true, editable: false, align: 'center',minWidth: 75, maxWidth: 150 });
-            columns.push({ text: 'Timeslice', datafield: 'Ts', pinned: true, editable: false, align: 'center',minWidth: 55, maxWidth: 90, filterable: false });
+            columns.push({ text: 'Scenario', datafield: 'Sc', pinned: true, editable: false, align: 'left', minWidth: 75, maxWidth: 150, filterable: false, menu:false, cellclassname: cellclass });
+            columns.push({ text: 'Commodity', datafield: 'Comm', pinned: true, editable: false, align: 'center',minWidth: 75, maxWidth: 150, cellclassname: cellclass });
+            columns.push({ text: 'Timeslice', datafield: 'Ts', pinned: true, editable: false, align: 'center',minWidth: 55, maxWidth: 90, filterable: false, cellclassname: cellclass });
             columns.push({ text: 'Unit', datafield: 'UnitId', pinned: true, editable: false, align: 'center', cellsalign: 'center', cellclassname: cellclass,minWidth: 55, maxWidth: 90, sortable:false, filterable: false, menu:false });
             
             $.each(years, function (id, year) {

@@ -27,6 +27,10 @@ export class Model {
                 scClass[obj.ScenarioId] = 'SC_' + id;
             });
 
+                        var cellclass = function (row, columnfield, value, data) {
+                return scClass[data.ScId];
+            }
+            
             datafields.push({ name: 'ScId', type: 'string' });
             datafields.push({ name: 'Sc', type: 'string' });
 
@@ -51,9 +55,7 @@ export class Model {
                 }
             }
 
-            var cellclass = function (row, columnfield, value, data) {
-                return scClass[data.ScId];
-            }
+
 
             let cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
                 if (value === null || value === '') {
