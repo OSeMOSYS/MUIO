@@ -236,7 +236,7 @@ export default class AddCase {
             });
 
             let POSTDATA = {
-                "osy-version": "5.0",
+                "osy-version": "5.6",
                 "osy-casename": casename,
                 "osy-desc": desc,
                 "osy-date": date,

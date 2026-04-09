@@ -139,6 +139,13 @@ def updateStorageSet(casename):
 
     File.writeFile( genData, genDataPath)
 
+def updateGenData(casename, genData):
+    genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+
+    genData["osy-indicators"] = []
+
+    File.writeFile( genData, genDataPath)
+
 def updateViewDefintions(casename, genData):
 
     viewDataPath = Path(Config.DATA_STORAGE,casename,'view','viewDefinitions.json')
@@ -536,7 +543,9 @@ def handle_full_zip(file, filepath=None):
 
                         updateTimeslices(casename)
                         updateStorageSet(casename)
-                        updateViewDefintions(casename)
+                        updateGenData(casename, genData)
+                        updateViewDefintions(casename, genData)
+                        
 
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
@@ -553,7 +562,9 @@ def handle_full_zip(file, filepath=None):
                         File.writeFile(genData, genDataPath)
                         updateTimeslices(casename)
                         updateStorageSet(casename)
+                        updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
+                        
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",
@@ -565,6 +576,7 @@ def handle_full_zip(file, filepath=None):
                         genData = File.readParamFile(genDataPath)
                         updateTimeslices(casename)
                         updateStorageSet(casename)
+                        updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
                         msg.append({
                             "message_warning": "You have restored a model created in a earlier version...",
@@ -573,6 +585,18 @@ def handle_full_zip(file, filepath=None):
                             "casename": casename
                         })
                     elif name == '5.0':
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
+                        genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+                        genData = File.readParamFile(genDataPath)
+                        updateGenData(casename, genData)
+                        updateViewDefintions(casename, genData)
+
+                        msg.append({
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "success",
+                            "casename": casename
+                        })
+                    elif name == '5.6':
                         zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
                         genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
                         genData = File.readParamFile(genDataPath)
