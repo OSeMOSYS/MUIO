@@ -1,4 +1,6 @@
 import shutil
+ fix/request-size-limits
+from flask import Blueprint, request, jsonify, send_file, after_this_request, current_app
 from unittest import case
 from flask import Blueprint, request, jsonify, send_file, after_this_request
 from zipfile import ZipFile
@@ -308,9 +310,29 @@ def uploadCaseUnchunked_old():
 
             if submitted_file and allowed_filename(submitted_file):
                 filename = secure_filename(submitted_file)
+                
+                max_len = current_app.config.get("MAX_CONTENT_LENGTH")
+                if max_len:
+                    file.seek(0, os.SEEK_END)
+                    file_length = file.tell()
+                    file.seek(0)
+                    if file_length > max_len:
+                        return jsonify({"error": "File exceeds maximum allowed size"}), 413
+
                 #spasiti zip u data storage
                 file.save(os.path.join(Config.DATA_STORAGE, filename))
                 #zipfiles = []
+                with ZipFile(os.path.join(Config.DATA_STORAGE, filename)) as zf:
+                    MAX_ZIP_UNCOMPRESSED = 1 * 1024 * 1024 * 1024   # 1GB
+                    if sum(info.file_size for info in zf.infolist()) > MAX_ZIP_UNCOMPRESSED:
+                        too_large = True
+                    else:
+                        too_large = False
+                
+                if too_large:
+                    os.remove(os.path.join(Config.DATA_STORAGE, filename))
+                    return jsonify({"error": "File exceeds maximum allowed size"}), 413
+
                 with ZipFile(os.path.join(Config.DATA_STORAGE, filename)) as zf:
                     errorcode = 1
                     for zippedfile in zf.namelist():
@@ -474,6 +496,17 @@ def handle_full_zip(file, filepath=None):
 
     if submitted_file and allowed_filename(submitted_file):
         filename = secure_filename(submitted_file)
+
+        with ZipFile(filepath) as zf:
+            MAX_ZIP_UNCOMPRESSED = 1 * 1024 * 1024 * 1024   # 1GB
+            if sum(info.file_size for info in zf.infolist()) > MAX_ZIP_UNCOMPRESSED:
+                too_large = True
+            else:
+                too_large = False
+                
+        if too_large:
+            os.remove(filepath)
+            return jsonify({"error": "File exceeds maximum allowed size"}), 413
 
         with ZipFile(filepath) as zf:
             errorcode = 1
@@ -642,6 +675,13 @@ def uploadCase():
 
         # Ako nije chunked upload (chrome browser dev mode)
         if dz_uuid is None:
+            max_len = current_app.config.get("MAX_CONTENT_LENGTH")
+            if max_len:
+                file.seek(0, os.SEEK_END)
+                file_length = file.tell()
+                file.seek(0)
+                if file_length > max_len:
+                    return jsonify({"error": "File exceeds maximum allowed size"}), 413
             # ==========================
             #     TVOJ ORIGINALNI KOD
             # ==========================
@@ -656,6 +696,16 @@ def uploadCase():
         # -------------------------------
         chunk_dir = os.path.join(Config.DATA_STORAGE, "_chunks", dz_uuid)
         os.makedirs(chunk_dir, exist_ok=True)
+
+        max_len = current_app.config.get("MAX_CONTENT_LENGTH")
+        if max_len:
+            current_size = sum(os.path.getsize(os.path.join(chunk_dir, f)) for f in os.listdir(chunk_dir) if os.path.isfile(os.path.join(chunk_dir, f)))
+            file.seek(0, os.SEEK_END)
+            chunk_size = file.tell()
+            file.seek(0)
+            if current_size + chunk_size > max_len:
+                shutil.rmtree(chunk_dir)
+                return jsonify({"error": "File exceeds maximum allowed size"}), 413
 
         chunk_path = os.path.join(chunk_dir, f"chunk_{dz_chunk_index}")
         file.save(chunk_path)
@@ -709,6 +759,15 @@ def uploadXls():
 
             if submitted_file and allowed_filename_xls(submitted_file):
                 filename = secure_filename(submitted_file)
+                
+                max_len = current_app.config.get("MAX_CONTENT_LENGTH")
+                if max_len:
+                    file.seek(0, os.SEEK_END)
+                    file_length = file.tell()
+                    file.seek(0)
+                    if file_length > max_len:
+                        return jsonify({"error": "File exceeds maximum allowed size"}), 413
+
                 #spasiti zip u data storage
                 file.save(os.path.join(Config.DATA_STORAGE, filename))
 

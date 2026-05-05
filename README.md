@@ -12,6 +12,12 @@ This repository contains the user interface for the Open Source Energy Modelling
 4.	The App will open automatically once the installation is complete. If not, search on the Windows Taskbar for ‘’MUIO’’ and open the App. 
 5.	You will see the MUIO in a new window. 
 
+## Environment Configuration
+
+- `UPLOAD_MAX_SIZE`
+  Example: `UPLOAD_MAX_SIZE=524288000`
+  This overrides the default request size limit (500 MB) to prevent unbounded file uploads.
+
 ## Questions and Issues
 
 For troubleshooting model-related issues and discussions, please visit the [Energy Modelling Community Discussion Forum](https://forum.u4ria.org/). 
