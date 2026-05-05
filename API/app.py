@@ -2,6 +2,14 @@
 import os
 import sys
 
+ fix/env-config-documentation
+from dotenv import load_dotenv
+
+# Load .env file for local development.
+# Environment variables already set in the shell take precedence over .env values.
+load_dotenv()
+
+from flask import Flask, jsonify, request, session, render_template
 from flask import Flask, Response, jsonify, request, session, render_template
 from flask_cors import CORS
 from datetime import timedelta
