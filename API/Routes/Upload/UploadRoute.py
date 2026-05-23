@@ -208,6 +208,16 @@ def updateViewDefintions(casename, genData):
     }
     File.writeFile( viewData, viewDataPath)
 
+def updateCommodityBalanceLevel(casename, genData):
+    genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
+
+    genData["osy-version"] = "5.7"
+    for c in genData.get("osy-comm", []):
+        if "BalanceLevel" not in c:
+            c["BalanceLevel"] = "Ts"
+
+    File.writeFile( genData, genDataPath)
+
 def updateTimeslices_OnlyTs(casename):
     genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
     genData = File.readParamFile(genDataPath)
@@ -545,6 +555,7 @@ def handle_full_zip(file, filepath=None):
                         updateStorageSet(casename)
                         updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
+                        updateCommodityBalanceLevel(casename, genData)
                         
 
                         msg.append({
@@ -564,7 +575,7 @@ def handle_full_zip(file, filepath=None):
                         updateStorageSet(casename)
                         updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
-                        
+                        updateCommodityBalanceLevel(casename, genData)
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",
@@ -578,6 +589,7 @@ def handle_full_zip(file, filepath=None):
                         updateStorageSet(casename)
                         updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
+                        updateCommodityBalanceLevel(casename, genData)
                         msg.append({
                             "message_warning": "You have restored a model created in a earlier version...",
                             "message": "Model " + casename +" have been uploaded!",
@@ -590,6 +602,7 @@ def handle_full_zip(file, filepath=None):
                         genData = File.readParamFile(genDataPath)
                         updateGenData(casename, genData)
                         updateViewDefintions(casename, genData)
+                        updateCommodityBalanceLevel(casename, genData)
 
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
@@ -601,6 +614,15 @@ def handle_full_zip(file, filepath=None):
                         genDataPath = Path(Config.DATA_STORAGE, casename, 'genData.json')
                         genData = File.readParamFile(genDataPath)
                         updateViewDefintions(casename, genData)
+                        #update commodity balance level...
+                        updateCommodityBalanceLevel(casename, genData)
+                        msg.append({
+                            "message": "Model " + casename +" have been uploaded!",
+                            "status_code": "success",
+                            "casename": casename
+                        })
+                    elif name == '5.7':
+                        zf.extractall(os.path.join(Config.EXTRACT_FOLDER))
                         msg.append({
                             "message": "Model " + casename +" have been uploaded!",
                             "status_code": "success",

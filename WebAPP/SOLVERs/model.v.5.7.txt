@@ -39,13 +39,19 @@ set INPUT_TF_PAIRS_TOTAL :=
 #   ANNUAL    - balanced once per year (e.g. coal, diesel, crops)
 set BALANCELEVEL := {"ANNUAL", "SEASONAL", "TIMESLICE"};
 
+# vk Commented 23052026
 # Commodity balance level - user-supplied, one value per commodity.
-param CommodityBalanceLevel{f in COMMODITY} symbolic;
+#param CommodityBalanceLevel{f in COMMODITY} symbolic;
 
 # Derived commodity subsets by balance level
-set COMMODITY_TS := {f in COMMODITY: CommodityBalanceLevel[f] = "TIMESLICE"};
-set COMMODITY_S  := {f in COMMODITY: CommodityBalanceLevel[f] = "SEASONAL"};
-set COMMODITY_AN := {f in COMMODITY: CommodityBalanceLevel[f] = "ANNUAL"};
+#set COMMODITY_TS := {f in COMMODITY: CommodityBalanceLevel[f] = "TIMESLICE"};
+#set COMMODITY_S  := {f in COMMODITY: CommodityBalanceLevel[f] = "SEASONAL"};
+#set COMMODITY_AN := {f in COMMODITY: CommodityBalanceLevel[f] = "ANNUAL"};
+
+# vk new defintion 23052026 - data file prepring sets
+set COMMODITY_TS;
+set COMMODITY_S;
+set COMMODITY_AN;
 
 # Technology balance level - derived from commodity balance levels.
 # Checks both input and output commodities; highest resolution wins.

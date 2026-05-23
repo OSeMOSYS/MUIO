@@ -726,6 +726,18 @@ class DataFile(Osemosys):
             for conId in self.conIDs:
                 self.cons += '{} '.format(self.conMap[conId])
 
+            #23052026 Blalnce leve
+            self.allCommLists = self.getAllCommLists()
+            self.comm_ts = ''
+            for comm in self.allCommLists["Ts"]:
+                self.comm_ts += '{} '.format(comm)
+            self.comm_se = ''
+            for comm in self.allCommLists["Se"]:
+                self.comm_se += '{} '.format(comm)
+            self.comm_an = ''
+            for comm in self.allCommLists["An"]:
+                self.comm_an += '{} '.format(comm)
+
             # path = '"{}"'.format(self.resPath.resolve())
             self.resPath = Path('..', '..', '..', '..', 'WebAPP', 'DataStorage', self.case, 'res',caserunname, 'csv')
             path = '"{}"'.format(self.resPath)
@@ -755,6 +767,9 @@ class DataFile(Osemosys):
                 self.f.write('{} {} {} {}{}{}'.format('set', 'STORAGEINTRADAY',':=', self.dailyStgs, ';', '\n'))
                 self.f.write('{} {} {} {}{}{}'.format('set', 'STORAGEINTRAYEAR',':=', self.yearlyStgs, ';', '\n'))
                 self.f.write('{} {} {} {}{}{}'.format('set', 'UDC',':=', self.cons, ';', '\n'))
+                self.f.write('{} {} {} {}{}{}'.format('set', 'COMMODITY_TS',':=', self.comm_ts, ';', '\n'))
+                self.f.write('{} {} {} {}{}{}'.format('set', 'COMMODITY_S',':=', self.comm_se, ';', '\n'))
+                self.f.write('{} {} {} {}{}{}'.format('set', 'COMMODITY_AN',':=', self.comm_an, ';', '\n'))
                 self.f.write('####################\n#Parameters#\n####################\n')
 
                 #path
@@ -2840,8 +2855,7 @@ class DataFile(Osemosys):
         except Exception as ex:
             # unexpected
             raise
-
-    
+ 
     def generateResultsViewer(self, caserunname):
         try:
             csvFolderPath = Path(Config.DATA_STORAGE,self.case,'res',caserunname, 'csv')
@@ -3209,6 +3223,5 @@ class DataFile(Osemosys):
             raise IndexError
         except OSError:
             raise OSError
-
 
     ############################################################################################### OBSOLETE METHODS 

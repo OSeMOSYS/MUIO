@@ -55,7 +55,7 @@ class Osemosys():
         self.rytePath = self.casePath / 'RYTE.json'
         self.rytemPath = self.casePath / 'RYTEM.json'
 
-        self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.4.txt') 
+        self.osemosysFile = Path(Config.SOLVERs_FOLDER,'model.v.5.7.txt') 
         self.osemosysFileOriginal = Path(Config.SOLVERs_FOLDER,'osemosys.txt')
 
         if platform.system() == 'Windows':
@@ -468,6 +468,28 @@ class Osemosys():
     def getCommsMap(self):
         comms = {tech['CommId']: tech['Comm'] for tech in self.genData["osy-comm"] }
         return comms
+    
+    #23052026 - dodali smo funkciju koja vraca sve comm liste, jednu sa svim comm, a ostale po levelu Blaancing levels
+
+    def getAllCommLists(self):
+        result = {
+            "ALL": [],
+            "Ts": [],
+            "Se": [],
+            "An": []
+        }
+
+        for tech in self.genData["osy-comm"]:
+            comm = tech["Comm"]
+            level = tech["BalanceLevel"]
+
+            result["ALL"].append(comm)
+
+            if level in result:
+                result[level].append(comm)
+
+        return result
+
     
     def getConIds(self):
         conIds = [ tech['ConId'] for tech in self.genData["osy-constraints"]]
