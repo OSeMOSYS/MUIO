@@ -754,7 +754,8 @@ class DataFile(Osemosys):
             path = '"{}"'.format(self.resPath)
 
             dataFilePath = Path(Config.DATA_STORAGE, self.case, 'res',caserunname,'data.txt')
-
+            # restored backups may lack an empty res/<caserunname>/ folder
+            dataFilePath.parent.mkdir(parents=True, exist_ok=True)
 
             # self.f = open(self.dataFile, mode="w", encoding='utf-8')
             #self.f = open(dataFilePath, mode="w", encoding='utf-8')
