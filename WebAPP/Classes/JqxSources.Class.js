@@ -300,8 +300,9 @@ export class JqxSources {
         var validation_1 = function (cell, value) {
             var validationResult = true;
             var rows = $('#osy-gridTech').jqxGrid('getrows');
+            // compare row UIDs instead of row indexes (i != cell.row), otherwise breaks whenever the grid is sorted
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Tech.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Tech.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }

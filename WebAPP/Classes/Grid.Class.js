@@ -33,8 +33,9 @@ export class Grid {
         var validation_1 = function (cell, value) {
             var validationResult = true;
             var rows = $('#osy-gridSe').jqxGrid('getrows');
+            // compare row UIDs instead of row indexes (i != cell.row), otherwise breaks whenever the grid is sorted
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Se.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Se.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -88,7 +89,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridDt').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Dt.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Dt.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -142,7 +143,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridDtb').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Dtb.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Dtb.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -248,7 +249,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridTs').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Ts.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Ts.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -434,7 +435,7 @@ export class Grid {
             var rows = $('#osy-gridTech').jqxGrid('getrows');
             //console.log('rows ', rows)
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Tech.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Tech.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -562,7 +563,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridTechGroup').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].TechGroup.trim() == value.trim() && i != cell.row) {
+                if (rows[i].TechGroup.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -631,7 +632,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridComm').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Comm.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Comm.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -705,7 +706,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridEmis').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Emis.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Emis.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -831,7 +832,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridStg').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Stg.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Stg.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -887,7 +888,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridScenario').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Scenario.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Scenario.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -971,7 +972,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridConstraint').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Constraint.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Constraint.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
@@ -1145,7 +1146,7 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridIndicator').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Indicator.trim() == value.trim() && i != cell.row) {
+                if (rows[i].Indicator.trim() == value.trim() && rows[i].uid != cell.row) {
                     validationResult = false;
                     break;
                 }
