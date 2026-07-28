@@ -299,8 +299,7 @@ export class JqxSources {
 
         var validation_1 = function (cell, value) {
             var validationResult = true;
-            var rows = $('#osy-gridTech').jqxGrid('getrows');
-            
+            var rows = $('#osy-gridTech').jqxGrid('getboundrows');
             var currentRowId = String($('#osy-gridTech').jqxGrid('getrowid', cell.row));
             for (var i = 0; i < rows.length; i++) {
                 if (rows[i].Tech.trim() == value.trim() && String(rows[i].uid) !== currentRowId) {
