@@ -10,6 +10,7 @@ import { Model } from "../Model/AddCase.Model.js";
 import { Navbar } from "./Navbar.js";
 import { DEF } from "../../Classes/Definition.Class.js";
 import { Sidebar } from "./Sidebar.js";
+import { NavigationGuard } from "../../Classes/NavigationGuard.Class.js";
 
 export default class AddCase {
     static onLoad() {
@@ -62,6 +63,42 @@ export default class AddCase {
                 Message.bigBoxDanger(error);
             })
     }
+    // Collects the model configuration data from the page and returns it as an object
+    static getModelConfigurationData(model) {
+        const years = [];
+        $.each($('input[type="checkbox"]:checked'), function (key, value) {
+            years.push($(value).attr("id"));
+        });
+
+        return {
+            "osy-version": "5.6",
+            "osy-casename": $("#osy-casename").val().trim(),
+            "osy-desc": $("#osy-desc").val().trim(),
+            "osy-date": new Date().toDateString(),
+            "osy-currency": $("#osy-currency").val(),
+            "osy-mo": $("#osy-mo").val().trim(),
+            "osy-tech": model.techs,
+            "osy-stg": model.stg,
+            "osy-techGroups": model.techGroups,
+            "osy-comm": model.commodities,
+            "osy-ts": model.timeslices,
+            "osy-se": model.seasons,
+            "osy-dt": model.daytypes,
+            "osy-dtb": model.dailytimebrackets,
+            "osy-emis": model.emissions,
+            "osy-scenarios": model.scenarios,
+            "osy-constraints": model.constraints,
+            "osy-indicators": model.indicators,
+            "osy-years": years
+        };
+    }
+
+    // Creates a snapshot used to check for unsaved changes
+    static getModelConfigurationSnapshot(model) {
+        const data = AddCase.getModelConfigurationData(model);
+        delete data["osy-date"];
+        return JSON.stringify(data);
+    }
 
     static initPage(model) {
         Message.clearMessages();
@@ -96,13 +133,23 @@ export default class AddCase {
             $('#osy-update').show();
             $('#osy-save').hide();
         }
-        loadScript("References/smartadmin/js/plugin/ion-slider/ion.rangeSlider.min.js", SmartAdmin.rangeSlider.bind(null, model.years));
+        // Set up events after the saved years are shown
+        loadScript("References/smartadmin/js/plugin/ion-slider/ion.rangeSlider.min.js", () => {
+            SmartAdmin.rangeSlider(model.years);
+            this.initEvents(model);
+        });
         pageSetUp();
-        this.initEvents(model);
     }
 
     static initEvents(model) {
         //console.log('model ', model)
+        // Remember the last saved configuration to detect unsaved changes
+        let savedSnapshot = AddCase.getModelConfigurationSnapshot(model);
+        NavigationGuard.activate({
+            hasChanges: () => AddCase.getModelConfigurationSnapshot(model) !== savedSnapshot,
+            update: () => $("#osy-caseForm").jqxValidator("validate")
+        });
+
         let $divTech = $("#osy-gridTech");
         let $divTechGroup = $("#osy-gridTechGroup");
         let $divStg = $("#osy-gridStg");
@@ -121,10 +168,12 @@ export default class AddCase {
             e.preventDefault();
             e.stopImmediatePropagation();
             var casename = $(this).attr('data-ps');
-            Html.updateCasePicker(casename);
-            Sidebar.Reload(casename);
-            AddCase.refreshPage(casename);
-            Message.smallBoxInfo("Case selection", casename + " is selected!", 3000);
+            NavigationGuard.requestLeave(() => {
+                Html.updateCasePicker(casename);
+                Sidebar.Reload(casename);
+                AddCase.refreshPage(casename);
+                Message.smallBoxInfo("Case selection", casename + " is selected!", 3000);
+            });
         });
 
         function render(message, input) {
@@ -188,15 +237,18 @@ export default class AddCase {
         $("#osy-new").on('click', function (event) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            AddCase.refreshPage(null);
-            //Sidebar.Load(null, null)
-            Sidebar.Reload(null);
+            // Check for unsaved changes before starting a new model
+            NavigationGuard.requestLeave(() => {
+                AddCase.refreshPage(null);
+                //Sidebar.Load(null, null)
+                Sidebar.Reload(null);
 
-            $divTech.jqxGrid({ pagesizeoptions:['10', '25', '50', '100', '250', '500', '750', '1000']}); 
-            $("#osy-new").hide();
-            $('#osy-update').hide();
-            $('#osy-save').show();
-            Message.smallBoxConfirmation("Confirmation!", "Configure new Model!", 3500);
+                $divTech.jqxGrid({ pagesizeoptions:['10', '25', '50', '100', '250', '500', '750', '1000']});
+                $("#osy-new").hide();
+                $('#osy-update').hide();
+                $('#osy-save').show();
+                Message.smallBoxConfirmation("Confirmation!", "Configure new Model!", 3500);
+            });
         });
 
         $("#osy-save").off('click');
@@ -219,49 +271,14 @@ export default class AddCase {
             event.stopImmediatePropagation();
 
             Message.loaderStart('Saving model data')
-            var casename = $("#osy-casename").val().trim();
-            var desc = $("#osy-desc").val().trim();
-            
-            const timeElapsed = Date.now();
-            const today = new Date(timeElapsed);
-            let date = today.toDateString();
-
-            //var date = $("#osy-date").val();
-            var currency = $("#osy-currency").val();
-            var mo = $("#osy-mo").val().trim();
-
-            var years = new Array();
-            $.each($('input[type="checkbox"]:checked'), function (key, value) {
-                years.push($(value).attr("id"));
-            });
-
-            let POSTDATA = {
-                "osy-version": "5.6",
-                "osy-casename": casename,
-                "osy-desc": desc,
-                "osy-date": date,
-                "osy-currency": currency,
-                "osy-mo": mo,
-                "osy-tech": model.techs,
-                "osy-stg": model.stg,
-                "osy-techGroups": model.techGroups,
-                "osy-comm": model.commodities,
-                "osy-ts": model.timeslices,
-                "osy-se": model.seasons,
-                "osy-dt": model.daytypes,
-                "osy-dtb": model.dailytimebrackets,
-                
-                "osy-emis": model.emissions,
-                "osy-scenarios": model.scenarios,
-                "osy-constraints": model.constraints,
-                "osy-indicators": model.indicators,
-                "osy-years": years
-            }
+            const POSTDATA = AddCase.getModelConfigurationData(model);
+            const casename = POSTDATA["osy-casename"];
 
             Osemosys.saveCase(POSTDATA)
             .then(response => {
                 Message.loaderEnd()
                 if (response.status_code == "created") {
+                    savedSnapshot = AddCase.getModelConfigurationSnapshot(model);
                     $("#osy-new").show();
                     $('#osy-update').show();
                     $('#osy-save').hide();
@@ -278,6 +295,7 @@ export default class AddCase {
                     }
                 }
                 if (response.status_code == "edited") {
+                    savedSnapshot = AddCase.getModelConfigurationSnapshot(model);
                     Html.title(casename, 'Model configuration', 'create & edit');
                     $("#osy-new").show();
                     Navbar.initPage(casename);
