@@ -341,18 +341,30 @@ export default class Pivot {
         //     return label;
         // };
 
-        // app.cmbParams = new wijmo.input.AutoComplete('#cmbParams', {
-        app.cmbParams = new wijmo.input.ComboBox('#cmbParams', {
-            itemsSource: model.VARIABLEOBJECT,
+        console.log('model.VARIABLEOBJECT ', model.VARIABLEOBJECT)
+        // Grouped by category (Variable / Indicator / Dual) so cmbParams can render group headers.
+        let cmbParamsView = new wijmo.collections.CollectionView(model.VARIABLEOBJECT);
+        cmbParamsView.groupDescriptions.push(new wijmo.collections.PropertyGroupDescription('category'));
+        cmbParamsView.sortDescriptions.push(new wijmo.collections.SortDescription('category', true));
+        cmbParamsView.sortDescriptions.push(new wijmo.collections.SortDescription('name', true));
+
+        // AutoComplete (not plain ComboBox) is what actually filters the dropdown as the user
+        // types; ComboBox.isEditable only allows free text / jump-to-match, it does not filter.
+        app.cmbParams = new wijmo.input.AutoComplete('#cmbParams', {
+            itemsSource: cmbParamsView,
             dropDownCssClass: 'wj-vars',
             displayMemberPath: 'name',
             selectedValuePath: 'value',
             selectedValue: 'ANC',
-            selectedIndexChanged: function (s, e) {  
+            minLength: 0,
+            maxItems: 100,
+            showGroups: true,
+            placeholder: 'Search…',
+            selectedIndexChanged: function (s, e) {
                 if(s.selectedValue != null && model.TriggerUpdate){
                     Pivot.updateParam(s.selectedValue, app, model);
-                }     
-                
+                }
+
             }
         });
 
@@ -571,8 +583,8 @@ export default class Pivot {
             if (DATA !== null && model.param in DATA && Object.getOwnPropertyNames(DATA[model.param]).length != 0){
                 // let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.DUALS, model.CUSTOM_INDICATORS, model.group, model.param);
                 let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.group, model.param);
-                console.log('pivotData ', pivotData)
-                console.log('group ', model.group, 'param ', model.param)
+                // console.log('pivotData ', pivotData)
+                // console.log('group ', model.group, 'param ', model.param)
                 model.pivotData = pivotData;
                 app.engine.itemsSource = model.pivotData;
 
@@ -608,10 +620,8 @@ export default class Pivot {
                     app.engine.valueFields.push('Value');
                 }
 
-                else if(model.group == "RYTC" || model.group == 'RYTCMTs' ){
-                    //console.log(app.engine.columnFields)
+                else if(model.group == "RYTC" || model.group == 'RYTCMTs' || model.group == 'RYTCM' ){
                     app.engine.columnFields.push('Comm');
-                    //console.log('com tech added')
                     app.engine.rowFields.push('Case','Year');
                     app.engine.valueFields.push('Value');
                 }

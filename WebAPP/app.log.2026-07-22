@@ -1,0 +1,771 @@
+2026-07-22 15:47:02,219 [werkzeug] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2026-07-22 15:47:02,221 [werkzeug] INFO: [33mPress CTRL+C to quit[0m
+2026-07-22 15:47:06,891 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 15:47:06,913 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:47:06,966 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 15:47:06,969 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 15:47:06,972 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 15:47:06,978 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:06] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:47:07,042 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:07] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:47:07,042 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:07] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:47:07,203 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:07] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:07,212 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:07] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:07,269 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:07] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:47:08,818 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:08] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:47:08,850 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:08] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:47:08,947 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:08] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:47:08,956 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:08] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:47:08,972 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:08] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:47:10,559 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:10] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:47:10,580 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:10] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:47:10,628 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:10] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:47:12,522 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:12] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 15:47:12,766 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:12] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:47:14,101 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-07-22 15:47:14,102 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:47:14,825 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 15:47:14,851 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.7418451309204102 seconds --- REF2
+2026-07-22 15:47:15,096 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.9865782260894775 seconds --- REF2
+2026-07-22 15:47:15,281 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 1.1720647811889648 seconds --- REF2
+2026-07-22 15:47:15,291 [Classes.Case.DataFileClass] INFO: ERROR HANDLING {'cbc_message': 'Welcome to the CBC MILP Solver \nVersion: 2.7.5 \nBuild Date: Nov 10 2011 \nRevision Number: 1759 \n\ncommand line - C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\COIN-OR\\cbc.exe C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp solve -printing all -solu C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt (default strategy 1)\nUnable to open file C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\n** Current model not valid\nOption for printingOptions changed from normal to all\n** Current model not valid\nNo match for C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt - ? for list of commands\nTotal time (CPU seconds):       0.00   (Wallclock seconds):       0.00\n\n', 'cbc_stdmsg': '', 'glpk_message': 'GLPSOL: GLPK LP/MIP Solver, v4.65\nParameter(s) specified in the command line:\n --check -m C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt\n -d C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt\n --wlp C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\nReading model section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt...\n904 lines were read\nReading data section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt...\nC:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt:614: OperationProfile not a parameter\nContext: ...0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ; param OperationProfile\nMathProg model processing error\n', 'glpk_stdmsg': '', 'timer': 'Solver error — check logs.', 'status_code': 'error', 'caserun': 'REF2'}
+2026-07-22 15:47:15,297 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:47:15,298 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:15] "POST /run HTTP/1.1" 200 -
+2026-07-22 15:47:24,647 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "[36mGET /App/View/AddCase.html HTTP/1.1[0m" 304 -
+2026-07-22 15:47:24,661 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:47:24,718 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:47:24,737 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:47:24,744 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:24,752 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:24] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:29,476 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "POST /saveCase HTTP/1.1" 200 -
+2026-07-22 15:47:29,494 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:47:29,521 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "[35m[1mGET /References/smartadmin/sound/bigbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:47:29,582 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:47:29,645 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:29,706 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:47:29,747 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:29] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:47:30,279 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:30] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:47:30,336 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:30] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:47:30,388 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:30] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:47:30,394 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:30] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:47:30,414 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:30] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:47:31,907 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:31] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:47:31,920 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:31] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:47:31,924 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:31] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:47:34,133 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:34] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 15:47:34,176 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:47:34] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:48:03,333 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-07-22 15:48:03,333 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:48:03,548 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 15:48:03,562 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.22577714920043945 seconds --- REF2
+2026-07-22 15:48:03,666 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.33032894134521484 seconds --- REF2
+2026-07-22 15:48:03,740 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 0.40352296829223633 seconds --- REF2
+2026-07-22 15:48:03,741 [Classes.Case.DataFileClass] INFO: ERROR HANDLING {'cbc_message': 'Welcome to the CBC MILP Solver \nVersion: 2.7.5 \nBuild Date: Nov 10 2011 \nRevision Number: 1759 \n\ncommand line - C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\COIN-OR\\cbc.exe C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp solve -printing all -solu C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt (default strategy 1)\nUnable to open file C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\n** Current model not valid\nOption for printingOptions changed from normal to all\n** Current model not valid\nNo match for C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt - ? for list of commands\nTotal time (CPU seconds):       0.00   (Wallclock seconds):       0.00\n\n', 'cbc_stdmsg': '', 'glpk_message': 'GLPSOL: GLPK LP/MIP Solver, v4.65\nParameter(s) specified in the command line:\n --check -m C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt\n -d C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt\n --wlp C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\nReading model section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt...\n904 lines were read\nReading data section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt...\nC:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt:614: OperationProfile not a parameter\nContext: ...0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ; param OperationProfile\nMathProg model processing error\n', 'glpk_stdmsg': '', 'timer': 'Solver error — check logs.', 'status_code': 'error', 'caserun': 'REF2'}
+2026-07-22 15:48:03,741 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:48:03,742 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:48:03] "POST /run HTTP/1.1" 200 -
+2026-07-22 15:49:58,258 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET / HTTP/1.1" 200 -
+2026-07-22 15:49:58,368 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/dropzone.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,525 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/bootstrap.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,599 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/smartadmin-production.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,600 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/smartadmin-production-plugins.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,610 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/wijmo/styles/wijmo.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,628 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/font-awesome.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,689 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/smartadmin-skins.min.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,697 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/jqwidgets/styles/jqx.bootstrap.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,701 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/jqwidgets/styles/jqx.base.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,723 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/jqwidgets/styles/jqx.material.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,758 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/demo.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,779 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/jqwidgets/styles/jqx.fluent.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,816 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/smartadmin/css/osy.css HTTP/1.1" 200 -
+2026-07-22 15:49:58,871 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:58] "GET /References/wijmo/controls/wijmo.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,010 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.input.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,051 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.grid.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,057 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.grid.filter.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,089 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.chart.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,235 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,258 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.odata.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,271 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.grid.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,309 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/controls/wijmo.olap.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,389 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/wijmo/licence.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,397 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/jszip/jszip.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,418 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/plotly/plotly-2.27.0.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,441 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/jquery/jquery-3.4.1.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,527 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/jquery/jquery-1.12.1.ui.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,554 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/jqwidgets/jqx-all.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,569 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/jsonLogic/jsonLogic.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,624 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/signals/signals.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,636 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/crossroad/crossroad.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,647 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/hasher/hasher.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,716 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/mermaid/mermaid.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,784 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /Routes/Routes.Class.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,891 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/smartadmin/js/plugin/pace/pace.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,971 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/smartadmin/js/app.config.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,989 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/smartadmin/js/bootstrap/bootstrap.min.js HTTP/1.1" 200 -
+2026-07-22 15:49:59,991 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:49:59] "GET /References/smartadmin/js/notification/SmartNotification.min.js HTTP/1.1" 200 -
+2026-07-22 15:50:00,114 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /References/smartadmin/js/smartwidgets/jarvis.widget.min.js HTTP/1.1" 200 -
+2026-07-22 15:50:00,129 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /References/smartadmin/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js HTTP/1.1" 200 -
+2026-07-22 15:50:00,138 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /References/smartadmin/js/plugin/sparkline/jquery.sparkline.min.js HTTP/1.1" 200 -
+2026-07-22 15:50:00,160 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /References/smartadmin/js/app.min.js HTTP/1.1" 200 -
+2026-07-22 15:50:00,845 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /App/View/Sidebar.html HTTP/1.1" 200 -
+2026-07-22 15:50:00,861 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /App/View/Modals.html HTTP/1.1" 200 -
+2026-07-22 15:50:00,870 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /App/View/Navbar.html HTTP/1.1" 200 -
+2026-07-22 15:50:00,874 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:00] "GET /Classes/Osemosys.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,001 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Classes/Message.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,027 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /References/smartadmin/img/mybg.png HTTP/1.1" 200 -
+2026-07-22 15:50:01,028 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Routes/Routes.Model.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,036 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /References/smartadmin/fonts/font-awesome/fontawesome-webfont.woff2?v=4.5.0 HTTP/1.1" 200 -
+2026-07-22 15:50:01,075 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Classes/Base.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,101 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Classes/Html.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,133 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Classes/SyncS3.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,151 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /Classes/Const.Class.js HTTP/1.1" 200 -
+2026-07-22 15:50:01,196 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:50:01,305 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:50:01,310 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /References/smartadmin/img/favicon/favicon.ico HTTP/1.1" 200 -
+2026-07-22 15:50:01,350 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Controller/Settings.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,355 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Controller/DataFile.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,392 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /Classes/JqxSources.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,392 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Model/Settings.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,400 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Model/DataFile.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,421 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Controller/MessageSelect.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,475 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /Classes/DefaultObj.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,476 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Controller/Sidebar.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,487 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/View/Settings.html HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,549 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Model/MessageSelect.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,557 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/Model/Sidebar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,619 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:50:01,650 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:50:01,687 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:50:01,696 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:50:01,699 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:50:01,770 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:01] "GET /References/smartadmin/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 -
+2026-07-22 15:50:03,105 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /App/Controller/Home.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,156 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /App/Controller/Navbar.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,156 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /App/Model/Home.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,164 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /Classes/Definition.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,185 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /App/Model/Navbar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,201 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,228 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:50:03,235 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,247 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,273 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:50:03,275 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,361 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:50:03,366 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:50:03,386 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "[36mGET /References/smartadmin/js/plugin/dropzone/dropzone5.min.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:03,418 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:50:03,425 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:50:03,446 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:03] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:50:07,651 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /App/Controller/RYTTs.js HTTP/1.1" 200 -
+2026-07-22 15:50:07,693 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /App/Model/RYTTs.Model.js HTTP/1.1" 200 -
+2026-07-22 15:50:07,693 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /Classes/Grid.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,710 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /Classes/DataModel.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,736 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /App/View/RYTTs.html HTTP/1.1" 200 -
+2026-07-22 15:50:07,756 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:50:07,777 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:50:07,798 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:50:07,817 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "GET /DataStorage/CLEWs%20Demo_copy/RYTTs.json HTTP/1.1" 200 -
+2026-07-22 15:50:07,877 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/icon-up.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,884 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/icon-down.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,897 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/icon-left.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,926 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/icon-right.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,931 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/loader.gif HTTP/1.1[0m" 304 -
+2026-07-22 15:50:07,956 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:07] "[36mGET /References/jqwidgets/styles/images/icon-menu-small.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:08,201 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:08] "[36mGET /References/jqwidgets/styles/images/icon-sort-desc.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:08,216 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:08] "[36mGET /References/jqwidgets/styles/images/icon-sort-remove.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:08,221 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:08] "[36mGET /References/jqwidgets/styles/images/icon-sort-asc.png HTTP/1.1[0m" 304 -
+2026-07-22 15:50:10,628 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:10] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:50:10,648 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:10] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:50:10,680 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:10] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:50:10,687 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:10] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:50:10,698 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:10] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:50:12,019 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:12] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:50:12,033 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:12] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:50:12,055 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:12] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:50:12,126 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:12] "[36mGET /References/smartadmin/img/favicon/favicon.ico HTTP/1.1[0m" 304 -
+2026-07-22 15:50:13,297 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:13] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 15:50:13,344 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:13] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:50:14,228 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-07-22 15:50:14,230 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:50:14,566 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 15:50:14,599 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.3610353469848633 seconds --- REF2
+2026-07-22 15:50:14,765 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.5272114276885986 seconds --- REF2
+2026-07-22 15:50:14,871 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 0.6335930824279785 seconds --- REF2
+2026-07-22 15:50:14,878 [Classes.Case.DataFileClass] INFO: ERROR HANDLING {'cbc_message': 'Welcome to the CBC MILP Solver \nVersion: 2.7.5 \nBuild Date: Nov 10 2011 \nRevision Number: 1759 \n\ncommand line - C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\COIN-OR\\cbc.exe C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp solve -printing all -solu C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt (default strategy 1)\nUnable to open file C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\n** Current model not valid\nOption for printingOptions changed from normal to all\n** Current model not valid\nNo match for C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\results.txt - ? for list of commands\nTotal time (CPU seconds):       0.00   (Wallclock seconds):       0.00\n\n', 'cbc_stdmsg': '', 'glpk_message': 'GLPSOL: GLPK LP/MIP Solver, v4.65\nParameter(s) specified in the command line:\n --check -m C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt\n -d C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt\n --wlp C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\lp.lp\nReading model section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\SOLVERs\\model.v.5.7.txt...\n904 lines were read\nReading data section from C:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt...\nC:\\wamp64\\www\\OSEMOSYS\\OSEMOSYS\\WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF2\\data_processed.txt:614: default value for OperationalProfile already specified in model section\nContext:  0.5 0.5 0.5 0.5 0.5 ; param OperationalProfile default 1 :=\nMathProg model processing error\n', 'glpk_stdmsg': '', 'timer': 'Solver error — check logs.', 'status_code': 'error', 'caserun': 'REF2'}
+2026-07-22 15:50:14,878 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:50:14,880 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:14] "POST /run HTTP/1.1" 200 -
+2026-07-22 15:50:38,683 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:38] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:50:38,700 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:50:38] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:51:09,246 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET / HTTP/1.1" 200 -
+2026-07-22 15:51:09,379 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/dropzone.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,396 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/bootstrap.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,408 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/font-awesome.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,415 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/styles/wijmo.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,424 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,445 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/smartadmin-production-plugins.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,456 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.input.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,532 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/smartadmin-production.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,535 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/smartadmin-skins.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,553 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/jqwidgets/styles/jqx.base.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,566 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/jqwidgets/styles/jqx.bootstrap.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,612 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/jqwidgets/styles/jqx.material.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,631 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/jqwidgets/styles/jqx.fluent.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,640 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/demo.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,663 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/smartadmin/css/osy.css HTTP/1.1" 200 -
+2026-07-22 15:51:09,676 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET / HTTP/1.1" 200 -
+2026-07-22 15:51:09,682 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.grid.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,690 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.grid.filter.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,895 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.chart.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,900 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,951 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.grid.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,967 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.odata.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:09,993 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:09] "GET /References/wijmo/controls/wijmo.olap.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,006 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jszip/jszip.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,010 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jsonLogic/jsonLogic.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,024 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/jqx-all.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,058 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/signals/signals.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,060 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /Routes/Routes.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,069 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/dropzone.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,108 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/bootstrap.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,117 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/font-awesome.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,124 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/styles/wijmo.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,143 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/smartadmin-production-plugins.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,146 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/smartadmin-production.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,175 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/smartadmin-skins.min.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,184 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/styles/jqx.base.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,205 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/styles/jqx.bootstrap.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,237 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/styles/jqx.material.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,247 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/styles/jqx.fluent.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,274 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/osy.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,286 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/smartadmin/css/demo.css HTTP/1.1" 200 -
+2026-07-22 15:51:10,297 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,390 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.input.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,402 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.grid.filter.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,402 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.grid.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,430 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.chart.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,476 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,521 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.grid.xlsx.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,531 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.odata.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,555 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/controls/wijmo.olap.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,594 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/wijmo/licence.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,628 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jszip/jszip.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,656 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/plotly/plotly-2.27.0.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,658 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jquery/jquery-3.4.1.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,731 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jquery/jquery-1.12.1.ui.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,763 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jqwidgets/jqx-all.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,806 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/jsonLogic/jsonLogic.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,812 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/signals/signals.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,879 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/crossroad/crossroad.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,929 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/hasher/hasher.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:10,933 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:10] "GET /References/mermaid/mermaid.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,010 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/plugin/pace/pace.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,011 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /Routes/Routes.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,048 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/app.config.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,056 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/bootstrap/bootstrap.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,148 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/notification/SmartNotification.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,228 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/smartwidgets/jarvis.widget.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,271 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/plugin/sparkline/jquery.sparkline.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,276 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,303 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/js/app.min.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,841 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /App/View/Sidebar.html HTTP/1.1" 200 -
+2026-07-22 15:51:11,858 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /App/View/Navbar.html HTTP/1.1" 200 -
+2026-07-22 15:51:11,873 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /App/View/Modals.html HTTP/1.1" 200 -
+2026-07-22 15:51:11,912 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /Routes/Routes.Model.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,961 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /Classes/Message.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,974 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /Classes/Osemosys.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:11,986 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:11] "GET /References/smartadmin/img/mybg.png HTTP/1.1" 200 -
+2026-07-22 15:51:12,017 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /References/smartadmin/fonts/font-awesome/fontawesome-webfont.woff2?v=4.5.0 HTTP/1.1" 200 -
+2026-07-22 15:51:12,064 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /Classes/Html.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:12,078 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /Classes/Base.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:12,138 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /Classes/Const.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:12,201 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /Classes/SyncS3.Class.js HTTP/1.1" 200 -
+2026-07-22 15:51:12,340 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:51:12,360 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /References/smartadmin/img/favicon/favicon.ico HTTP/1.1" 200 -
+2026-07-22 15:51:12,378 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:51:12,421 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Controller/Settings.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,434 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Controller/DataFile.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,459 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /Classes/JqxSources.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,508 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Model/Settings.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,535 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Model/DataFile.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,559 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Controller/MessageSelect.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,573 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Controller/Sidebar.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,594 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /Classes/DefaultObj.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,600 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/View/Settings.html HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,626 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Model/MessageSelect.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,641 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/Model/Sidebar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,677 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:51:12,705 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:51:12,723 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:51:12,748 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:51:12,759 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:51:12,793 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:12] "GET /References/smartadmin/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 -
+2026-07-22 15:51:14,210 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:14] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:51:14,238 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:14] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:51:14,241 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:14] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:51:14,326 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:14] "[36mGET /References/smartadmin/img/favicon/favicon.ico HTTP/1.1[0m" 304 -
+2026-07-22 15:51:15,439 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:15] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 15:51:15,505 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:15] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:51:16,467 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-07-22 15:51:16,469 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:51:16,615 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 15:51:16,638 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.1593303680419922 seconds --- REF2
+2026-07-22 15:51:18,820 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 2.3423948287963867 seconds --- REF2
+2026-07-22 15:51:28,359 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 11.879852533340454 seconds --- REF2
+2026-07-22 15:51:31,387 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 14.907506227493286 seconds --- REF2
+2026-07-22 15:51:34,414 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 17.93636703491211 seconds --- REF2
+2026-07-22 15:51:34,415 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 17.93636703491211 seconds --- REF2
+2026-07-22 15:51:34,415 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo_copy -- caserun -- REF2 --!
+2026-07-22 15:51:34,416 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "POST /run HTTP/1.1" 200 -
+2026-07-22 15:51:34,460 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:51:34,491 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:51:34,524 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "[35m[1mGET /References/smartadmin/sound/bigbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:51:34,559 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:51:34,567 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:51:34,681 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:51:34] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:52:31,825 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "GET /AppResults/Controller/Pivot.js HTTP/1.1" 200 -
+2026-07-22 15:52:31,877 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "GET /AppResults/Model/Pivot.Model.js HTTP/1.1" 200 -
+2026-07-22 15:52:31,877 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "[36mGET /Classes/Definition.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:31,887 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "GET /Classes/DataModelResult.Class.js HTTP/1.1" 200 -
+2026-07-22 15:52:31,918 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "[36mGET /Classes/DataModel.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:31,985 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:31] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-07-22 15:52:32,018 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:52:32,052 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:32,060 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:52:32,080 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:32,095 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:32,109 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:32,140 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "GET /DataStorage/CLEWs%20Demo_copy/view/RYT.json HTTP/1.1" 200 -
+2026-07-22 15:52:32,152 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:32] "GET /DataStorage/CLEWs%20Demo_copy/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-07-22 15:52:34,937 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:34] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:52:34,965 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:34] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:52:35,013 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:35] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:35,026 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:35] "GET /DataStorage/CLEWs%20Demo_copy/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:52:35,034 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:35] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:52:37,603 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:37] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:52:37,609 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:37] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:52:37,612 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:37] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:52:38,566 [Classes.Case.DataFileClass] ERROR: generateDatafile failed for caserunname=REF
+Traceback (most recent call last):
+  File "C:\wamp64\www\OSEMOSYS\OSEMOSYS\API\Classes\Case\DataFileClass.py", line 718, in generateDatafile
+    with open(dataFilePath, "w", encoding="utf-8") as self.f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'WebAPP\\DataStorage\\CLEWs Demo_copy\\res\\REF\\data.txt'
+2026-07-22 15:52:38,581 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:38] "[33mPOST /generateDataFile HTTP/1.1[0m" 404 -
+2026-07-22 15:52:38,622 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:38] "[35m[1mGET /References/smartadmin/sound/bigbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:52:48,494 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /App/Controller/Home.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,527 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /App/Model/Home.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,532 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /App/Controller/Navbar.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,550 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /App/Model/Navbar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,579 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,593 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:52:48,606 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,613 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,632 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,639 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:52:48,762 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "GET /DataStorage/CLEWs%20Demo_copy/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:48,764 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:52:48,766 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "[36mGET /References/smartadmin/js/plugin/dropzone/dropzone5.min.js HTTP/1.1[0m" 304 -
+2026-07-22 15:52:48,804 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:48,811 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:48,828 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:48] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:52:49,556 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:49,614 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "POST /setSession HTTP/1.1" 200 -
+2026-07-22 15:52:49,647 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:52:49,789 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:49,826 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 15:52:49,878 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:49,965 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:49] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:52:50,117 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:50] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:52:54,046 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:54] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:52:54,068 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:54] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:52:54,092 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:54] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:52:54,098 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:54] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:52:54,106 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:52:54] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:53:07,634 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "[36mGET /App/Controller/AddCase.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:07,678 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "[36mGET /Classes/Grid.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:07,696 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "[36mGET /Classes/SmartAdmin.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:07,700 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "[36mGET /App/Model/AddCase.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:07,722 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "[36mGET /App/View/AddCase.html HTTP/1.1[0m" 304 -
+2026-07-22 15:53:07,740 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:53:07,777 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:53:07,802 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:53:07,809 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:07,829 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:07] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:08,006 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:08] "[36mGET /References/smartadmin/js/plugin/ion-slider/ion.rangeSlider.min.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,743 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /App/Controller/RYTTs.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,766 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /App/Model/RYTTs.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,797 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /App/View/RYTTs.html HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,820 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:53:17,837 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:53:17,845 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:17,857 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "GET /DataStorage/CLEWs%20Demo/RYTTs.json HTTP/1.1" 200 -
+2026-07-22 15:53:17,899 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/icon-down.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,904 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/icon-up.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,919 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/icon-right.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,936 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/icon-left.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,948 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/loader.gif HTTP/1.1[0m" 304 -
+2026-07-22 15:53:17,954 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:17] "[36mGET /References/jqwidgets/styles/images/icon-menu-small.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:18,140 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:18] "[36mGET /References/jqwidgets/styles/images/icon-sort-asc.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:18,145 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:18] "[36mGET /References/jqwidgets/styles/images/icon-sort-desc.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:18,156 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:18] "[36mGET /References/jqwidgets/styles/images/icon-sort-remove.png HTTP/1.1[0m" 304 -
+2026-07-22 15:53:31,713 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:31] "POST /updateData HTTP/1.1" 200 -
+2026-07-22 15:53:33,405 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-07-22 15:53:33,437 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:53:33,496 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:53:33,507 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:53:33,520 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:33,534 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:33,579 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:53:33,620 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "GET /DataStorage/CLEWs%20Demo/view/RYT.json HTTP/1.1" 200 -
+2026-07-22 15:53:33,640 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:33] "GET /DataStorage/CLEWs%20Demo/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-07-22 15:53:35,622 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:35] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 15:53:35,664 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:35] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:53:35,682 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:35] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:53:35,688 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:35] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:53:35,695 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:35] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 15:53:46,534 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:46] "POST /createCaseRun HTTP/1.1" 200 -
+2026-07-22 15:53:46,587 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:46] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 15:53:50,016 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:50] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:53:50,023 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:50] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:53:51,045 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:51] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 15:53:51,069 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:53:51] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 15:53:52,165 [Routes.DataFile.DataFileRoute] INFO: Starting long task...
+2026-07-22 15:53:52,167 [Routes.DataFile.DataFileRoute] INFO: Starting optimization process for model -- CLEWs Demo -- caserun -- REF2 --!
+2026-07-22 15:53:52,964 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 15:53:52,978 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.8072226047515869 seconds --- REF2
+2026-07-22 15:53:54,256 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 2.0854339599609375 seconds --- REF2
+2026-07-22 15:53:58,794 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 6.623217582702637 seconds --- REF2
+2026-07-22 15:53:59,984 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 7.813324928283691 seconds --- REF2
+2026-07-22 15:54:03,732 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 11.561055421829224 seconds --- REF2
+2026-07-22 15:54:03,733 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 11.562054634094238 seconds --- REF2
+2026-07-22 15:54:03,733 [Routes.DataFile.DataFileRoute] INFO: Optimization finished for model -- CLEWs Demo -- caserun -- REF2 --!
+2026-07-22 15:54:03,734 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "POST /run HTTP/1.1" 200 -
+2026-07-22 15:54:03,745 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 15:54:03,746 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:54:03,771 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:54:03,777 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:54:03,806 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:03] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 15:54:26,177 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-07-22 15:54:26,189 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 15:54:26,201 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 15:54:26,202 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 15:54:26,205 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:54:26,210 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:54:26,212 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 15:54:26,221 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "GET /DataStorage/CLEWs%20Demo/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-07-22 15:54:26,221 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:54:26] "GET /DataStorage/CLEWs%20Demo/view/RYT.json HTTP/1.1" 200 -
+2026-07-22 15:56:11,764 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 15:56:11] "GET /DataStorage/CLEWs%20Demo/view/R.json HTTP/1.1" 200 -
+2026-07-22 18:22:31,936 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "GET / HTTP/1.1" 200 -
+2026-07-22 18:22:31,956 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/smartadmin/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:31,957 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/smartadmin/css/font-awesome.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:31,960 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/smartadmin/css/dropzone.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:31,989 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/wijmo/styles/wijmo.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:31,992 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/smartadmin/css/smartadmin-production-plugins.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:31,995 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:31] "[36mGET /References/smartadmin/css/smartadmin-production.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,019 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/css/smartadmin-skins.min.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,046 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jqwidgets/styles/jqx.base.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,057 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jqwidgets/styles/jqx.bootstrap.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,059 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jqwidgets/styles/jqx.material.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,063 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jqwidgets/styles/jqx.fluent.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,069 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/css/demo.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,071 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/css/osy.css HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,073 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,079 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.input.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,080 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.grid.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,086 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.grid.filter.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,098 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.chart.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,100 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.xlsx.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,102 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.grid.xlsx.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,110 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.odata.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,112 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/controls/wijmo.olap.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,119 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/wijmo/licence.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,123 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jszip/jszip.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,128 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/plotly/plotly-2.27.0.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,130 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jquery/jquery-3.4.1.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,135 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jquery/jquery-1.12.1.ui.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,144 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jsonLogic/jsonLogic.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,152 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/signals/signals.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,153 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/jqwidgets/jqx-all.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,161 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/crossroad/crossroad.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,169 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/hasher/hasher.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,177 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/mermaid/mermaid.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,217 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Routes/Routes.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,222 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/plugin/pace/pace.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,230 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/app.config.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,236 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/bootstrap/bootstrap.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,243 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/notification/SmartNotification.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,249 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/smartwidgets/jarvis.widget.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,253 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,258 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/plugin/sparkline/jquery.sparkline.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,261 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/app.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,438 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/View/Sidebar.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,442 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/View/Navbar.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,443 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/View/Modals.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,449 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/img/mybg.png HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,459 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Message.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,461 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Osemosys.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,462 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Routes/Routes.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,467 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Html.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,472 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Base.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,476 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Const.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,480 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/SyncS3.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,490 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:32,508 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/fonts/font-awesome/fontawesome-webfont.woff2?v=4.5.0 HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,511 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:32,519 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Controller/Settings.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,525 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Controller/Home.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,553 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Model/Settings.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,554 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Model/Home.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,557 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/JqxSources.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,562 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /Classes/Definition.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,566 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Controller/Navbar.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,568 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Controller/Sidebar.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,570 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/View/Settings.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,575 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Model/Navbar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,578 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/Model/Sidebar.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,657 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,668 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 18:22:32,678 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,680 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,680 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,694 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 18:22:32,706 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 18:22:32,711 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/js/plugin/dropzone/dropzone5.min.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,712 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 18:22:32,716 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "[36mGET /References/smartadmin/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1[0m" 304 -
+2026-07-22 18:22:32,731 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:32,734 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:32,756 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:32] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 18:22:34,386 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /AppResults/Controller/Pivot.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,397 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /AppResults/Model/Pivot.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,402 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /Classes/DataModelResult.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,403 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /Classes/DefaultObj.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,409 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /App/Controller/MessageSelect.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,411 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /Classes/DataModel.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,417 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /App/Model/MessageSelect.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,424 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:34,431 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 18:22:34,437 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 18:22:34,441 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 18:22:34,445 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:34,447 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:34,451 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:22:34,455 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "GET /DataStorage/CLEWs%20Demo/view/RYT.json HTTP/1.1" 200 -
+2026-07-22 18:22:34,457 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:34] "GET /DataStorage/CLEWs%20Demo/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-07-22 18:22:38,431 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:38] "GET /DataStorage/CLEWs%20Demo/view/RYTCMTs.json HTTP/1.1" 200 -
+2026-07-22 18:22:45,037 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:45] "GET /DataStorage/CLEWs%20Demo/view/RYTCMTs.json HTTP/1.1" 200 -
+2026-07-22 18:22:54,367 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:54] "GET /DataStorage/CLEWs%20Demo/view/RYTCMTs.json HTTP/1.1" 200 -
+2026-07-22 18:22:58,353 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "[36mGET /App/Controller/DataFile.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:58,362 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "[36mGET /App/Model/DataFile.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 18:22:58,370 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 18:22:58,380 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 18:22:58,395 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 18:22:58,395 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 18:22:58,402 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:22:58] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 18:23:07,563 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun REF!
+2026-07-22 18:23:07,717 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun REF!
+2026-07-22 18:23:07,717 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun RETRG!
+2026-07-22 18:23:07,773 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun RETRG!
+2026-07-22 18:23:07,773 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun CO2TAX!
+2026-07-22 18:23:07,837 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun CO2TAX!
+2026-07-22 18:23:07,837 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun CLMCHG!
+2026-07-22 18:23:07,898 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun CLMCHG!
+2026-07-22 18:23:07,898 [Routes.DataFile.DataFileRoute] INFO: Data file generation process started for model CLEWs Demo caserun REF2!
+2026-07-22 18:23:07,952 [Routes.DataFile.DataFileRoute] INFO: Data file generation process finished for modelCLEWs Demo caserun REF2!
+2026-07-22 18:23:07,952 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun REF!
+2026-07-22 18:23:08,307 [Classes.Case.DataFileClass] INFO: Preprocessing case REF
+2026-07-22 18:23:08,319 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.36730337142944336 seconds --- REF
+2026-07-22 18:23:08,915 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.963449239730835 seconds --- REF
+2026-07-22 18:23:11,636 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.684224843978882 seconds --- REF
+2026-07-22 18:23:12,277 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.325655698776245 seconds --- REF
+2026-07-22 18:23:13,948 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.996052026748657 seconds --- REF
+2026-07-22 18:23:13,948 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.996052026748657 seconds --- REF
+2026-07-22 18:23:13,948 [Classes.Case.DataFileClass] INFO: Batch run optimization process REF  Result - Optimal solution found - Total time (CPU seconds):       2.22   (Wallclock seconds):       2.22 !
+2026-07-22 18:23:13,949 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun RETRG!
+2026-07-22 18:23:14,350 [Classes.Case.DataFileClass] INFO: Preprocessing case RETRG
+2026-07-22 18:23:14,365 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.4162769317626953 seconds --- RETRG
+2026-07-22 18:23:14,835 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.8860573768615723 seconds --- RETRG
+2026-07-22 18:23:16,911 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 2.961846351623535 seconds --- RETRG
+2026-07-22 18:23:17,605 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 3.656151294708252 seconds --- RETRG
+2026-07-22 18:23:19,396 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 5.446763515472412 seconds --- RETRG
+2026-07-22 18:23:19,397 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 5.447758436203003 seconds --- RETRG
+2026-07-22 18:23:19,397 [Classes.Case.DataFileClass] INFO: Batch run optimization process RETRG  Result - Optimal solution found - Total time (CPU seconds):       2.04   (Wallclock seconds):       2.04 !
+2026-07-22 18:23:19,397 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun CO2TAX!
+2026-07-22 18:23:19,786 [Classes.Case.DataFileClass] INFO: Preprocessing case CO2TAX
+2026-07-22 18:23:19,799 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.40244579315185547 seconds --- CO2TAX
+2026-07-22 18:23:20,360 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 0.9629800319671631 seconds --- CO2TAX
+2026-07-22 18:23:24,251 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 4.854817867279053 seconds --- CO2TAX
+2026-07-22 18:23:25,047 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 5.650275230407715 seconds --- CO2TAX
+2026-07-22 18:23:27,007 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 7.610827922821045 seconds --- CO2TAX
+2026-07-22 18:23:27,008 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 7.611854076385498 seconds --- CO2TAX
+2026-07-22 18:23:27,008 [Classes.Case.DataFileClass] INFO: Batch run optimization process CO2TAX  Result - Optimal solution found - Total time (CPU seconds):       3.84   (Wallclock seconds):       3.84 !
+2026-07-22 18:23:27,008 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun CLMCHG!
+2026-07-22 18:23:27,557 [Classes.Case.DataFileClass] INFO: Preprocessing case CLMCHG
+2026-07-22 18:23:27,573 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.5632274150848389 seconds --- CLMCHG
+2026-07-22 18:23:28,108 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 1.0981543064117432 seconds --- CLMCHG
+2026-07-22 18:23:30,487 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 3.478834629058838 seconds --- CLMCHG
+2026-07-22 18:23:31,425 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.416370630264282 seconds --- CLMCHG
+2026-07-22 18:23:33,297 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 6.289029121398926 seconds --- CLMCHG
+2026-07-22 18:23:33,297 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 6.289029121398926 seconds --- CLMCHG
+2026-07-22 18:23:33,298 [Classes.Case.DataFileClass] INFO: Batch run optimization process CLMCHG  Result - Optimal solution found - Total time (CPU seconds):       2.33   (Wallclock seconds):       2.33 !
+2026-07-22 18:23:33,298 [Classes.Case.DataFileClass] INFO: Starting batch run optimization process for model CLEWs Demo caserun REF2!
+2026-07-22 18:23:33,857 [Classes.Case.DataFileClass] INFO: Preprocessing case REF2
+2026-07-22 18:23:33,874 [Classes.Case.DataFileClass] INFO: PREPROCESSING DONE! --- 0.5760083198547363 seconds --- REF2
+2026-07-22 18:23:34,456 [Classes.Case.DataFileClass] INFO: CREATINON OF LP FILE DONE! --- 1.1577861309051514 seconds --- REF2
+2026-07-22 18:23:37,304 [Classes.Case.DataFileClass] INFO: SOLUTION DONE! --- 4.00558876991272 seconds --- REF2
+2026-07-22 18:23:38,140 [Classes.Case.DataFileClass] INFO: CSV DONE! --- 4.841454744338989 seconds --- REF2
+2026-07-22 18:23:40,130 [Classes.Case.DataFileClass] INFO: PIVOT TABLE DONE! --- 6.831162691116333 seconds --- REF2
+2026-07-22 18:23:40,130 [Classes.Case.DataFileClass] INFO: MESSAGES DONE! --- 6.831162691116333 seconds --- REF2
+2026-07-22 18:23:40,130 [Classes.Case.DataFileClass] INFO: Batch run optimization process REF2  Result - Optimal solution found - Total time (CPU seconds):       2.80   (Wallclock seconds):       2.81 !
+2026-07-22 18:23:40,131 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:23:40] "POST /batchRun HTTP/1.1" 200 -
+2026-07-22 18:23:40,139 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:23:40] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 18:23:40,148 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:23:40] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:23:40,153 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:23:40] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:23:40,171 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:23:40] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 18:25:41,298 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "[36mGET /AppResults/View/Pivot.html HTTP/1.1[0m" 304 -
+2026-07-22 18:25:41,305 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 18:25:41,320 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 18:25:41,323 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 18:25:41,330 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:25:41,331 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:25:41,340 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 18:25:41,343 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "GET /DataStorage/CLEWs%20Demo/view/viewDefinitions.json HTTP/1.1" 200 -
+2026-07-22 18:25:41,347 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:41] "GET /DataStorage/CLEWs%20Demo/view/RYT.json HTTP/1.1" 200 -
+2026-07-22 18:25:46,496 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 18:25:46] "GET /DataStorage/CLEWs%20Demo/view/RYTCMTs.json HTTP/1.1" 200 -
+2026-07-22 19:38:09,017 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:09] "[36mGET /App/View/DataFile.html HTTP/1.1[0m" 304 -
+2026-07-22 19:38:09,042 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:09] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 19:38:09,060 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:09] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 19:38:09,068 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:09] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 19:38:09,078 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:09] "GET /readModelFile HTTP/1.1" 200 -
+2026-07-22 19:38:11,445 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:11] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 19:38:11,476 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:11] "POST /getResultCSV HTTP/1.1" 200 -
+2026-07-22 19:38:11,478 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:11] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 19:38:11,716 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:38:11] "[36mGET /References/smartadmin/img/favicon/favicon.ico HTTP/1.1[0m" 304 -
+2026-07-22 19:39:27,276 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:39:27] "POST /generateDataFile HTTP/1.1" 200 -
+2026-07-22 19:39:27,328 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:39:27] "POST /readDataFile HTTP/1.1" 200 -
+2026-07-22 19:39:27,386 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:39:27] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 19:40:12,379 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:12] "GET /References/jqwidgets/styles/images/material-icon-down.png HTTP/1.1" 200 -
+2026-07-22 19:40:15,242 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:15] "GET /References/jqwidgets/styles/images/material-icon-left.png HTTP/1.1" 200 -
+2026-07-22 19:40:15,248 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:15] "GET /References/jqwidgets/styles/images/material-icon-up.png HTTP/1.1" 200 -
+2026-07-22 19:40:15,252 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:15] "GET /References/jqwidgets/styles/images/material-icon-right.png HTTP/1.1" 200 -
+2026-07-22 19:40:21,830 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:21] "GET /References/jqwidgets/styles/images/material_check_white.png HTTP/1.1" 200 -
+2026-07-22 19:40:30,281 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:30] "[35m[1mGET /References/smartadmin/sound/smallbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 19:40:37,667 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:40:37] "[36mGET /App/View/Versions.html HTTP/1.1[0m" 304 -
+2026-07-22 19:41:14,931 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:14] "GET /App/Controller/Config.js HTTP/1.1" 200 -
+2026-07-22 19:41:14,964 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:14] "[36mGET /Classes/Grid.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,072 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "GET /App/Model/Config.Model.js HTTP/1.1" 200 -
+2026-07-22 19:41:15,097 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "GET /App/View/Config.html HTTP/1.1" 200 -
+2026-07-22 19:41:15,109 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 19:41:15,131 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:15,139 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:15,153 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:15,159 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:15,188 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-up.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,200 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-down.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,204 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-right.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,212 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-left.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,220 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/loader.gif HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,236 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-menu-small.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,336 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-sort-asc.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,336 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-sort-desc.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:15,343 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:15] "[36mGET /References/jqwidgets/styles/images/icon-sort-remove.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:32,305 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "[36mGET /App/Controller/AddCase.js HTTP/1.1[0m" 304 -
+2026-07-22 19:41:32,332 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "[36mGET /Classes/SmartAdmin.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 19:41:32,336 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "[36mGET /App/Model/AddCase.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 19:41:32,352 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "[36mGET /App/View/AddCase.html HTTP/1.1[0m" 304 -
+2026-07-22 19:41:32,365 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 19:41:32,386 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 19:41:32,391 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 19:41:32,406 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:32,406 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:32,560 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:32] "[36mGET /References/smartadmin/js/plugin/ion-slider/ion.rangeSlider.min.js HTTP/1.1[0m" 304 -
+2026-07-22 19:41:43,711 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 19:41:43,729 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 19:41:43,739 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:43,752 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:43,758 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 19:41:43,759 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 19:41:43,778 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 19:41:43,778 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 19:41:43,838 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:43,852 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 19:41:43,893 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 19:41:43] "POST /resultsExists HTTP/1.1" 200 -
+2026-07-22 20:24:54,606 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "GET /App/View/Config.html HTTP/1.1" 200 -
+2026-07-22 20:24:54,623 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:24:54,651 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:24:54,659 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:24:54,663 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:24:54,665 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:24:54] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:01,021 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "[36mGET /App/View/AddCase.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:01,035 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:01,058 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:01,067 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "GET /DataStorage/CLEWs%20Demo/view/resData.json HTTP/1.1" 200 -
+2026-07-22 20:25:01,074 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:01,085 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:01] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:20,057 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "[36mGET /App/Controller/RT.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:20,084 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "[36mGET /Classes/Chart.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:20,149 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "[36mGET /App/Model/RT.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:20,216 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "[36mGET /App/View/RT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:20,256 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:20,276 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:20,309 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:20,313 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:20] "GET /DataStorage/CLEWs%20Demo/RT.json HTTP/1.1" 200 -
+2026-07-22 20:25:23,481 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:23] "[36mGET /App/View/RT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:23,500 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:23] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:23,515 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:23] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:23,532 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:23] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:23,532 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:23] "GET /DataStorage/CLEWs%20Demo/RT.json HTTP/1.1" 200 -
+2026-07-22 20:25:27,115 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:27] "[36mGET /App/View/RT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:27,127 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:27] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:27,152 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:27] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:27,168 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:27] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:27,176 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:27] "GET /DataStorage/CLEWs%20Demo/RT.json HTTP/1.1" 200 -
+2026-07-22 20:25:30,421 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /App/Controller/RE.js HTTP/1.1" 200 -
+2026-07-22 20:25:30,514 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /App/Model/RE.Model.js HTTP/1.1" 200 -
+2026-07-22 20:25:30,534 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /App/View/RE.html HTTP/1.1" 200 -
+2026-07-22 20:25:30,546 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:30,561 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:30,573 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:30,578 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:30] "GET /DataStorage/CLEWs%20Demo/RE.json HTTP/1.1" 200 -
+2026-07-22 20:25:32,230 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /App/Controller/RYCn.js HTTP/1.1" 200 -
+2026-07-22 20:25:32,253 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /App/Model/RYCn.Model.js HTTP/1.1" 200 -
+2026-07-22 20:25:32,296 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /App/View/RYCn.html HTTP/1.1" 200 -
+2026-07-22 20:25:32,309 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:32,325 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:32,333 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:32,345 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:32] "GET /DataStorage/CLEWs%20Demo/RYCn.json HTTP/1.1" 200 -
+2026-07-22 20:25:35,554 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:35] "[36mGET /App/View/RT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:35,582 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:35] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:35,608 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:35] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:35,616 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:35] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:35,616 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:35] "GET /DataStorage/CLEWs%20Demo/RT.json HTTP/1.1" 200 -
+2026-07-22 20:25:40,856 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:40] "[36mGET /App/View/RT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:40,878 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:40] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:40,907 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:40] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:40,952 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:40] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:40,970 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:40] "GET /DataStorage/CLEWs%20Demo/RT.json HTTP/1.1" 200 -
+2026-07-22 20:25:44,574 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "[36mGET /App/Controller/RYT.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:44,594 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "[36mGET /App/Model/RYT.Model.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:44,610 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "[36mGET /Classes/Functions.Class.js HTTP/1.1[0m" 304 -
+2026-07-22 20:25:44,623 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "[36mGET /App/View/RYT.html HTTP/1.1[0m" 304 -
+2026-07-22 20:25:44,637 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:25:44,659 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:25:44,671 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:25:44,671 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:25:44] "GET /DataStorage/CLEWs%20Demo/RYT.json HTTP/1.1" 200 -
+2026-07-22 20:26:01,440 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /App/Controller/RESViewer.js HTTP/1.1" 200 -
+2026-07-22 20:26:01,518 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /App/Model/RESViewer.Model.js HTTP/1.1" 200 -
+2026-07-22 20:26:01,585 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /App/View/RESViewer.html HTTP/1.1" 200 -
+2026-07-22 20:26:01,597 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:26:01,619 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:26:01,622 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:01] "GET /DataStorage/CLEWs%20Demo/RYC.json HTTP/1.1" 200 -
+2026-07-22 20:26:51,649 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:26:51] "[35m[1mGET /References/smartadmin/sound/bigbox.mp3 HTTP/1.1[0m" 206 -
+2026-07-22 20:28:17,543 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "[36mGET /App/View/Home.html HTTP/1.1[0m" 304 -
+2026-07-22 20:28:17,565 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "GET /getSession HTTP/1.1" 200 -
+2026-07-22 20:28:17,587 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "[36mGET /References/smartadmin/img/Logos/CCG_2.png HTTP/1.1[0m" 304 -
+2026-07-22 20:28:17,597 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "[36mGET /References/smartadmin/img/Logos/UK_AID_4.png HTTP/1.1[0m" 304 -
+2026-07-22 20:28:17,597 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "[36mGET /References/smartadmin/img/Logos/un_desa_black.png HTTP/1.1[0m" 304 -
+2026-07-22 20:28:17,597 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 20:28:17,619 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "GET /getCases HTTP/1.1" 200 -
+2026-07-22 20:28:17,619 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "GET /DataStorage/CLEWs%20Demo/genData.json HTTP/1.1" 200 -
+2026-07-22 20:28:17,663 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:28:17,670 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "POST /getParamFile HTTP/1.1" 200 -
+2026-07-22 20:28:17,728 [werkzeug] INFO: 127.0.0.1 - - [22/Jul/2026 20:28:17] "POST /resultsExists HTTP/1.1" 200 -

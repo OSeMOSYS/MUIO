@@ -32,12 +32,6 @@ set INPUT_TF_PAIRS_NEW :=
 set INPUT_TF_PAIRS_TOTAL :=
     setof {f in INPUTxFUEL, t in INPUTxTOTALxCAPACITYperFUEL[f]} (t,f);
 
-# Declared early (moved up from the Storage parameters block below) because
-# TechnologyBalanceLevel, further down, needs to know which technologies are
-# linked to storage before it decides their balance level.
-param TechnologyToStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
-param TechnologyFromStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
-
 # Balance resolution level for each commodity.
 # Users assign each commodity to one of three levels:
 #   TIMESLICE - balanced every timeslice (e.g. electricity)
@@ -59,31 +53,12 @@ set COMMODITY_TS;
 set COMMODITY_S;
 set COMMODITY_AN;
 
-# Technology balance level - derived from commodity balance levels, PLUS
-# storage linkage (see STORAGE FIX note below).
+# Technology balance level - derived from commodity balance levels.
 # Checks both input and output commodities; highest resolution wins.
 # COMMODITY_TS/S must be defined before this parameter.
-#
-# STORAGE FIX (model.v.5.7.Storage.txt only): a technology that charges or
-# discharges any storage (TechnologyToStorage/TechnologyFromStorage > 0) is
-# always forced to TIMESLICE, regardless of the balance level of the
-# commodities it consumes/produces. This does NOT change how those
-# commodities themselves are balanced (COMMODITY_TS/S/AN membership is
-# untouched, and the energy-balance equations still aggregate a TIMESLICE
-# technology's contribution up to the commodity's own Season/Annual level via
-# YearSplit, exactly like the existing "irrigation pump" case below). It only
-# ensures the technology's own activity is tracked finely enough for storage
-# charge/discharge to be computable at all - RateOfActivity is only defined
-# for TECHNOLOGY_TS, and storage level tracking is inherently sub-annual.
-# Without this, a storage-linked technology whose commodities are all
-# Season/Annual would end up in TECHNOLOGY_S/TECHNOLOGY_AN and the storage
-# equations (S9/S10, S11/S12 below) would reference an undefined
-# RateOfActivity index, crashing the solve.
 param TechnologyBalanceLevel{t in TECHNOLOGY} symbolic :=
     if (exists{f in COMMODITY_TS, (m,tt) in MODExTECHNOLOGYperFUELout[f]: tt=t} 1=1)
     or (exists{f in COMMODITY_TS, (m,tt) in MODExTECHNOLOGYperFUELin[f]:  tt=t} 1=1)
-    or (exists{r in REGION, s in STORAGE, m in MODE_OF_OPERATION: TechnologyToStorage[r,t,s,m] > 0} 1=1)
-    or (exists{r in REGION, s in STORAGE, m in MODE_OF_OPERATION: TechnologyFromStorage[r,t,s,m] > 0} 1=1)
     then "TIMESLICE"
     else if (exists{f in COMMODITY_S, (m,tt) in MODExTECHNOLOGYperFUELout[f]: tt=t} 1=1)
          or (exists{f in COMMODITY_S, (m,tt) in MODExTECHNOLOGYperFUELin[f]:  tt=t} 1=1)
@@ -92,8 +67,7 @@ param TechnologyBalanceLevel{t in TECHNOLOGY} symbolic :=
 
 # Derived technology subsets by balance level.
 # A technology is assigned the highest resolution of any commodity it touches
-# (input or output), OR TIMESLICE if it is linked to storage (see STORAGE FIX
-# above). TIMESLICE takes precedence over SEASONAL over ANNUAL.
+# (input or output). TIMESLICE takes precedence over SEASONAL over ANNUAL.
 # Example: an irrigation pump taking electricity (TIMESLICE) and outputting
 # water (SEASONAL) is assigned TIMESLICE so its electricity draw is
 # disaggregated correctly.
@@ -189,11 +163,11 @@ param CapitalRecoveryFactor{r in REGION, t in TECHNOLOGY};
 param PvAnnuity{r in REGION, t in TECHNOLOGY};
 
 ######################## Storage parameters
-# TechnologyToStorage / TechnologyFromStorage are now declared earlier (see
-# above, near INPUT_TF_PAIRS_TOTAL) - needed there by TechnologyBalanceLevel.
 param OperationalLifeStorage{r in REGION, s in STORAGE};
 param CapitalCostStorage{r in REGION, s in STORAGE, y in YEAR};
 param ResidualStorageCapacity{r in REGION, s in STORAGE, y in YEAR};
+param TechnologyToStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
+param TechnologyFromStorage{r in REGION, t in TECHNOLOGY, s in STORAGE, m in MODE_OF_OPERATION};
 param StorageLevelStart{r in REGION, s in STORAGE};
 param MinStorageCharge{r in REGION, s in STORAGE, y in YEAR};
 param DaySplit{lh in DAILYTIMEBRACKET, y in YEAR};
@@ -827,9 +801,9 @@ s.t. S9_and_S10_StorageLevelSeasonStart
     then StorageLevelYearStart[r,s,y]
     else StorageLevelSeasonStart[r,s,ls-1,y]
          + sum{ld in DAYTYPE, lh in DAILYTIMEBRACKET, l in TIMESLICEofSDB[ls-1,ld,lh]}
-             (sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s]: t in TECHNOLOGY_TS}
+             (sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s]}
                  (RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m])
-              - sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s]: t in TECHNOLOGY_TS}
+              - sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s]}
                  (RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m]))
              * YearSplit[l,y]
     = StorageLevelSeasonStart[r,s,ls,y];
@@ -841,10 +815,10 @@ s.t. S11_and_S12_StorageLevelDayTypeStart
     else StorageLevelDayTypeStart[r,s,ls,ld-1,y]
          + sum{lh in DAILYTIMEBRACKET}
              ((sum{(m,t) in MODExTECHNOLOGYperSTORAGEto[s],
-                   l in TIMESLICEofSDB[ls,ld-1,lh]: t in TECHNOLOGY_TS}
+                   l in TIMESLICEofSDB[ls,ld-1,lh]}
                  RateOfActivity[r,l,t,m,y] * TechnologyToStorage[r,t,s,m]
                - sum{(m,t) in MODExTECHNOLOGYperSTORAGEfrom[s],
-                     l in TIMESLICEofSDB[ls,ld-1,lh]: t in TECHNOLOGY_TS}
+                     l in TIMESLICEofSDB[ls,ld-1,lh]}
                  RateOfActivity[r,l,t,m,y] * TechnologyFromStorage[r,t,s,m])
               * DaySplit[lh,y])
              * DaysInDayType[ls,ld-1,y]

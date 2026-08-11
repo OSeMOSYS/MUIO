@@ -988,7 +988,8 @@ export class Grid {
             var validationResult = true;
             var rows = $('#osy-gridConstraint').jqxGrid('getrows');
             for (var i = 0; i < rows.length; i++) {
-                if (rows[i].Constraint.trim() == value.trim() && i != cell.row) {
+                console.log('i ',i)
+                if (rows[i].Con.trim() == value.trim() && i != cell.row) {
                     validationResult = false;
                     break;
                 }

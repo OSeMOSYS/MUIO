@@ -67,7 +67,7 @@ export default class AddCase {
         Message.clearMessages();
         //$('a[href="#tabComms"]').click();
         //Navbar.initPage(model.casename, model.pageId);
-        console.log('model ', model)
+        console.log('model X ', model)
         
         Html.title(model.casename, model.title, "create & edit");
         Html.genData(model);
@@ -1080,6 +1080,7 @@ export default class AddCase {
             }
             
 
+            console.log('column rowBoundIndex', column, rowBoundIndex)
             if (column != 'CM' && column != 'Tag') {
                 model.constraints[rowBoundIndex][column] = value;
             } else if (column == 'CM') {
@@ -1103,10 +1104,9 @@ export default class AddCase {
         $('#osy-caseForm').delegate("#osy-addIndicator", "click", function (event) {
             event.preventDefault();
             event.stopImmediatePropagation();
+            console.log('add addIndicator');
             let defaultIndicator = DefaultObj.defaultIndicator();
             model.indicators.push(JSON.parse(JSON.stringify(defaultIndicator[0], ['IndicatorId', 'Indicator', 'Desc', 'IndicatorTypeId', 'Techs', 'Comms'])));
-            console.log('model.defaultIndicator ',defaultIndicator)
-
             $divIndicator.jqxGrid('addrow', null, defaultIndicator);
             $divIndicator.jqxGrid('updatebounddata', 'data');
             model.indicatorsCount++;

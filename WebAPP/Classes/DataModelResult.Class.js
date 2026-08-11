@@ -51,7 +51,7 @@ export class DataModelResult{
     //     return vars;
     // }
 
-    static getVarialblesObject(VARIABLES){
+    static getVarialblesObject(VARIABLES, category){
         let vars = [];
         $.each(VARIABLES, function (group, array) {
             if (group != 'RT'){
@@ -60,10 +60,11 @@ export class DataModelResult{
                     tmp.value = obj.id;
                     //tmp.name = obj.value;
                     tmp.name = obj.value ?? obj.Indicator;
+                    tmp.category = category ?? 'Variable';
                     vars.push(tmp)
                 });
-            }  
-        });    
+            }
+        });
         return vars;
     }
 
@@ -325,7 +326,7 @@ export class DataModelResult{
                 }
             });
         });
-        console.log('unitData func ', unitData)
+        //console.log('unitData func ', unitData)
         return unitData;       
     }
 

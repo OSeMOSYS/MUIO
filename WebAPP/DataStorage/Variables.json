@@ -458,6 +458,46 @@
             }
         }
     ],
+    "RYTCM": [
+        {
+            "id": "PBT",
+            "value": "Production By Technology By Mode",
+            "name": "ProductionByTechnologyByMode",
+            "setrelation": [
+                "r",
+                "t",
+                "m",
+                "f",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "UBT",
+            "value": "Use By Technology By Mode",
+            "name": "UseByTechnologyByMode",
+            "setrelation": [
+                "r",
+                "t",
+                "m",
+                "f",
+                "y"
+            ],
+            "unitRule": {
+                "cat": [
+                    {
+                        "var": "CommUnit"
+                    }
+                ]
+            }
+        }
+    ],
     "RYTMTs": [
         {
             "id": "ROA",
@@ -488,8 +528,8 @@
     "RYTCMTs": [
         {
             "id": "PBT",
-            "value": "Production By Technology By Mode",
-            "name": "ProductionByTechnologyByMode",
+            "value": "Production By Technology By Mode - Ts",
+            "name": "ProductionByTechnologyByModeTs",
             "setrelation": [
                 "r",
                 "l",
@@ -560,8 +600,8 @@
         },
         {
             "id": "UBT",
-            "value": "Use By Technology By Mode",
-            "name": "UseByTechnologyByMode",
+            "value": "Use By Technology By Mode - Ts",
+            "name": "UseByTechnologyByModeTs",
             "setrelation": [
                 "r",
                 "l",

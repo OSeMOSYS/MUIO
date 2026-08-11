@@ -12,13 +12,21 @@ export class Model {
          console.log('VARIABLES original ', VARIABLES)
          console.log('CUSTOM_INDICATORS ', CUSTOM_INDICATORS)
         console.log('DUALS ', DUALS)
+
+        // Build the cmbParams source per-category (before merging) so each entry
+        // keeps a 'category' tag the combo box can group by.
+        let VARIABLEOBJECT = [
+            ...DataModelResult.getVarialblesObject(VARIABLES, 'Variable'),
+            ...DataModelResult.getVarialblesObject(CUSTOM_INDICATORS, 'Indicator'),
+            ...DataModelResult.getVarialblesObject(DUALS, 'Dual')
+        ];
+          console.log('VARIABLEOBJECT ', VARIABLEOBJECT)
+
         VARIABLES = DataModelResult.mergeGroups(VARIABLES, CUSTOM_INDICATORS);
              console.log('VARIABLES 1 ', VARIABLES)
         VARIABLES = DataModelResult.mergeGroups(VARIABLES, DUALS);
              console.log('VARIABLES 2 ', VARIABLES)
         let VARGROUPS = DataModelResult.getVarById(VARIABLES);
-        let VARIABLEOBJECT = DataModelResult.getVarialblesObject(VARIABLES);
-          console.log('VARIABLEOBJECT ', VARIABLEOBJECT)
         let VARNAMES = DataModel.AllParamName(VARIABLES);
 
    

@@ -600,7 +600,7 @@ class DataFile(Osemosys):
                             self.f.write('{} {}'.format('[RE1,'+ self.techMap[techId] +',*,*]:', '\n'))
                             self.f.write('{}{}{}'.format( self.years, ':=', '\n'))
                         self.f.write('{} {}{}'.format(self.tsMap[timesliceId], ryttsString, '\n'))
-        self.f.write('{}{}'.format(';', '\n'))
+            self.f.write('{}{}'.format(';', '\n'))
 
     def gen_RYCTs(self):
         rycts = self.RYCTs(File.readFile(self.ryctsPath))
@@ -627,7 +627,16 @@ class DataFile(Osemosys):
                             self.f.write('{} {}'.format('[RE1,'+ self.commMap[commId] +',*,*]:', '\n'))
                             self.f.write('{}{}{}'.format( self.years, ':=', '\n'))
                         self.f.write('{} {}{}'.format(self.tsMap[timesliceId], ryctsString, '\n'))
-        self.f.write('{}{}'.format(';', '\n'))
+            self.f.write('{}{}'.format(';', '\n'))
+
+    def _joinIds(self, ids, idMap=None):
+        # Builds a GMPL set/list string, e.g. ids=['t1','t2'], idMap={'t1':'COAL','t2':'GAS'}
+        # -> "COAL GAS " (trailing space kept, matches old '{} '.format loop output).
+        # Without idMap, ids are used as-is, e.g. ids=[2020,2021] -> "2020 2021 ".
+        # Empty ids -> "" (not " ").
+        values = (idMap[i] for i in ids) if idMap is not None else ids
+        joined = ' '.join(str(v) for v in values)
+        return joined + ' ' if joined else ''
 
     def generateDatafile( self, caserunname ):
         try:
@@ -664,6 +673,32 @@ class DataFile(Osemosys):
 
             self.storageTechIDs = self.getStorageTechIds()
 
+            # --- BEGIN storage balance-level warning (safe to delete this block) ---
+            # Model fix (model.v.5.7.Storage.txt): a technology linked to storage is
+            # always forced to Timeslice resolution, regardless of its commodities'
+            # Balance Level. This is just a heads-up log for the user when that
+            # override actually kicks in (i.e. the tech has no Timeslice-level
+            # commodity of its own). Purely informational - does not affect data.txt.
+            try:
+                commBalanceLevel = {c['CommId']: c.get('BalanceLevel') for c in self.genData["osy-comm"]}
+                storageLinkedTechIds = set()
+                for stgDict in self.storageTechIDs.values():
+                    for techList in stgDict.values():
+                        storageLinkedTechIds.update(techList)
+
+                for techId in storageLinkedTechIds:
+                    techCommIds = (self.activityCommIDs.get('IAR', {}).get(techId, [])
+                                   + self.activityCommIDs.get('OAR', {}).get(techId, []))
+                    if techCommIds and not any(commBalanceLevel.get(c) == 'Ts' for c in techCommIds):
+                        logger.warning(
+                            "Technology '%s' is linked to storage, so it is forced to Timeslice "
+                            "resolution even though none of its commodities are Timeslice balanced.",
+                            self.techMap.get(techId, techId)
+                        )
+            except Exception:
+                logger.exception("storage balance-level warning check failed (non-fatal)")
+            # --- END storage balance-level warning ---
+
             self.inputCapTechIds = self.getInputCapTechIds()
             self.inputCapCommIds = self.getInputCapCommIds()
 
@@ -672,71 +707,29 @@ class DataFile(Osemosys):
 
             self.constraintTechIDs = self.getConstraintTechIds()
 
-            self.stgs = ''
-            for stgId in self.stgIDs:
-                self.stgs += '{} '.format(self.stgMap[stgId]) 
+            self.stgs = self._joinIds(self.stgIDs, self.stgMap)
 
-            self.yearlyStgs = ''
-            self.dailyStgs = ''
-            for stgType, sbt in self.StgByType.items():
-                if stgType == 'Yearly':
-                    for s in sbt:
-                        self.yearlyStgs += '{} '.format(s) 
-                else:
-                    for s in sbt:
-                        self.dailyStgs += '{} '.format(s)      
+            yearlyStgs = self.StgByType.get('Yearly', [])
+            dailyStgs = [s for stgType, sbt in self.StgByType.items() if stgType != 'Yearly' for s in sbt]
+            self.yearlyStgs = self._joinIds(yearlyStgs)
+            self.dailyStgs = self._joinIds(dailyStgs)
 
-            self.techs = ''
-            for techId in self.techIDs:
-                self.techs += '{} '.format(self.techMap[techId]) 
-
-            self.comms = ''
-            for commId in self.commIDs:
-                self.comms += '{} '.format(self.commMap[commId]) 
-
-            self.emis = ''
-            for emiId in self.emiIDs:
-                self.emis += '{} '.format(self.emiMap[emiId])
-
-            self.years = ''
-            for yearId in self.yearIDs:
-               self.years += '{} '.format(yearId)
-
-            self.timeslices = ''
-            for timesliceId in self.timesliceIDs:
-                self.timeslices += '{} '.format(self.tsMap[timesliceId])
-
-            self.seasons = ''
-            for seId in self.seIDs:
-                self.seasons += '{} '.format(self.seMap[seId]) 
-
-            self.daytypes = ''
-            for dtId in self.dtIDs:
-                self.daytypes += '{} '.format(self.dtMap[dtId]) 
-
-            self.dailytimebrackets = ''
-            for dtbId in self.dtbIDs:
-                self.dailytimebrackets += '{} '.format(self.dtbMap[dtbId]) 
-
-            self.mods = ''
-            for modId in self.modIds:
-                self.mods += '{} '.format(modId)
-
-            self.cons = ''
-            for conId in self.conIDs:
-                self.cons += '{} '.format(self.conMap[conId])
+            self.techs = self._joinIds(self.techIDs, self.techMap)
+            self.comms = self._joinIds(self.commIDs, self.commMap)
+            self.emis = self._joinIds(self.emiIDs, self.emiMap)
+            self.years = self._joinIds(self.yearIDs)
+            self.timeslices = self._joinIds(self.timesliceIDs, self.tsMap)
+            self.seasons = self._joinIds(self.seIDs, self.seMap)
+            self.daytypes = self._joinIds(self.dtIDs, self.dtMap)
+            self.dailytimebrackets = self._joinIds(self.dtbIDs, self.dtbMap)
+            self.mods = self._joinIds(self.modIds)
+            self.cons = self._joinIds(self.conIDs, self.conMap)
 
             #23052026 Blalnce leve
             self.allCommLists = self.getAllCommLists()
-            self.comm_ts = ''
-            for comm in self.allCommLists["Ts"]:
-                self.comm_ts += '{} '.format(comm)
-            self.comm_se = ''
-            for comm in self.allCommLists["Se"]:
-                self.comm_se += '{} '.format(comm)
-            self.comm_an = ''
-            for comm in self.allCommLists["An"]:
-                self.comm_an += '{} '.format(comm)
+            self.comm_ts = self._joinIds(self.allCommLists["Ts"])
+            self.comm_se = self._joinIds(self.allCommLists["Se"])
+            self.comm_an = self._joinIds(self.allCommLists["An"])
 
             # path = '"{}"'.format(self.resPath.resolve())
             self.resPath = Path('..', '..', '..', '..', 'WebAPP', 'DataStorage', self.case, 'res',caserunname, 'csv')
@@ -806,10 +799,9 @@ class DataFile(Osemosys):
                 #os.makedirs(name,0777)
 
         #ovako prosljedjujemo exception u prethodnom slucaju vracamo response u funkciju koja poziva writeFile
-        except(IOError, IndexError):
-            raise IndexError
-        except OSError:
-            raise OSError
+        except (IOError, IndexError, OSError):
+            logger.exception('generateDatafile failed for caserunname=%s', caserunname)
+            raise
 
     def createCaseRun(self, caserunname, data):
         try:
@@ -2543,6 +2535,8 @@ class DataFile(Osemosys):
                 all_params = {}
 
                 for each in params:
+                    # Dead code: static Config.VARIABLES_C path, replaced below by self.VAR_BY_NAME
+                    # (per-model, built from Variables.json), which also covers DUALS separately.
                     ## ovajd dio radi ako u VARIABLES_C stavimo i DUALS
                     # if each in Config.VARIABLES_C:
 
@@ -2676,18 +2670,27 @@ class DataFile(Osemosys):
                     # df_aad = data['AccumulatedAnnualDemand'].rename(columns={'value':'AccumulatedAnnualDemand'})
 
                     if not df_out_ys.empty:
-                        ########################################ProductionByTechnologyByMode############################################
+                        ########################################ProductionByTechnologyByModeTs############################################
                         df_prod = pd.merge(df_out_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_prod.r.unique()) if str(x) != 'nan']
                         df_prod['r'] = str(region[0])
                         #df_prod['RateOfActivity'].fillna(0, inplace=True)
                         df_prod["RateOfActivity"] = df_prod["RateOfActivity"].fillna(0)
-                        df_prod['ProductionByTechnologyByMode'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
+                        df_prod['ProductionByTechnologyByModeTs'] = df_prod['OutputActivityRatio']*df_prod['YearSplit']*df_prod['RateOfActivity']
                         df_prod = df_prod.drop(['OutputActivityRatio','YearSplit','RateOfActivity'], axis=1)
-                        df_prod['ProductionByTechnologyByMode'] = df_prod['ProductionByTechnologyByMode'].astype(float).round(4)
+                        df_prod['ProductionByTechnologyByModeTs'] = df_prod['ProductionByTechnologyByModeTs'].astype(float).round(4)
                         df_prod = df_prod.sort_values(by=['r','l','t','f','y'])
-                        df_prod = df_prod[df_prod['ProductionByTechnologyByMode']!=0]
-                        df_prod.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
+                        df_prod = df_prod[df_prod['ProductionByTechnologyByModeTs']!=0]
+                        df_prod.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByModeTs.csv'), index=None)
+
+                        ########################################ProductionByTechnologyByMode############################################
+                        df_prod_annual = (
+                            df_prod.groupby(['r','t','m','f','y'], as_index=False)['ProductionByTechnologyByModeTs']
+                            .sum()
+                            .rename(columns={'ProductionByTechnologyByModeTs': 'ProductionByTechnologyByMode'})
+                        )
+                        df_prod_annual = df_prod_annual[df_prod_annual['ProductionByTechnologyByMode'] != 0]
+                        df_prod_annual.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
 
                         ########################################################INDICATOR#####################################################
                         #############################################
@@ -2706,7 +2709,7 @@ class DataFile(Osemosys):
                                 indicatorId = indObj.get("id", "UnknownIndicator")
                                 indicatorTypeName = indObj.get("indicator_type", {}).get("name", "UnknownType")
 
-                                dfP = df_prod.copy()      # kolone: r, l, t, f, m, y, ProductionByTechnologyByMode
+                                dfP = df_prod.copy()      # kolone: r, l, t, f, m, y, ProductionByTechnologyByModeTs
                                 #dfA = df_activity.copy()  # kolone: r, l, t, m, y, RateOfActivity
 
                                 dfA = all_params['TotalAnnualTechnologyActivityByMode'].rename(columns={'value':'TotalAnnualTechnologyActivityByMode'}) # r,t,m,y
@@ -2722,8 +2725,8 @@ class DataFile(Osemosys):
                                     df_empty.to_csv(os.path.join(base_folder, 'csv', f'{indicatorId}.csv'), index=False)
                                 else:
                                     # Ensure numeric
-                                    dfP["ProductionByTechnologyByMode"] = pd.to_numeric(
-                                        dfP["ProductionByTechnologyByMode"], errors='coerce'
+                                    dfP["ProductionByTechnologyByModeTs"] = pd.to_numeric(
+                                        dfP["ProductionByTechnologyByModeTs"], errors='coerce'
                                     ).fillna(0)
 
                                     dfA["TotalAnnualTechnologyActivityByMode"] = pd.to_numeric(
@@ -2733,9 +2736,9 @@ class DataFile(Osemosys):
                                     # --- 1) Agregatna proizvodnja po tehnologiji (sum preko f, m, l) ---
                                     df_prod_ann = (
                                         dfP.groupby(['r', 'y','f'], as_index=False)
-                                        ['ProductionByTechnologyByMode']
+                                        ['ProductionByTechnologyByModeTs']
                                         .sum()
-                                        .rename(columns={'ProductionByTechnologyByMode': 'TotalProduction'})
+                                        .rename(columns={'ProductionByTechnologyByModeTs': 'TotalProduction'})
                                     )
 
                                     # --- 2) Agregatna aktivnost po tehnologiji (sum preko m, l) ---
@@ -2785,19 +2788,28 @@ class DataFile(Osemosys):
                     
 
                     if not df_in_ys.empty:
-                        ######################################UseByTechnologyByMode##############################################
+                        ######################################UseByTechnologyByModeTs##############################################
                         df_use = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
                         region = [x for x in list(df_use.r.unique()) if str(x) != 'nan']
                         df_use['r'] = str(region[0])
                         #df_use['RateOfActivity'].fillna(0, inplace=True)
                         df_use["RateOfActivity"] = df_use["RateOfActivity"].fillna(0)
-            
-                        df_use['UseByTechnologyByMode'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']
+
+                        df_use['UseByTechnologyByModeTs'] = df_use['InputActivityRatio']*df_use['YearSplit']*df_use['RateOfActivity']
                         df_use = df_use.drop(['InputActivityRatio','YearSplit','RateOfActivity'], axis=1)
-                        df_use['UseByTechnologyByMode'] = df_use['UseByTechnologyByMode'].astype(float).round(4)
+                        df_use['UseByTechnologyByModeTs'] = df_use['UseByTechnologyByModeTs'].astype(float).round(4)
                         df_use = df_use.sort_values(by=['r','l','t','f','y'])
-                        df_use = df_use[df_use['UseByTechnologyByMode']!=0]
-                        df_use.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByMode.csv'), index=None)
+                        df_use = df_use[df_use['UseByTechnologyByModeTs']!=0]
+                        df_use.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByModeTs.csv'), index=None)
+
+                        ######################################UseByTechnologyByMode##############################################
+                        df_use_annual = (
+                            df_use.groupby(['r','t','m','f','y'], as_index=False)['UseByTechnologyByModeTs']
+                            .sum()
+                            .rename(columns={'UseByTechnologyByModeTs': 'UseByTechnologyByMode'})
+                        )
+                        df_use_annual = df_use_annual[df_use_annual['UseByTechnologyByMode'] != 0]
+                        df_use_annual.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByMode.csv'), index=None)
 
                         ######################################RateOfUseByTechnologyByMode##############################################
                         df_roubt = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
@@ -3186,6 +3198,31 @@ class DataFile(Osemosys):
                                     path = Path(self.viewFolderPath, paramobj['group']+'.json')
                                     File.writeFile( viewData, path)
                             
+                                if paramobj['group'] == 'RYTCM':
+                                    tech = jsondata[0]['t']
+                                    comm = jsondata[0]['f']
+                                    mod = jsondata[0]['m']
+                                    tmp = {}
+                                    for obj in jsondata:
+                                        if tech == obj['t'] and comm == obj['f'] and mod == obj['m']:
+                                            tmp['Tech'] = obj['t']
+                                            tmp['Comm'] = obj['f']
+                                            tmp['MoId'] = obj['m']
+                                            tmp[obj['y']] = obj[param]
+                                        else:
+                                            tech = obj['t']
+                                            comm = obj['f']
+                                            mod = obj['m']
+                                            viewData[paramobj['id']][caserunname].append(tmp)
+                                            tmp = {}
+                                            tmp['Tech'] = obj['t']
+                                            tmp['Comm'] = obj['f']
+                                            tmp['MoId'] = obj['m']
+                                            tmp[obj['y']] = obj[param]
+                                    viewData[paramobj['id']][caserunname].append(tmp)
+                                    path = Path(self.viewFolderPath, paramobj['group']+'.json')
+                                    File.writeFile( viewData, path)
+
                                 # ne koristi se jer smo izbrisali variajablu ROUBTBM Rate Of Use By Technology By Mode
                                 #ponovo koristimo jer korisitmo Production By Technology by Mode, Use By Technology By Mode (isto i sa Rate of...)
                                 if paramobj['group'] == 'RYTCMTs':

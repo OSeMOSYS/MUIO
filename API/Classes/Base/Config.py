@@ -132,6 +132,7 @@ GEN_F ={
 }
 
 #full var list 38
+
 VARIABLES_C = {
         'NewCapacity':['r','t','y'],
         'AccumulatedNewCapacity':['r','t','y'],
