@@ -1446,7 +1446,7 @@ class DataFile(Osemosys):
 
             # df_merge7 = df_merge7.set_index(['r','y']).fillna(df_YStmp.set_index(['r','y'])).reset_index()
             df_merge7 = pd.merge(df_merge7, df_YStmp, on=['r','y'],  suffixes=("", "_y"), how="left")
-            df_merge7['Sum'].fillna(df_merge7['Sum_y'], inplace=True)
+            df_merge7['Sum'] = df_merge7['Sum'].fillna(df_merge7['Sum_y'])
 
             df_merge7.drop(columns=['Sum_y'],axis=1, inplace=True)
 
