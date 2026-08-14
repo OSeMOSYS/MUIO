@@ -489,6 +489,16 @@ class ImportTemplate():
 
             df_sheet_all = pd.read_excel(self.TEMPLATE_PATH, sheet_name=None, engine='openpyxl')
 
+            required_sheets = [
+                'TECHNOLOGY', 'TECHGROUP', 'FUEL', 'EMISSION', 'STORAGE', 'YEAR',
+                'MODE_OF_OPERATION', 'TIMESLICE', 'SEASON', 'DAYTYPE',
+                'DAILYTIMEBRACKET', 'InputActivityRatio', 'OutputActivityRatio',
+                'EmissionActivityRatio', 'TechnologyFromStorage', 'TechnologyToStorage'
+            ]
+            missing_sheets = [s for s in required_sheets if s not in df_sheet_all]
+            if missing_sheets:
+                return {"message": f"Template is missing required sheet(s): {', '.join(missing_sheets)}", "status_code": "error"}
+
             techs_xls =  df_sheet_all['TECHNOLOGY']
             comms_xls =  df_sheet_all['FUEL']
             emis_xls =  df_sheet_all['EMISSION']
