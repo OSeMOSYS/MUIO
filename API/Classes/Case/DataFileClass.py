@@ -1451,8 +1451,8 @@ class DataFile(Osemosys):
             df_merge7.drop(columns=['Sum_y'],axis=1, inplace=True)
 
             ################################################################################################ df za provjeru 8
-            df_TAALL = df_TAALL.groupby(['r','t'])['TotalTechnologyAnnualActivityLowerLimit'].sum().reset_index().rename(columns={'TotalTechnologyAnnualActivityLowerLimit':'Sum_TotalTechnologyAnnualActivityLowerLimit'})
-            df_merge8 = df_TMPAUL.merge(df_TAALL, on=['r','t'], how='left')
+            df_TAALL_sum = df_TAALL.groupby(['r','t'])['TotalTechnologyAnnualActivityLowerLimit'].sum().reset_index().rename(columns={'TotalTechnologyAnnualActivityLowerLimit':'Sum_TotalTechnologyAnnualActivityLowerLimit'})
+            df_merge8 = df_TMPAUL.merge(df_TAALL_sum, on=['r','t'], how='left')
             df_merge8['TotalTechnologyModelPeriodActivityUpperLimit'] = df_merge8['TotalTechnologyModelPeriodActivityUpperLimit'].fillna(self.defaultValue['TMPAU'])
             df_merge8 = df_merge8[df_merge8['Sum_TotalTechnologyAnnualActivityLowerLimit'].notna()]
 
@@ -1481,8 +1481,8 @@ class DataFile(Osemosys):
             ########################################################################################### C H E C K 2
             print("CHECK 2. Check if YearSplits sums to 1 for y in YEAR")
             msg+="CHECK 2. Check if YearSplits sums to 1 for y in YEAR\n"
-            df_YS = df_YS.groupby(['r','y'])['YearSplit'].sum().reset_index()
-            df_check2 = df_YS[(df_YS["YearSplit"] != 1)]
+            df_YS_sum = df_YS.groupby(['r','y'])['YearSplit'].sum().reset_index()
+            df_check2 = df_YS_sum[(df_YS_sum["YearSplit"] != 1)]
             if not df_check2.empty:
                 print("CHECK 2: Error")
                 print(df_check2)
@@ -1606,8 +1606,8 @@ class DataFile(Osemosys):
             ########################################################################################### C H E C K 9
             print("CHECK 9. Checking if Specified Demand Profile sums to 1 for (f, y)")
             msg+="CHECK 9. Checking if Specified Demand Profile sums to 1 for (f, y)\n"
-            df_SDP = df_SDP.groupby(['r','f','y'])['SpecifiedDemandProfile'].sum().reset_index()
-            df_check9 = df_SDP[(df_SDP["SpecifiedDemandProfile"] > 1.001) | (df_SDP["SpecifiedDemandProfile"] < 0.999)]
+            df_SDP_total = df_SDP.groupby(['r','f','y'])['SpecifiedDemandProfile'].sum().reset_index()
+            df_check9 = df_SDP_total[(df_SDP_total["SpecifiedDemandProfile"] > 1.001) | (df_SDP_total["SpecifiedDemandProfile"] < 0.999)]
 
             if not df_check9.empty:
                 print("CHECK 9: Error")
