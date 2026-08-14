@@ -7,7 +7,8 @@ export class Model {
         let group = 'RYT';
         let param = 'ANC';
 
-        let CUSTOM_INDICATORS = DataModelResult.mergeAllIndicatorsGrouped(INDICATORS, genData['osy-indicators']);
+        // `|| []` guards pre-v5.6 cases that have no osy-indicators
+        let CUSTOM_INDICATORS = DataModelResult.mergeAllIndicatorsGrouped(INDICATORS, genData['osy-indicators'] || []);
 
          console.log('VARIABLES original ', VARIABLES)
          console.log('CUSTOM_INDICATORS ', CUSTOM_INDICATORS)
