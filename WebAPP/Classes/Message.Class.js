@@ -259,6 +259,16 @@ export class Message {
 
         });
     }
+    // Prompts the user to save or discard unsaved changes
+    static confirmUnsavedModelChanges() {
+        return new Promise(resolve => {
+            $.SmartMessageBox({
+                title: "<i class='fa fa-exclamation-triangle danger'></i> Unsaved model configuration",
+                content: "You have unsaved model configuration changes. Select Save to update the model and stay on this page, or Don't save to leave without saving.",
+                buttons: "[Don't save][Save]"
+            }, resolve);
+        });
+    }
 
     static resMessage(message) {
         $("#res-message").html(

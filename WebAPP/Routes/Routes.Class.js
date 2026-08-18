@@ -1,5 +1,6 @@
 import { Osemosys } from "../../Classes/Osemosys.Class.js";
 import { Message } from "../../Classes/Message.Class.js";
+import { NavigationGuard } from "../../Classes/NavigationGuard.Class.js";
 import { Model } from "./Routes.Model.js";
 
 export class Routes {
@@ -172,14 +173,34 @@ export class Routes {
         });
         //setup hasher
         hasher.init(); //start listening for history change 
+        let acceptedHash = window.location.hash;
+        let ignoreNextHashChange = false;
         //Listen to hash changes
         window.addEventListener("hashchange", function() {
+            // Ignore the hash change used to restore the current page
+            if (ignoreNextHashChange) {
+                ignoreNextHashChange = false;
+                return;
+            }
+
             var route = '/';
             var hash = window.location.hash;
             if (hash.length > 0) {
                 route = hash.split('#').pop();
             }
-            crossroads.parse(route);
+
+            NavigationGuard.requestLeave(
+                () => {
+                    acceptedHash = hash;
+                    crossroads.parse(route);
+                },
+                () => {
+                    if (window.location.hash !== acceptedHash) {
+                        ignoreNextHashChange = true;
+                        window.location.hash = acceptedHash;
+                    }
+                }
+            );
         });
         // trigger hashchange on first page load
         window.dispatchEvent(new CustomEvent("hashchange"));
