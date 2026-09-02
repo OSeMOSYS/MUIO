@@ -460,7 +460,7 @@
     ],
     "RYTCM": [
         {
-            "id": "PBT",
+            "id": "PBT_y",
             "value": "Production By Technology By Mode",
             "name": "ProductionByTechnologyByMode",
             "setrelation": [
@@ -479,7 +479,7 @@
             }
         },
         {
-            "id": "UBT",
+            "id": "UBT_y",
             "value": "Use By Technology By Mode",
             "name": "UseByTechnologyByMode",
             "setrelation": [

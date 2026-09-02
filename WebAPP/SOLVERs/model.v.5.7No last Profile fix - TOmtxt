@@ -37,23 +37,6 @@
 #     (technology, emission) pairs that actually have an
 #     EmissionActivityRatio or EmissionToActivityChangeRatio link
 #     (set TECHNOLOGYxEMISSION), instead of all combinations.
-#  7. "Unlimited = -1" on the six UPPER limits: enter -1 for
-#     TotalTechnologyAnnualActivityUpperLimit (AAC2),
-#     TotalTechnologyModelPeriodActivityUpperLimit (TAC2),
-#     TotalAnnualMaxCapacityInvestment (NCC1), TotalAnnualMaxCapacity
-#     (TCC1), AnnualEmissionLimit (E8) or ModelPeriodEmissionLimit (E9)
-#     and the constraint is not generated at all - no row, and no bound
-#     for the solver to park a cost-indifferent variable on. This
-#     replaces the convention of typing a large placeholder (999999),
-#     which is a real constraint: it keeps a row per technology-year in
-#     the matrix, and zero-cost technologies settle exactly on it, so
-#     the results show a capacity of 999999 that means "unconstrained".
-#     0 cannot serve as the off switch here the way it does for the
-#     LOWER limits (AAC3/TAC3/NCC2/TCC2) and the by-mode limits
-#     (LU1/LU3/LU4), because on an upper limit 0 legitimately means
-#     "this may not run". BACKWARDS COMPATIBLE: any other value,
-#     999999 included, still generates the constraint exactly as before,
-#     so existing datafiles are unaffected.
 # NOTE: written for GLPK MathProg (glpsol), which MUIO uses. Some
 # constructs (setof, exists, membership conditions) are NOT supported by
 # the mosox compiler; a mosox port would need the pair-set patterns from
@@ -232,31 +215,21 @@ param OperationalLife{r in REGION, t in TECHNOLOGY};
 # OperationalProfile fixes the share of total annual activity occurring in
 # each timeslice. Optional: technologies with no entries (all defaults, i.e.
 # zero in every timeslice) are unconstrained - existing behaviour.
-# The shares are normalised by their sum across timeslices, so they need not
-# sum to exactly 1 (a warning is printed if they deviate by more than 1%).
+# For a profiled technology the shares must sum to 1 across timeslices.
 # The constraint binds activity to the profile shape but not its level, so a
 # profiled technology with capacity can still choose not to operate at all.
 # Only applies to TECHNOLOGY_TS - profiles on seasonal or annual resolution
-# technologies are ignored (a warning is printed).
+# technologies are rejected by the check below.
 param OperationalProfile{r in REGION, t in TECHNOLOGY, l in TIMESLICE, y in YEAR} >= 0;
 
-# Data validation (warning only): profile shares are normalised to sum to 1
-# in OP1_TS_OperationalProfile, so a profile that does not sum to 1 is still
-# usable - only its shape matters. A sizeable deviation (>1%) usually points to
-# a data error (e.g. a missing timeslice), so flag it in the solver log.
-printf{r in REGION, t in TECHNOLOGY, y in YEAR:
-       sum{l in TIMESLICE} OperationalProfile[r,t,l,y] > 0
-       and abs(sum{l in TIMESLICE} OperationalProfile[r,t,l,y] - 1) > 0.01}
-    "WARNING: OperationalProfile for %s/%s/%s sums to %.4f (not 1); shares will be normalised\n",
-    r, t, y, sum{l in TIMESLICE} OperationalProfile[r,t,l,y];
+# Data validation: profile shares must sum to 1 for any profiled technology/year
+check{r in REGION, t in TECHNOLOGY, y in YEAR:
+      sum{l in TIMESLICE} OperationalProfile[r,t,l,y] > 0}:
+    abs(sum{l in TIMESLICE} OperationalProfile[r,t,l,y] - 1) < 0.0001;
 
-# Data validation (warning only): OP1_TS_OperationalProfile is indexed over
-# TECHNOLOGY_TS, so a profile on a seasonal or annual resolution technology is
-# silently ignored. Flag it so the modeller knows the data has no effect.
-printf{r in REGION, t in TECHNOLOGY, y in YEAR: t not in TECHNOLOGY_TS
-       and sum{l in TIMESLICE} OperationalProfile[r,t,l,y] > 0}
-    "WARNING: OperationalProfile for %s/%s/%s is ignored - technology is not at TIMESLICE resolution\n",
-    r, t, y;
+# Data validation: only timeslice-resolution technologies can carry a profile
+check{r in REGION, t in TECHNOLOGY, y in YEAR: t not in TECHNOLOGY_TS}:
+    sum{l in TIMESLICE} OperationalProfile[r,t,l,y] = 0;
 param OutputActivityRatio{r in REGION, t in TECHNOLOGY, f in COMMODITY, m in MODE_OF_OPERATION, y in YEAR};
 param ResidualCapacity{r in REGION, t in TECHNOLOGY, y in YEAR};
 param SpecifiedAnnualDemand{r in REGION, f in COMMODITY, y in YEAR};
@@ -465,9 +438,7 @@ s.t. AAC1_AN{r in REGION, t in TECHNOLOGY_AN, y in YEAR}:
     = TotalTechnologyAnnualActivity[r,t,y];
 
 # Annual activity upper and lower limits (all technologies)
-# v5.8: -1 switches the limit OFF (see the "unlimited = -1" note in the header).
-s.t. AAC2_TotalAnnualTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY, y in YEAR:
-     TotalTechnologyAnnualActivityUpperLimit[r,t,y] <> -1}:
+s.t. AAC2_TotalAnnualTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY, y in YEAR}:
     TotalTechnologyAnnualActivity[r,t,y]
     <= TotalTechnologyAnnualActivityUpperLimit[r,t,y];
 
@@ -490,9 +461,7 @@ s.t. TAC1_TotalModelHorizonTechnologyActivity{r in REGION, t in TECHNOLOGY}:
     sum{y in YEAR} TotalTechnologyAnnualActivity[r,t,y]
     = TotalTechnologyModelPeriodActivity[r,t];
 
-# v5.8: -1 switches the limit OFF
-s.t. TAC2_TotalModelHorizonTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY:
-     TotalTechnologyModelPeriodActivityUpperLimit[r,t] <> -1}:
+s.t. TAC2_TotalModelHorizonTechnologyActivityUpperLimit{r in REGION, t in TECHNOLOGY}:
     sum{y in YEAR} TotalTechnologyAnnualActivity[r,t,y]
     <= TotalTechnologyModelPeriodActivityUpperLimit[r,t];
 
@@ -542,9 +511,7 @@ s.t. OP1_TS_OperationalProfile
     {r in REGION, t in TECHNOLOGY_TS, l in TIMESLICE, y in YEAR:
      sum{ll in TIMESLICE} OperationalProfile[r,t,ll,y] > 0}:
     RateOfTotalActivity[r,t,l,y] * YearSplit[l,y]
-    = (OperationalProfile[r,t,l,y]
-       / sum{ll in TIMESLICE} OperationalProfile[r,t,ll,y])
-      * TotalTechnologyAnnualActivity[r,t,y];
+    = OperationalProfile[r,t,l,y] * TotalTechnologyAnnualActivity[r,t,y];
 
 ##########  Capacity accounting  ##########
 
@@ -611,18 +578,14 @@ s.t. CAa4_AN_Constraint_Capacity{r in REGION, t in TECHNOLOGY_AN, y in YEAR}:
 s.t. CC1_UndiscountedCapitalInvestment{r in REGION, t in TECHNOLOGY, y in YEAR}:
     CapitalCost[r,t,y] * NewCapacity[r,t,y] = CapitalInvestment[r,t,y];
 
-# v5.8: -1 switches the limit OFF
-s.t. NCC1_TotalAnnualMaxNewCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR:
-     TotalAnnualMaxCapacityInvestment[r,t,y] <> -1}:
+s.t. NCC1_TotalAnnualMaxNewCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR}:
     NewCapacity[r,t,y] <= TotalAnnualMaxCapacityInvestment[r,t,y];
 
 s.t. NCC2_TotalAnnualMinNewCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR:
      TotalAnnualMinCapacityInvestment[r,t,y] > 0}:
     NewCapacity[r,t,y] >= TotalAnnualMinCapacityInvestment[r,t,y];
 
-# v5.8: -1 switches the limit OFF
-s.t. TCC1_TotalAnnualMaxCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR:
-     TotalAnnualMaxCapacity[r,t,y] <> -1}:
+s.t. TCC1_TotalAnnualMaxCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR}:
     TotalCapacityAnnual[r,t,y] <= TotalAnnualMaxCapacity[r,t,y];
 
 s.t. TCC2_TotalAnnualMinCapacityConstraint{r in REGION, t in TECHNOLOGY, y in YEAR:
@@ -808,15 +771,13 @@ s.t. E5_EmissionsPenaltyByTechnology{r in REGION, t in TECHNOLOGY, y in YEAR}:
         AnnualTechnologyEmission[r,t,e,y] * EmissionsPenalty[r,e,y]
     = TechnologyEmissionsPenalty[r,t,y];
 
-# E8: Annual emission limit - v5.8: -1 switches the limit OFF
-s.t. E8_AnnualEmissionsLimit{r in REGION, e in EMISSION, y in YEAR:
-     AnnualEmissionLimit[r,e,y] <> -1}:
+# E8: Annual emission limit
+s.t. E8_AnnualEmissionsLimit{r in REGION, e in EMISSION, y in YEAR}:
     sum{(t,ee) in TECHNOLOGYxEMISSION: ee=e} AnnualTechnologyEmission[r,t,e,y]
     <= AnnualEmissionLimit[r,e,y];
 
-# E9: Model period emission limit - v5.8: -1 switches the limit OFF
-s.t. E9_ModelPeriodEmissionsLimit{r in REGION, e in EMISSION:
-     ModelPeriodEmissionLimit[r,e] <> -1}:
+# E9: Model period emission limit
+s.t. E9_ModelPeriodEmissionsLimit{r in REGION, e in EMISSION}:
     sum{(t,ee) in TECHNOLOGYxEMISSION, y in YEAR: ee=e}
         AnnualTechnologyEmission[r,t,e,y]
     <= ModelPeriodEmissionLimit[r,e];

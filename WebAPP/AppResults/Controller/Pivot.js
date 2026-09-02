@@ -341,7 +341,7 @@ export default class Pivot {
         //     return label;
         // };
 
-        console.log('model.VARIABLEOBJECT ', model.VARIABLEOBJECT)
+        //console.log('model.VARIABLEOBJECT ', model.VARIABLEOBJECT)
         // Grouped by category (Variable / Indicator / Dual) so cmbParams can render group headers.
         let cmbParamsView = new wijmo.collections.CollectionView(model.VARIABLEOBJECT);
         cmbParamsView.groupDescriptions.push(new wijmo.collections.PropertyGroupDescription('category'));
@@ -450,7 +450,7 @@ export default class Pivot {
             let viewId = DefaultObj.getId('VIEW');
 
             app.engine.fields.getField('Unit').isContentHtml = true;
-            console.log('param ', param, model.group)
+            //console.log('param ', param, model.group)
             //ako nije demand jer ne zavisi od T
             if(param == 'D'){
                 app.engine.fields.getField('Comm').isContentHtml = true;
@@ -575,15 +575,15 @@ export default class Pivot {
         Message.loaderStart('Preparing pivot data...')
         model.group = model.VARGROUPS[param]['group'];
         model.param = param;
-        //console.log('group param ', model.group, model.param)
+        console.log('group param ', model.group, model.param)
 
         Osemosys.getResultData(model.casename, model.group+'.json')
         .then(DATA => {
-            //console.log('DATA ', DATA, model.group)
+            console.log('DATA ', DATA, model.group)
             if (DATA !== null && model.param in DATA && Object.getOwnPropertyNames(DATA[model.param]).length != 0){
                 // let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.DUALS, model.CUSTOM_INDICATORS, model.group, model.param);
                 let pivotData = DataModelResult.getPivot(DATA, model.genData, model.VARIABLES, model.group, model.param);
-                // console.log('pivotData ', pivotData)
+                 console.log('pivotData ', pivotData)
                 // console.log('group ', model.group, 'param ', model.param)
                 model.pivotData = pivotData;
                 app.engine.itemsSource = model.pivotData;

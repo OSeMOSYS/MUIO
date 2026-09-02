@@ -9,9 +9,9 @@ export class Model {
 
         let CUSTOM_INDICATORS = DataModelResult.mergeAllIndicatorsGrouped(INDICATORS, genData['osy-indicators']);
 
-         console.log('VARIABLES original ', VARIABLES)
-         console.log('CUSTOM_INDICATORS ', CUSTOM_INDICATORS)
-        console.log('DUALS ', DUALS)
+            //  console.log('VARIABLES original ', VARIABLES)
+            //  console.log('CUSTOM_INDICATORS ', CUSTOM_INDICATORS)
+            // console.log('DUALS ', DUALS)
 
         // Build the cmbParams source per-category (before merging) so each entry
         // keeps a 'category' tag the combo box can group by.
@@ -20,15 +20,15 @@ export class Model {
             ...DataModelResult.getVarialblesObject(CUSTOM_INDICATORS, 'Indicator'),
             ...DataModelResult.getVarialblesObject(DUALS, 'Dual')
         ];
-          console.log('VARIABLEOBJECT ', VARIABLEOBJECT)
+         // console.log('VARIABLEOBJECT ', VARIABLEOBJECT)
 
         VARIABLES = DataModelResult.mergeGroups(VARIABLES, CUSTOM_INDICATORS);
-             console.log('VARIABLES 1 ', VARIABLES)
+             //console.log('VARIABLES 1 ', VARIABLES)
         VARIABLES = DataModelResult.mergeGroups(VARIABLES, DUALS);
-             console.log('VARIABLES 2 ', VARIABLES)
+             //console.log('VARIABLES 2 ', VARIABLES)
         let VARGROUPS = DataModelResult.getVarById(VARIABLES);
         let VARNAMES = DataModel.AllParamName(VARIABLES);
-
+console.log('VARGROUPS ', VARGROUPS)
    
         /////////////////////////////////////////////
         // let VARGROUPS = DataModelResult.getVarById(VARIABLES);
@@ -43,7 +43,7 @@ export class Model {
         // let DUALNAMES = DataModel.AllParamName(DUALS);
         // VARNAMES = DataModelResult.mergeGroups(VARNAMES, INDNAMES);
         // VARNAMES = DataModelResult.mergeGroups(VARNAMES, DUALNAMES);
-        console.log('VARNAMES ', VARNAMES)
+        //console.log('VARNAMES ', VARNAMES)
         /////////////////////////////////////////////////// 
 
 

@@ -1971,11 +1971,9 @@ class DataFile(Osemosys):
             lines.append('{}{}{}'.format('RE1 ', rtString, '\n'))
             lines.append('{}{}'.format(';', '\n'))
 
-            #ispis linija iz originalnog data file
-            with open(data_outfile, 'w') as f2:
-                f2.writelines(lines)
-
-
+            # (Previously wrote 'lines' to data_outfile here as an intermediate step,
+            # but that write was fully superseded by the final write below - removed
+            # so a failure here can never leave data_outfile partially overwritten.)
 
 
             # df_OL = pd.DataFrame(data['OperationalLife'], columns=['r','t','OperationalLife'])
@@ -2004,7 +2002,9 @@ class DataFile(Osemosys):
                     file_out.write(line + ';' + '\n')
 
             # Append lines at the end of the data file
-            with open(data_outfile, 'w') as file_out:  # 'a' to open in 'append' mode
+            # Written atomically: goes to data_outfile only if this whole block succeeds,
+            # so a failure never leaves a stale run's data_outfile partially overwritten.
+            with File.atomicWrite(data_outfile) as file_out:
                 file_out.writelines(lines)
                 file_output_function(dict_out, fuel_list, 'set MODExTECHNOLOGYperFUELout[', '')
                 file_output_function(dict_inp, fuel_list, 'set MODExTECHNOLOGYperFUELin[', '')
@@ -2025,10 +2025,9 @@ class DataFile(Osemosys):
 
                 file_out.write('end;')
 
-        except Exception as err:
-            print(f"Unexpected error: {err}")
-            print("An error occurred:")
-            traceback.print_exc()  # Prints full traceback
+        except Exception:
+            logger.exception("preprocessData failed for data_infile=%s, data_outfile=%s", data_infile, data_outfile)
+            raise
 
     def batchRun(self, solver, cases):
         try:
@@ -2648,14 +2647,16 @@ class DataFile(Osemosys):
 
                     # df_output = pd.DataFrame(data['OutputActivityRatio'], columns=['r','f','t','y','m','OutputActivityRatio'])
                     df_output = pd.DataFrame(data['OutputActivityRatio'], columns=Config.PARAMETERS_C_full['OutputActivityRatio'])
+                    df_output['OutputActivityRatio'] = df_output['OutputActivityRatio'].astype(float)
                     df_out_ys = pd.merge(df_output, df_yearsplit, on='y')
-                    df_out_ys['OutputActivityRatio'] = df_out_ys['OutputActivityRatio'].astype(float)
+                    #df_out_ys['OutputActivityRatio'] = df_out_ys['OutputActivityRatio'].astype(float)
                     df_out_ys['YearSplit'] = df_out_ys['YearSplit'].astype(float)
                     
                     # df_input = pd.DataFrame(data['InputActivityRatio'], columns=['r', 'f','t','y','m','InputActivityRatio'])
                     df_input = pd.DataFrame(data['InputActivityRatio'], columns=Config.PARAMETERS_C_full['InputActivityRatio'])
+                    df_input['InputActivityRatio'] = df_input['InputActivityRatio'].astype(float)
                     df_in_ys = pd.merge(df_input, df_yearsplit, on='y')
-                    df_in_ys['InputActivityRatio'] = df_in_ys['InputActivityRatio'].astype(float)
+                    # df_in_ys['InputActivityRatio'] = df_in_ys['InputActivityRatio'].astype(float)
                     df_in_ys['YearSplit'] = df_in_ys['YearSplit'].astype(float)
                     
                     # df_emi = pd.DataFrame(data['EmissionActivityRatio'], columns=['r', 'e','t','y','m','EmissionActivityRatio'])
@@ -2684,13 +2685,44 @@ class DataFile(Osemosys):
                         df_prod.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByModeTs.csv'), index=None)
 
                         ########################################ProductionByTechnologyByMode############################################
-                        df_prod_annual = (
-                            df_prod.groupby(['r','t','m','f','y'], as_index=False)['ProductionByTechnologyByModeTs']
-                            .sum()
-                            .rename(columns={'ProductionByTechnologyByModeTs': 'ProductionByTechnologyByMode'})
-                        )
-                        df_prod_annual = df_prod_annual[df_prod_annual['ProductionByTechnologyByMode'] != 0]
-                        df_prod_annual.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
+                        # total anual activity by mode * Input/output activity ratio.
+
+                        if "TotalAnnualTechnologyActivityByMode" in all_params:
+                            df_TATAM = all_params['TotalAnnualTechnologyActivityByMode'].rename(columns={'value':'TotalAnnualTechnologyActivityByMode'})
+                            
+                            df_prod_annual = pd.merge(df_output, df_TATAM, how='left', on=['r','t','m','y'])
+
+                            df_prod_annual['ProductionByTechnologyByMode'] = df_prod_annual['OutputActivityRatio']*df_prod_annual['TotalAnnualTechnologyActivityByMode']
+                            df_prod_annual['ProductionByTechnologyByMode'] = df_prod_annual['ProductionByTechnologyByMode'].astype(float).round(4)
+                            df_prod_annual = df_prod_annual.sort_values(by=['r','t','f','y'])
+                            df_prod_annual = df_prod_annual[df_prod_annual['ProductionByTechnologyByMode']!=0]
+
+                            cols_to_drop = [
+                                'OutputActivityRatio',
+                                'TotalAnnualTechnologyActivityByMode'
+                            ]
+
+                            # df_prod_annual = (
+                            #     df_prod_annual.drop(columns=cols_to_drop)
+                            #     .groupby(
+                            #         ['r_x', 'f', 't', 'y', 'm'],
+                            #         as_index=False
+                            #     )['ProductionByTechnologyByMode']
+                            #     .sum()
+                            # )
+
+
+                            df_prod_annual = df_prod_annual.drop(columns=cols_to_drop)
+                            df_prod_annual.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
+                            
+
+                        # df_prod_annual = (
+                        #     df_prod.groupby(['r','t','m','f','y'], as_index=False)['ProductionByTechnologyByModeTs']
+                        #     .sum()
+                        #     .rename(columns={'ProductionByTechnologyByModeTs': 'ProductionByTechnologyByMode'})
+                        # )
+                        # df_prod_annual = df_prod_annual[df_prod_annual['ProductionByTechnologyByMode'] != 0]
+                        # df_prod_annual.to_csv(os.path.join(base_folder, 'csv', 'ProductionByTechnologyByMode.csv'), index=None)
 
                         ########################################################INDICATOR#####################################################
                         #############################################
@@ -2803,13 +2835,42 @@ class DataFile(Osemosys):
                         df_use.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByModeTs.csv'), index=None)
 
                         ######################################UseByTechnologyByMode##############################################
-                        df_use_annual = (
-                            df_use.groupby(['r','t','m','f','y'], as_index=False)['UseByTechnologyByModeTs']
-                            .sum()
-                            .rename(columns={'UseByTechnologyByModeTs': 'UseByTechnologyByMode'})
-                        )
-                        df_use_annual = df_use_annual[df_use_annual['UseByTechnologyByMode'] != 0]
-                        df_use_annual.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByMode.csv'), index=None)
+                        if "TotalAnnualTechnologyActivityByMode" in all_params:
+                            df_TATAM = all_params['TotalAnnualTechnologyActivityByMode'].rename(columns={'value':'TotalAnnualTechnologyActivityByMode'})
+                            df_use_annual = pd.merge(df_input, df_TATAM, how='left', on=['r','t','m','y'])
+
+                            df_use_annual['UseByTechnologyByMode'] = df_use_annual['InputActivityRatio']*df_use_annual['TotalAnnualTechnologyActivityByMode']
+                            df_use_annual['UseByTechnologyByMode'] = df_use_annual['UseByTechnologyByMode'].astype(float).round(4)
+                            df_use_annual = df_use_annual.sort_values(by=['r','t','f','y'])
+                            df_use_annual = df_use_annual[df_use_annual['UseByTechnologyByMode']!=0]
+
+                            cols_to_drop = [
+                                'InputActivityRatio',
+                                'TotalAnnualTechnologyActivityByMode'
+                            ]
+
+                            # df_use_annual = (
+                            #     df_use_annual.drop(columns=cols_to_drop)
+                            #     .groupby(
+                            #         ['r_x', 'f', 't', 'y', 'm'],
+                            #         as_index=False
+                            #     )['UseByTechnologyByMode']
+                            #     .sum()
+                            # )
+
+                            df_use_annual = df_use_annual.drop(columns=cols_to_drop)
+
+                            print(df_use_annual.head())
+
+                            df_use_annual.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByMode.csv'), index=None)
+                        
+                        # df_use_annual = (
+                        #     df_use.groupby(['r','t','m','f','y'], as_index=False)['UseByTechnologyByModeTs']
+                        #     .sum()
+                        #     .rename(columns={'UseByTechnologyByModeTs': 'UseByTechnologyByMode'})
+                        # )
+                        # df_use_annual = df_use_annual[df_use_annual['UseByTechnologyByMode'] != 0]
+                        # df_use_annual.to_csv(os.path.join(base_folder, 'csv', 'UseByTechnologyByMode.csv'), index=None)
 
                         ######################################RateOfUseByTechnologyByMode##############################################
                         df_roubt = pd.merge(df_in_ys, df_activity, how='left', on=['t','m','l','y'])
