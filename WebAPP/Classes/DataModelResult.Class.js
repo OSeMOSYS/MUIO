@@ -388,7 +388,8 @@ export class DataModelResult{
 
 
     static mergeAllIndicatorsGrouped(indicatorTypesJson, customIndicators) {
-        console.log('customIndicators ', customIndicators)
+        // guard pre-v5.6 cases whose genData has no osy-indicators array
+        const customList = Array.isArray(customIndicators) ? customIndicators : [];
         // 1) Sakupi sve tipove indikatora + group info
         const typeById = {};
 
@@ -406,7 +407,7 @@ export class DataModelResult{
         const result = {};
 
         // 3) obrada custom indikatora
-        for (const item of customIndicators) {
+        for (const item of customList) {
             if (!item || typeof item !== "object") continue;
 
             const indicatorName = item["Indicator"];
